@@ -1,0 +1,13 @@
+{
+    "name": "online-elearning-platform-monorepo",
+    "private": true,
+    "version": "1.0.0",
+    "description": "Monorepo for the Online E-Learning Platform project",
+    "scripts": {
+        "api": "pnpm --filter api",
+        "web": "pnpm --filter web"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
