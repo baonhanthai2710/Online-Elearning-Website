@@ -3,16 +3,23 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { PrismaClient } from '@prisma/client';
+import authRoutes from './routes/auth.routes';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
+const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
 const prisma = new PrismaClient();
 
-app.use(cors());
+app.use(cors({
+    origin: frontendOrigin,
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');
