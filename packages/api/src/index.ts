@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.routes';
+import courseRoutes from './routes/course.routes';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
+app.use('/api', courseRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');

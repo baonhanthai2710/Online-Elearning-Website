@@ -4,13 +4,13 @@ import { PrismaClient, Role, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const JWT_SECRET = (() => {
+function getJwtSecret(): string {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         throw new Error('JWT_SECRET environment variable is not defined');
     }
     return secret;
-})();
+}
 
 const SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS ?? 10);
 
@@ -75,7 +75,7 @@ export async function login(email: string, password: string): Promise<LoginResul
         throw new Error('Invalid email or password');
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id, role: user.role }, getJwtSecret(), {
         expiresIn: '7d',
     });
 

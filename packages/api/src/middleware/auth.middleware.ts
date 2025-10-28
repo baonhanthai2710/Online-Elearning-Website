@@ -3,13 +3,13 @@ import jwt from 'jsonwebtoken';
 import { Role } from '@prisma/client';
 import { AuthenticatedUser } from '../types/auth';
 
-const JWT_SECRET = (() => {
+function getJwtSecret(): string {
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         throw new Error('JWT_SECRET environment variable is not defined');
     }
     return secret;
-})();
+}
 
 const COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? 'token';
 
@@ -33,7 +33,7 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
             return;
         }
 
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, getJwtSecret());
 
         if (!isAuthenticatedUser(decoded)) {
             res.status(401).json({ error: 'Invalid authentication token payload' });
