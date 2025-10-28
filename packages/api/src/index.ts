@@ -6,6 +6,7 @@ import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.routes';
 import courseRoutes from './routes/course.routes';
 import uploadRoutes from './routes/upload.routes';
+import enrollRoutes from './routes/enroll.routes';
 
 dotenv.config();
 
@@ -18,13 +19,20 @@ app.use(cors({
     origin: frontendOrigin,
     credentials: true,
 }));
-app.use(express.json());
+app.use(express.json({
+    verify: (req: Request & { rawBody?: Buffer }, _res, buffer) => {
+        if (req.originalUrl === '/api/stripe-webhook') {
+            req.rawBody = buffer;
+        }
+    },
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 app.use('/api', courseRoutes);
 app.use('/api', uploadRoutes);
+app.use('/api', enrollRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');

@@ -40,6 +40,9 @@ importers:
       prisma:
         specifier: ^6.17.1
         version: 6.18.0(typescript@5.9.3)
+      stripe:
+        specifier: ^16.12.0
+        version: 16.12.0
     devDependencies:
       '@types/bcrypt':
         specifier: ^6.0.0
@@ -709,6 +712,10 @@ packages:
 
   string_decoder@1.1.1:
     resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
+
+  stripe@16.12.0:
+    resolution: {integrity: sha512-H7eFVLDxeTNNSn4JTRfL2//LzCbDrMSZ+2q1c7CanVWgK2qIW5TwS+0V7N9KcKZZNpYh/uCqK0PyZh/2UsaAtQ==}
+    engines: {node: '>=12.*'}
 
   tinyexec@1.0.1:
     resolution: {integrity: sha512-5uC6DDlmeqiOwCPmK9jMSdOuZTh8bU39Ys6yidB+UTt5hfZUPGAypSgFRiEp+jbi9qH40BLDvy85jIU88wKSqw==}
@@ -1457,6 +1464,11 @@ snapshots:
   string_decoder@1.1.1:
     dependencies:
       safe-buffer: 5.1.2
+
+  stripe@16.12.0:
+    dependencies:
+      '@types/node': 24.9.1
+      qs: 6.14.0
 
   tinyexec@1.0.1: {}
 
