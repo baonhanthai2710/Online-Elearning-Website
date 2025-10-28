@@ -100,6 +100,54 @@ async function main(): Promise<void> {
                                     documentUrl: 'https://example.com/docs/setup-typescript.pdf',
                                     fileType: 'application/pdf',
                                 },
+                                {
+                                    title: 'Bài Quiz: Kiểm tra Chương 1',
+                                    order: 3,
+                                    contentType: ContentType.QUIZ,
+                                    timeLimitInMinutes: 10,
+                                    questions: {
+                                        create: [
+                                            {
+                                                questionText: 'TypeScript là gì?',
+                                                options: {
+                                                    create: [
+                                                        {
+                                                            optionText: 'Một superset của JavaScript có hỗ trợ kiểu tĩnh',
+                                                            isCorrect: true,
+                                                        },
+                                                        {
+                                                            optionText: 'Một framework CSS',
+                                                            isCorrect: false,
+                                                        },
+                                                        {
+                                                            optionText: 'Một cơ sở dữ liệu NoSQL',
+                                                            isCorrect: false,
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                questionText: "Lệnh 'npx prisma db seed' dùng để làm gì?",
+                                                options: {
+                                                    create: [
+                                                        {
+                                                            optionText: 'Chạy script seed để thêm dữ liệu mẫu vào database',
+                                                            isCorrect: true,
+                                                        },
+                                                        {
+                                                            optionText: 'Khởi tạo dự án React mới',
+                                                            isCorrect: false,
+                                                        },
+                                                        {
+                                                            optionText: 'Tạo migration mới cho Prisma',
+                                                            isCorrect: false,
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -137,6 +185,14 @@ async function main(): Promise<void> {
         },
     });
     console.log(`Đã tạo khóa học với ${course.modules.length} chương và nội dung lồng nhau`);
+
+    const enrollment = await prisma.enrollment.create({
+        data: {
+            studentId: students[0].id,
+            courseId: course.id,
+        },
+    });
+    console.log(`Đã đăng ký student ${enrollment.studentId} vào khóa học ${enrollment.courseId}`);
 
     console.log('Seed data đã được tạo thành công');
 }
