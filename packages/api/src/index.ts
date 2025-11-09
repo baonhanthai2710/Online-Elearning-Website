@@ -8,6 +8,7 @@ import courseRoutes from './routes/course.routes';
 import uploadRoutes from './routes/upload.routes';
 import enrollRoutes from './routes/enroll.routes';
 import quizRoutes from './routes/quiz.routes';
+import commentRoutes from './routes/comment.routes';
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/api', courseRoutes);
 app.use('/api', uploadRoutes);
 app.use('/api', enrollRoutes);
 app.use('/api', quizRoutes);
+app.use('/api', commentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');
