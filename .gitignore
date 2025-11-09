@@ -1,0 +1,3 @@
+node_modules
+packages/api/node_modules/
+packages/api/.env
