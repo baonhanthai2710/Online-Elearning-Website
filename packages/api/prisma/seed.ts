@@ -24,6 +24,18 @@ async function main(): Promise<void> {
 
     const hashedPassword = await bcrypt.hash('Password123!', 10);
 
+    const admin = await prisma.user.create({
+        data: {
+            email: 'admin@gmail.com',
+            username: 'admin',
+            hashedPassword,
+            firstName: 'Admin',
+            lastName: 'User',
+            role: Role.ADMIN,
+        },
+    });
+    console.log('Created 1 admin.');
+
     const teacher = await prisma.user.create({
         data: {
             email: 'teacher@gmail.com',

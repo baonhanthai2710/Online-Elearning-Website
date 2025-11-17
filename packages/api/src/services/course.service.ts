@@ -88,6 +88,7 @@ type UpdateCourseInput = {
     description?: string;
     price?: number;
     categoryId?: number;
+    userRole?: string;
 };
 
 type CreateModuleInput = {
@@ -95,6 +96,7 @@ type CreateModuleInput = {
     teacherId: number;
     title: string;
     order?: number;
+    userRole?: string;
 };
 
 type CreateContentInput = {
@@ -108,6 +110,7 @@ type CreateContentInput = {
     documentUrl?: string | null;
     fileType?: string | null;
     timeLimitInMinutes?: number | null;
+    userRole?: string;
 };
 
 export async function createCourseForTeacher(input: CreateCourseInput) {
@@ -134,7 +137,8 @@ export async function updateCourseForTeacher(input: UpdateCourseInput) {
         throw new Error('COURSE_NOT_FOUND');
     }
 
-    if (owningCourse.teacherId !== input.teacherId) {
+    // Admin can update any course
+    if (input.userRole !== 'ADMIN' && owningCourse.teacherId !== input.teacherId) {
         throw new Error('COURSE_FORBIDDEN');
     }
 
@@ -151,6 +155,29 @@ export async function updateCourseForTeacher(input: UpdateCourseInput) {
     return getCourseById(input.courseId);
 }
 
+export async function deleteCourseForTeacher(courseId: number, teacherId: number, userRole?: string) {
+    const owningCourse = await prisma.course.findUnique({
+        where: { id: courseId },
+        select: { teacherId: true },
+    });
+
+    if (!owningCourse) {
+        throw new Error('COURSE_NOT_FOUND');
+    }
+
+    // Admin can delete any course
+    if (userRole !== 'ADMIN' && owningCourse.teacherId !== teacherId) {
+        throw new Error('COURSE_FORBIDDEN');
+    }
+
+    // Delete course (cascading deletes will handle modules, contents, etc.)
+    await prisma.course.delete({
+        where: { id: courseId },
+    });
+
+    return { success: true };
+}
+
 export async function createModuleForCourse(input: CreateModuleInput) {
     const owningCourse = await prisma.course.findUnique({
         where: { id: input.courseId },
@@ -161,7 +188,8 @@ export async function createModuleForCourse(input: CreateModuleInput) {
         throw new Error('COURSE_NOT_FOUND');
     }
 
-    if (owningCourse.teacherId !== input.teacherId) {
+    // Admin can create modules for any course
+    if (input.userRole !== 'ADMIN' && owningCourse.teacherId !== input.teacherId) {
         throw new Error('COURSE_FORBIDDEN');
     }
 
@@ -185,6 +213,33 @@ export async function createModuleForCourse(input: CreateModuleInput) {
     });
 }
 
+export async function deleteModuleForTeacher(moduleId: number, teacherId: number, userRole?: string) {
+    const owningModule = await prisma.module.findUnique({
+        where: { id: moduleId },
+        select: {
+            course: {
+                select: { teacherId: true },
+            },
+        },
+    });
+
+    if (!owningModule) {
+        throw new Error('MODULE_NOT_FOUND');
+    }
+
+    // Admin can delete any module
+    if (userRole !== 'ADMIN' && owningModule.course.teacherId !== teacherId) {
+        throw new Error('COURSE_FORBIDDEN');
+    }
+
+    // Delete module (cascading deletes will handle contents)
+    await prisma.module.delete({
+        where: { id: moduleId },
+    });
+
+    return { success: true };
+}
+
 export async function createContentForModule(input: CreateContentInput) {
     const owningModule = await prisma.module.findUnique({
         where: { id: input.moduleId },
@@ -199,7 +254,8 @@ export async function createContentForModule(input: CreateContentInput) {
         throw new Error('MODULE_NOT_FOUND');
     }
 
-    if (owningModule.course.teacherId !== input.teacherId) {
+    // Admin can create content for any module
+    if (input.userRole !== 'ADMIN' && owningModule.course.teacherId !== input.teacherId) {
         throw new Error('COURSE_FORBIDDEN');
     }
 
@@ -230,4 +286,35 @@ export async function createContentForModule(input: CreateContentInput) {
             moduleId: true,
         },
     });
+}
+
+export async function deleteContentForTeacher(contentId: number, teacherId: number, userRole?: string) {
+    const owningContent = await prisma.content.findUnique({
+        where: { id: contentId },
+        select: {
+            module: {
+                select: {
+                    course: {
+                        select: { teacherId: true },
+                    },
+                },
+            },
+        },
+    });
+
+    if (!owningContent) {
+        throw new Error('CONTENT_NOT_FOUND');
+    }
+
+    // Admin can delete any content
+    if (userRole !== 'ADMIN' && owningContent.module.course.teacherId !== teacherId) {
+        throw new Error('COURSE_FORBIDDEN');
+    }
+
+    // Delete content
+    await prisma.content.delete({
+        where: { id: contentId },
+    });
+
+    return { success: true };
 }

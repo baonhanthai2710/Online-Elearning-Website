@@ -4,6 +4,9 @@ import {
     createContentController,
     createCourseController,
     createModuleController,
+    deleteContentController,
+    deleteCourseController,
+    deleteModuleController,
     getCategoriesController,
     getCourseDetailController,
     getCoursesController,
@@ -17,9 +20,14 @@ router.get('/categories', getCategoriesController);
 router.get('/courses', getCoursesController);
 router.get('/courses/:id', getCourseDetailController);
 
-router.post('/courses', isAuthenticated, isAuthorized([Role.TEACHER]), createCourseController);
-router.put('/courses/:id', isAuthenticated, isAuthorized([Role.TEACHER]), updateCourseController);
-router.post('/modules', isAuthenticated, isAuthorized([Role.TEACHER]), createModuleController);
-router.post('/content', isAuthenticated, isAuthorized([Role.TEACHER]), createContentController);
+router.post('/courses', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), createCourseController);
+router.put('/courses/:id', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), updateCourseController);
+router.delete('/courses/:id', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), deleteCourseController);
+
+router.post('/modules', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), createModuleController);
+router.delete('/modules/:id', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), deleteModuleController);
+
+router.post('/content', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), createContentController);
+router.delete('/content/:id', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), deleteContentController);
 
 export default router;
