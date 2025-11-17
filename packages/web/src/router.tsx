@@ -1,5 +1,5 @@
 import { Link, Navigate, Outlet, createBrowserRouter, useNavigate } from 'react-router-dom';
-import { useAuthStore } from './stores/useAuthStore';
+import { useAuthStore, type Role } from './stores/useAuthStore';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -75,7 +75,11 @@ function MainLayout() {
     );
 }
 
-function ProtectedRoute() {
+type RoleRouteProps = {
+    requiredRole: Role;
+};
+
+function RoleRoute({ requiredRole }: RoleRouteProps) {
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const user = useAuthStore((state) => state.user);
 
@@ -83,7 +87,7 @@ function ProtectedRoute() {
         return <Navigate to="/login" replace />;
     }
 
-    if (user?.role !== 'TEACHER') {
+    if (user?.role !== requiredRole) {
         return <Navigate to="/" replace />;
     }
 
@@ -111,7 +115,7 @@ export const router = createBrowserRouter([
                 element: <CourseDetail />,
             },
             {
-                element: <ProtectedRoute />,
+                element: <RoleRoute requiredRole="TEACHER" />,
                 children: [
                     {
                         path: '/dashboard',
