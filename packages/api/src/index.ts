@@ -14,7 +14,7 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
-const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 const prisma = new PrismaClient();
 
 app.use(cors({
@@ -67,6 +67,6 @@ const shutdown = async () => {
         process.exit(0);
     });
 };
-
+ 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);

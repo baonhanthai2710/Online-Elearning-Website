@@ -1,5 +1,10 @@
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 import { useAuthStore } from './stores/useAuthStore';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import CourseDetail from './pages/CourseDetail';
+import Dashboard from './pages/teacher/Dashboard';
 
 function MainLayout() {
     return (
@@ -35,72 +40,32 @@ function ProtectedRoute() {
     return <Outlet />;
 }
 
-function HomePage() {
-    return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold">Trang chủ</h1>
-        </div>
-    );
-}
-
-function LoginPage() {
-    return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold">Đăng nhập</h1>
-        </div>
-    );
-}
-
-function RegisterPage() {
-    return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold">Đăng ký</h1>
-        </div>
-    );
-}
-
-function CourseDetailPage() {
-    return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold">Chi tiết khóa học</h1>
-        </div>
-    );
-}
-
-function DashboardPage() {
-    return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold">Bảng điều khiển</h1>
-        </div>
-    );
-}
-
 export const router = createBrowserRouter([
     {
         element: <MainLayout />,
         children: [
             {
                 path: '/',
-                element: <HomePage />,
+                element: <Home />,
             },
             {
                 path: '/login',
-                element: <LoginPage />,
+                element: <Login />,
             },
             {
                 path: '/register',
-                element: <RegisterPage />,
+                element: <Register />,
             },
             {
                 path: '/courses/:id',
-                element: <CourseDetailPage />,
+                element: <CourseDetail />,
             },
             {
                 element: <ProtectedRoute />,
                 children: [
                     {
                         path: '/dashboard',
-                        element: <DashboardPage />,
+                        element: <Dashboard />,
                     },
                 ],
             },
