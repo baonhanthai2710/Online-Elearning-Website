@@ -69,7 +69,7 @@ function MainLayout() {
             </main>
 
             <footer>
-                footer
+                <p>footer</p>
             </footer>
         </div>
     );

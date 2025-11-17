@@ -1,6 +1,11 @@
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+
 import { apiClient } from '../lib/api';
+import { useAuthStore } from '../stores/useAuthStore';
+import { Button } from '../components/ui/button';
 
 type ContentSummary = {
     id: number;
@@ -41,9 +46,16 @@ async function fetchCourseDetail(courseId: number): Promise<CourseDetailData> {
     return response.data;
 }
 
+type CheckoutResponse = {
+    url: string;
+};
+
 export default function CourseDetail() {
     const { id } = useParams<{ id: string }>();
     const courseId = Number(id);
+    const [checkoutError, setCheckoutError] = useState<string | null>(null);
+    const navigate = useNavigate();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     const {
         data: course,
@@ -55,6 +67,43 @@ export default function CourseDetail() {
         queryFn: () => fetchCourseDetail(courseId),
         enabled: Number.isFinite(courseId),
     });
+
+    const checkoutMutation = useMutation<CheckoutResponse, unknown, number>({
+        mutationFn: async (targetCourseId) => {
+            const { data } = await apiClient.post<CheckoutResponse>(`/enroll/checkout/${targetCourseId}`);
+            return data;
+        },
+        onSuccess: (data) => {
+            setCheckoutError(null);
+            window.location.href = data.url;
+        },
+        onError: (error) => {
+            let message = 'Không thể khởi tạo thanh toán. Vui lòng thử lại.';
+
+            if (error instanceof AxiosError) {
+                if (error.response?.status === 409) {
+                    message = 'Bạn đã đăng ký khoá học này.';
+                } else {
+                    const responseMessage = (error.response?.data as { message?: string })?.message;
+                    message = responseMessage ?? error.message ?? message;
+                }
+            } else if (error instanceof Error) {
+                message = error.message;
+            }
+
+            setCheckoutError(message);
+        },
+    });
+
+    const handleEnroll = () => {
+        if (!isAuthenticated) {
+            setCheckoutError('Vui lòng đăng ký tài khoản và đăng nhập trước khi đăng ký khóa học.');
+            navigate('/login');
+            return;
+        }
+
+        checkoutMutation.mutate(courseId);
+    };
 
     if (!id || !Number.isFinite(courseId)) {
         return (
@@ -100,6 +149,17 @@ export default function CourseDetail() {
                     {course.category && <span>Danh mục: {course.category.name}</span>}
                     <span className="font-semibold text-emerald-600">{course.price.toLocaleString()} USD</span>
                 </div>
+                <Button
+                    type="button"
+                    className="mt-2"
+                    disabled={checkoutMutation.isPending}
+                    onClick={handleEnroll}
+                >
+                    {checkoutMutation.isPending ? 'Đang chuyển đến thanh toán...' : 'Đăng ký học'}
+                </Button>
+                {checkoutError && (
+                    <p className="text-sm text-red-500">{checkoutError}</p>
+                )}
             </header>
 
             <section className="space-y-4">

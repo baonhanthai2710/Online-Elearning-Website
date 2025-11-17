@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 
@@ -35,8 +36,10 @@ export function CourseList({ courses }: CourseListProps) {
                         <p className="text-lg font-medium text-emerald-600">{course.price.toLocaleString()} USD</p>
                     </CardContent>
                     <CardFooter className="mt-auto">
-                        <Button className="w-full" variant="default">
-                            Xem chi tiết
+                        <Button asChild className="w-full" variant="default">
+                            <Link to={`/courses/${course.id}`}>
+                                Xem chi tiết
+                            </Link>
                         </Button>
                     </CardFooter>
                 </Card>
