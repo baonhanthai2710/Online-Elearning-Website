@@ -1,7 +1,22 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    // ... (tất cả các tùy chọn khác của bạn như "target", "lib", "jsx"...)
+    // THÊM 2 DÒNG NÀY VÀO:
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+    // ... (các tùy chọn khác như "strict", "skipLibCheck"...)
+  },
 }
