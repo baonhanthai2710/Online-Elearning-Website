@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type Role = 'STUDENT' | 'TEACHER' | 'ADMIN';
 
@@ -20,9 +21,17 @@ type AuthState = {
     clearUser: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
-    user: null,
-    isAuthenticated: false,
-    setUser: (user: User) => set({ user, isAuthenticated: true }),
-    clearUser: () => set({ user: null, isAuthenticated: false }),
-}));
+export const useAuthStore = create<AuthState>()(
+    persist(
+        (set) => ({
+            user: null,
+            isAuthenticated: false,
+            setUser: (user: User) => set({ user, isAuthenticated: true }),
+            clearUser: () => set({ user: null, isAuthenticated: false }),
+        }),
+        {
+            name: 'auth-store',
+            partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
+        },
+    ),
+);

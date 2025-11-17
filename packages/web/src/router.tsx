@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CourseDetail from './pages/CourseDetail';
 import Dashboard from './pages/teacher/Dashboard';
+import CoursePlayer from './pages/learning/CoursePlayer';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -113,6 +114,15 @@ export const router = createBrowserRouter([
             {
                 path: '/courses/:id',
                 element: <CourseDetail />,
+            },
+            {
+                element: <RoleRoute requiredRole="STUDENT" />,
+                children: [
+                    {
+                        path: '/learning/:courseId',
+                        element: <CoursePlayer />,
+                    },
+                ],
             },
             {
                 element: <RoleRoute requiredRole="TEACHER" />,
