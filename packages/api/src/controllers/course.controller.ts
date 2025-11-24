@@ -4,6 +4,9 @@ import {
     createContentForModule,
     createCourseForTeacher,
     createModuleForCourse,
+    deleteContentForTeacher,
+    deleteCourseForTeacher,
+    deleteModuleForTeacher,
     getAllCategories,
     getAllCourses,
     getCourseById,
@@ -62,7 +65,8 @@ export async function getCourseDetailController(req: Request, res: Response): Pr
 type AuthenticatedRequest = Request & { user?: AuthenticatedUser };
 
 function getTeacherId(req: AuthenticatedRequest): number | null {
-    if (!req.user || req.user.role !== Role.TEACHER) {
+    // Allow both TEACHER and ADMIN to manage courses
+    if (!req.user || (req.user.role !== Role.TEACHER && req.user.role !== Role.ADMIN)) {
         return null;
     }
     return req.user.userId;
@@ -164,6 +168,7 @@ export async function updateCourseController(req: Request, res: Response): Promi
                 description,
                 price: numericPrice,
                 categoryId: numericCategoryId,
+                userRole: authReq.user?.role,
             });
 
             if (!updatedCourse) {
@@ -187,6 +192,45 @@ export async function updateCourseController(req: Request, res: Response): Promi
     } catch (error) {
         return res.status(500).json({
             error: 'Unable to update course',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function deleteCourseController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as AuthenticatedRequest;
+        const teacherId = getTeacherId(authReq);
+
+        if (!teacherId) {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        const courseId = Number.parseInt(req.params.id, 10);
+
+        if (Number.isNaN(courseId)) {
+            return res.status(400).json({ error: 'Course id must be a number' });
+        }
+
+        try {
+            await deleteCourseForTeacher(courseId, teacherId, authReq.user?.role);
+            return res.status(200).json({ message: 'Course deleted successfully' });
+        } catch (error) {
+            const message = (error as Error).message;
+
+            if (message === 'COURSE_NOT_FOUND') {
+                return res.status(404).json({ error: 'Course not found' });
+            }
+
+            if (message === 'COURSE_FORBIDDEN') {
+                return res.status(403).json({ error: 'You are not the owner of this course' });
+            }
+
+            throw error;
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to delete course',
             details: (error as Error).message,
         });
     }
@@ -225,6 +269,7 @@ export async function createModuleController(req: Request, res: Response): Promi
                 teacherId,
                 title,
                 order: numericOrder,
+                userRole: authReq.user?.role,
             });
 
             return res.status(201).json(module);
@@ -316,6 +361,7 @@ export async function createContentController(req: Request, res: Response): Prom
                 documentUrl,
                 fileType,
                 timeLimitInMinutes: numericTimeLimit,
+                userRole: authReq.user?.role,
             });
 
             return res.status(201).json(content);
@@ -335,6 +381,84 @@ export async function createContentController(req: Request, res: Response): Prom
     } catch (error) {
         return res.status(500).json({
             error: 'Unable to create content',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function deleteModuleController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as AuthenticatedRequest;
+        const teacherId = getTeacherId(authReq);
+
+        if (!teacherId) {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        const moduleId = Number.parseInt(req.params.id, 10);
+
+        if (Number.isNaN(moduleId)) {
+            return res.status(400).json({ error: 'Module id must be a number' });
+        }
+
+        try {
+            await deleteModuleForTeacher(moduleId, teacherId, authReq.user?.role);
+            return res.status(200).json({ message: 'Module deleted successfully' });
+        } catch (error) {
+            const message = (error as Error).message;
+
+            if (message === 'MODULE_NOT_FOUND') {
+                return res.status(404).json({ error: 'Module not found' });
+            }
+
+            if (message === 'COURSE_FORBIDDEN') {
+                return res.status(403).json({ error: 'You are not the owner of this course' });
+            }
+
+            throw error;
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to delete module',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function deleteContentController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as AuthenticatedRequest;
+        const teacherId = getTeacherId(authReq);
+
+        if (!teacherId) {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+
+        const contentId = Number.parseInt(req.params.id, 10);
+
+        if (Number.isNaN(contentId)) {
+            return res.status(400).json({ error: 'Content id must be a number' });
+        }
+
+        try {
+            await deleteContentForTeacher(contentId, teacherId, authReq.user?.role);
+            return res.status(200).json({ message: 'Content deleted successfully' });
+        } catch (error) {
+            const message = (error as Error).message;
+
+            if (message === 'CONTENT_NOT_FOUND') {
+                return res.status(404).json({ error: 'Content not found' });
+            }
+
+            if (message === 'COURSE_FORBIDDEN') {
+                return res.status(403).json({ error: 'You are not the owner of this course' });
+            }
+
+            throw error;
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to delete content',
             details: (error as Error).message,
         });
     }

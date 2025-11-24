@@ -8,13 +8,17 @@ import courseRoutes from './routes/course.routes';
 import uploadRoutes from './routes/upload.routes';
 import enrollRoutes from './routes/enroll.routes';
 import quizRoutes from './routes/quiz.routes';
+import questionRoutes from './routes/question.routes';
 import commentRoutes from './routes/comment.routes';
+import chatbotRoutes from './routes/chatbot.routes';
+import adminRoutes from './routes/admin.routes';
+import { simpleChatbotService } from './services/simpleChatbot.service';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
-const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 const prisma = new PrismaClient();
 
 app.use(cors({
@@ -36,7 +40,10 @@ app.use('/api', courseRoutes);
 app.use('/api', uploadRoutes);
 app.use('/api', enrollRoutes);
 app.use('/api', quizRoutes);
+app.use('/api', questionRoutes);
 app.use('/api', commentRoutes);
+app.use('/api', chatbotRoutes);
+app.use('/api', adminRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');
@@ -55,8 +62,18 @@ app.get('/api/health', async (_req: Request, res: Response) => {
     }
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, async () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
+    
+    // Initialize chatbot in background
+    try {
+        console.log('🤖 Initializing AI Chatbot...');
+        await simpleChatbotService.initialize();
+        console.log('✅ AI Chatbot initialized successfully!');
+    } catch (error) {
+        console.error('⚠️  Failed to initialize chatbot:', error);
+        console.log('📌 You can manually initialize it by calling POST /api/chatbot/initialize');
+    }
 });
 
 const shutdown = async () => {
@@ -67,6 +84,6 @@ const shutdown = async () => {
         process.exit(0);
     });
 };
-
+ 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);

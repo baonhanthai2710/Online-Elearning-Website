@@ -1,10 +1,11 @@
+// File: packages/api/prisma/seed.ts
 import { PrismaClient, Role, ContentType } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
-    console.log('Đang xóa dữ liệu cũ...');
+    console.log('Deleting old data...');
 
     await prisma.comment.deleteMany();
     await prisma.answerOption.deleteMany();
@@ -19,21 +20,33 @@ async function main(): Promise<void> {
     await prisma.category.deleteMany();
     await prisma.user.deleteMany();
 
-    console.log('Đã xóa dữ liệu cũ');
+    console.log('Old data deleted.');
 
     const hashedPassword = await bcrypt.hash('Password123!', 10);
+
+    const admin = await prisma.user.create({
+        data: {
+            email: 'admin@gmail.com',
+            username: 'admin',
+            hashedPassword,
+            firstName: 'Admin',
+            lastName: 'User',
+            role: Role.ADMIN,
+        },
+    });
+    console.log('Created 1 admin.');
 
     const teacher = await prisma.user.create({
         data: {
             email: 'teacher@gmail.com',
             username: 'teacher01',
             hashedPassword,
-            firstName: 'Thầy',
-            lastName: 'Giáo',
+            firstName: 'Teacher',
+            lastName: 'User',
             role: Role.TEACHER,
         },
     });
-    console.log('Đã tạo 1 teacher');
+    console.log('Created 1 teacher.');
 
     const students = await Promise.all([
         prisma.user.create({
@@ -41,8 +54,8 @@ async function main(): Promise<void> {
                 email: 'student1@gmail.com',
                 username: 'student01',
                 hashedPassword,
-                firstName: 'Sinh',
-                lastName: 'VienMot',
+                firstName: 'Student',
+                lastName: 'One',
                 role: Role.STUDENT,
             },
         }),
@@ -51,38 +64,38 @@ async function main(): Promise<void> {
                 email: 'student2@gmail.com',
                 username: 'student02',
                 hashedPassword,
-                firstName: 'Sinh',
-                lastName: 'VienHai',
+                firstName: 'Student',
+                lastName: 'Two',
                 role: Role.STUDENT,
             },
         }),
     ]);
-    console.log(`Đã tạo ${students.length} student`);
+    console.log(`Created ${students.length} students.`);
 
     const categoryProgramming = await prisma.category.create({
         data: {
-            name: 'Lập trình',
+            name: 'Programming',
         },
     });
 
     const categoryDesign = await prisma.category.create({
         data: {
-            name: 'Thiết kế',
+            name: 'Design',
         },
     });
-    console.log('Đã tạo 2 category');
+    console.log('Created 2 categories.');
 
     const course = await prisma.course.create({
         data: {
-            title: 'Khóa học TypeScript cơ bản',
-            description: 'Học TypeScript từ cơ bản đến nâng cao trong 4 tuần.',
+            title: 'Basic TypeScript Course',
+            description: 'Learn TypeScript from basic to advanced in 4 weeks.',
             price: 49.99,
             teacherId: teacher.id,
             categoryId: categoryProgramming.id,
             modules: {
                 create: [
                     {
-                        title: 'Chương 1: Giới thiệu TypeScript',
+                        title: 'Chapter 1: TypeScript Introduction',
                         order: 1,
                         contents: {
                             create: [
@@ -94,52 +107,52 @@ async function main(): Promise<void> {
                                     durationInSeconds: 900,
                                 },
                                 {
-                                    title: 'Tài liệu: Cài đặt môi trường',
+                                    title: 'Document: Environment Setup',
                                     order: 2,
                                     contentType: ContentType.DOCUMENT,
                                     documentUrl: 'https://example.com/docs/setup-typescript.pdf',
                                     fileType: 'application/pdf',
                                 },
                                 {
-                                    title: 'Bài Quiz: Kiểm tra Chương 1',
+                                    title: 'Quiz: Chapter 1 Review',
                                     order: 3,
                                     contentType: ContentType.QUIZ,
                                     timeLimitInMinutes: 10,
                                     questions: {
                                         create: [
                                             {
-                                                questionText: 'TypeScript là gì?',
+                                                questionText: 'What is TypeScript?',
                                                 options: {
                                                     create: [
                                                         {
-                                                            optionText: 'Một superset của JavaScript có hỗ trợ kiểu tĩnh',
+                                                            optionText: 'A superset of JavaScript with static typing',
                                                             isCorrect: true,
                                                         },
                                                         {
-                                                            optionText: 'Một framework CSS',
+                                                            optionText: 'A CSS framework',
                                                             isCorrect: false,
                                                         },
                                                         {
-                                                            optionText: 'Một cơ sở dữ liệu NoSQL',
+                                                            optionText: 'A NoSQL database',
                                                             isCorrect: false,
                                                         },
                                                     ],
                                                 },
                                             },
                                             {
-                                                questionText: "Lệnh 'npx prisma db seed' dùng để làm gì?",
+                                                questionText: "What is 'npx prisma db seed' used for?",
                                                 options: {
                                                     create: [
                                                         {
-                                                            optionText: 'Chạy script seed để thêm dữ liệu mẫu vào database',
+                                                            optionText: 'To run the seed script to add sample data to the database',
                                                             isCorrect: true,
                                                         },
                                                         {
-                                                            optionText: 'Khởi tạo dự án React mới',
+                                                            optionText: 'To initialize a new React project',
                                                             isCorrect: false,
                                                         },
                                                         {
-                                                            optionText: 'Tạo migration mới cho Prisma',
+                                                            optionText: 'To create a new Prisma migration',
                                                             isCorrect: false,
                                                         },
                                                     ],
@@ -152,19 +165,19 @@ async function main(): Promise<void> {
                         },
                     },
                     {
-                        title: 'Chương 2: Kiểu dữ liệu',
+                        title: 'Chapter 2: Data Types',
                         order: 2,
                         contents: {
                             create: [
                                 {
-                                    title: 'Video: Kiểu dữ liệu cơ bản',
+                                    title: 'Video: Basic Data Types',
                                     order: 1,
                                     contentType: ContentType.VIDEO,
                                     videoUrl: 'https://example.com/videos/typescript-types.mp4',
                                     durationInSeconds: 840,
                                 },
                                 {
-                                    title: 'Tài liệu: Union và Intersection',
+                                    title: 'Document: Union and Intersection',
                                     order: 2,
                                     contentType: ContentType.DOCUMENT,
                                     documentUrl: 'https://example.com/docs/typescript-union-intersection.pdf',
@@ -184,7 +197,7 @@ async function main(): Promise<void> {
             },
         },
     });
-    console.log(`Đã tạo khóa học với ${course.modules.length} chương và nội dung lồng nhau`);
+    console.log(`Created course with ${course.modules.length} modules and nested content.`);
 
     const enrollment = await prisma.enrollment.create({
         data: {
@@ -192,14 +205,14 @@ async function main(): Promise<void> {
             courseId: course.id,
         },
     });
-    console.log(`Đã đăng ký student ${enrollment.studentId} vào khóa học ${enrollment.courseId}`);
+    console.log(`Enrolled student ${enrollment.studentId} in course ${enrollment.courseId}`);
 
-    console.log('Seed data đã được tạo thành công');
+    console.log('Seed data created successfully.');
 }
 
 main()
     .catch((e) => {
-        console.error('Lỗi khi seed dữ liệu', e);
+        console.error('Error while seeding data', e);
         process.exit(1);
     })
     .finally(async () => {

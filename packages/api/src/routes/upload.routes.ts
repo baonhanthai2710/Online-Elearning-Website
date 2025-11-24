@@ -13,6 +13,6 @@ const upload = multer({
     },
 });
 
-router.post('/upload', isAuthenticated, isAuthorized([Role.TEACHER]), upload.single('file'), uploadFileController);
+router.post('/upload', isAuthenticated, isAuthorized([Role.TEACHER, Role.ADMIN]), upload.single('file'), uploadFileController);
 
 export default router;

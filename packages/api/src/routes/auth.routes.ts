@@ -10,6 +10,15 @@ type AuthenticatedRequest = Request & { user?: AuthenticatedUser };
 
 router.post('/register', registerController);
 router.post('/login', loginController);
+router.post('/logout', isAuthenticated, (req: Request, res: Response) => {
+    // Clear the cookie
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+    });
+    return res.status(200).json({ message: 'Logged out successfully' });
+});
 
 // Demo route to verify auth/authorization middleware. Remove or adjust once tested.
 router.get(

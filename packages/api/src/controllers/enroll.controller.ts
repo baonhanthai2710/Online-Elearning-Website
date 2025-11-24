@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 import { checkoutCourse, handleStripeWebhook } from '../services/enroll.service';
 import { AuthenticatedUser } from '../types/auth';
+
+const prisma = new PrismaClient();
 
 const STUDENT_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL ?? 'http://localhost:3000/payment-success';
 const STUDENT_CANCEL_URL = process.env.STRIPE_CANCEL_URL ?? 'http://localhost:3000/payment-cancel';
@@ -70,6 +73,47 @@ export async function stripeWebhookController(req: Request, res: Response): Prom
     } catch (error) {
         return res.status(400).json({
             error: 'Webhook processing failed',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function getMyEnrollmentsController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as Request & { user?: AuthenticatedUser };
+
+        if (!authReq.user) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        const enrollments = await prisma.enrollment.findMany({
+            where: {
+                studentId: authReq.user.userId,
+            },
+            include: {
+                course: {
+                    include: {
+                        teacher: {
+                            select: {
+                                id: true,
+                                username: true,
+                                firstName: true,
+                                lastName: true,
+                            },
+                        },
+                        category: true,
+                    },
+                },
+            },
+            orderBy: {
+                enrollmentDate: 'desc',
+            },
+        });
+
+        return res.status(200).json(enrollments);
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to fetch enrollments',
             details: (error as Error).message,
         });
     }
