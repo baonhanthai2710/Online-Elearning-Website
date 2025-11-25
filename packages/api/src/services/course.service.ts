@@ -7,6 +7,7 @@ const courseSummarySelect = {
     title: true,
     description: true,
     price: true,
+    thumbnailUrl: true,
     createdAt: true,
     updatedAt: true,
     category: {
@@ -21,6 +22,11 @@ const courseSummarySelect = {
             username: true,
             firstName: true,
             lastName: true,
+        },
+    },
+    _count: {
+        select: {
+            enrollments: true,
         },
     },
 } as const;
@@ -79,6 +85,7 @@ type CreateCourseInput = {
     price: number;
     categoryId: number;
     teacherId: number;
+    thumbnailUrl?: string;
 };
 
 type UpdateCourseInput = {
@@ -88,6 +95,7 @@ type UpdateCourseInput = {
     description?: string;
     price?: number;
     categoryId?: number;
+    thumbnailUrl?: string;
     userRole?: string;
 };
 
@@ -121,6 +129,7 @@ export async function createCourseForTeacher(input: CreateCourseInput) {
             price: input.price,
             categoryId: input.categoryId,
             teacherId: input.teacherId,
+            thumbnailUrl: input.thumbnailUrl || null,
         },
     });
 
@@ -149,6 +158,7 @@ export async function updateCourseForTeacher(input: UpdateCourseInput) {
             description: input.description ?? undefined,
             price: input.price ?? undefined,
             categoryId: input.categoryId ?? undefined,
+            thumbnailUrl: input.thumbnailUrl !== undefined ? (input.thumbnailUrl || null) : undefined,
         },
     });
 

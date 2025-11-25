@@ -1,0 +1,314 @@
+import { useState, useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { X, Tag } from 'lucide-react';
+import { apiClient } from '../lib/api';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { showSuccessAlert, showErrorAlert } from '../lib/sweetalert';
+
+type Promotion = {
+    id: number;
+    code: string;
+    description: string | null;
+    discountType: 'PERCENTAGE' | 'FIXED';
+    discountValue: number;
+    minPurchaseAmount: number | null;
+    maxDiscountAmount: number | null;
+    usageLimit: number | null;
+    usedCount: number;
+    startDate: string;
+    endDate: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
+type AddPromotionModalProps = {
+    promotion: Promotion | null;
+    onClose: () => void;
+    onSuccess: () => void;
+};
+
+export function AddPromotionModal({ promotion, onClose, onSuccess }: AddPromotionModalProps) {
+    const isEditing = !!promotion;
+
+    const [formData, setFormData] = useState({
+        code: '',
+        description: '',
+        discountType: 'PERCENTAGE' as 'PERCENTAGE' | 'FIXED',
+        discountValue: 0,
+        minPurchaseAmount: '',
+        maxDiscountAmount: '',
+        usageLimit: '',
+        startDate: '',
+        endDate: '',
+        isActive: true,
+    });
+
+    useEffect(() => {
+        if (promotion) {
+            setFormData({
+                code: promotion.code,
+                description: promotion.description || '',
+                discountType: promotion.discountType,
+                discountValue: promotion.discountValue,
+                minPurchaseAmount: promotion.minPurchaseAmount?.toString() || '',
+                maxDiscountAmount: promotion.maxDiscountAmount?.toString() || '',
+                usageLimit: promotion.usageLimit?.toString() || '',
+                startDate: new Date(promotion.startDate).toISOString().slice(0, 16),
+                endDate: new Date(promotion.endDate).toISOString().slice(0, 16),
+                isActive: promotion.isActive,
+            });
+        } else {
+            // Set default dates for new promotion
+            const now = new Date();
+            const nextMonth = new Date(now);
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+
+            setFormData({
+                ...formData,
+                startDate: now.toISOString().slice(0, 16),
+                endDate: nextMonth.toISOString().slice(0, 16),
+            });
+        }
+    }, [promotion]);
+
+    const createMutation = useMutation({
+        mutationFn: async (data: any) => {
+            await apiClient.post('/promotions', data);
+        },
+        onSuccess: () => {
+            showSuccessAlert('Thành công!', 'Mã khuyến mãi đã được tạo.');
+            onSuccess();
+        },
+        onError: (error: any) => {
+            showErrorAlert('Lỗi!', error.response?.data?.error || 'Không thể tạo mã khuyến mãi.');
+        },
+    });
+
+    const updateMutation = useMutation({
+        mutationFn: async (data: any) => {
+            await apiClient.put(`/promotions/${promotion!.id}`, data);
+        },
+        onSuccess: () => {
+            showSuccessAlert('Thành công!', 'Mã khuyến mãi đã được cập nhật.');
+            onSuccess();
+        },
+        onError: (error: any) => {
+            showErrorAlert('Lỗi!', error.response?.data?.error || 'Không thể cập nhật mã khuyến mãi.');
+        },
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const data = {
+            code: formData.code.toUpperCase(),
+            description: formData.description || undefined,
+            discountType: formData.discountType,
+            discountValue: Number(formData.discountValue),
+            minPurchaseAmount: formData.minPurchaseAmount ? Number(formData.minPurchaseAmount) : undefined,
+            maxDiscountAmount: formData.maxDiscountAmount ? Number(formData.maxDiscountAmount) : undefined,
+            usageLimit: formData.usageLimit ? Number(formData.usageLimit) : undefined,
+            startDate: new Date(formData.startDate).toISOString(),
+            endDate: new Date(formData.endDate).toISOString(),
+            isActive: formData.isActive,
+        };
+
+        if (isEditing) {
+            updateMutation.mutate(data);
+        } else {
+            createMutation.mutate(data);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+                <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 p-6 flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <Tag className="w-6 h-6" />
+                        {isEditing ? 'Sửa mã khuyến mãi' : 'Tạo mã khuyến mãi'}
+                    </h2>
+                    <Button variant="ghost" size="sm" onClick={onClose}>
+                        <X className="w-5 h-5" />
+                    </Button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                    {/* Code */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Mã khuyến mãi *
+                        </label>
+                        <Input
+                            type="text"
+                            value={formData.code}
+                            onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
+                            placeholder="SUMMER2024"
+                            required
+                            disabled={isEditing}
+                            className="uppercase"
+                        />
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Mô tả
+                        </label>
+                        <Textarea
+                            value={formData.description}
+                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            placeholder="Mô tả mã khuyến mãi..."
+                            rows={3}
+                        />
+                    </div>
+
+                    {/* Discount Type & Value */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Loại giảm giá *
+                            </label>
+                            <select
+                                value={formData.discountType}
+                                onChange={(e) => setFormData({ ...formData, discountType: e.target.value as 'PERCENTAGE' | 'FIXED' })}
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                required
+                            >
+                                <option value="PERCENTAGE">Phần trăm (%)</option>
+                                <option value="FIXED">Số tiền cố định (VND)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Giá trị giảm giá *
+                            </label>
+                            <Input
+                                type="number"
+                                step={formData.discountType === 'PERCENTAGE' ? '1' : '1000'}
+                                min="0"
+                                max={formData.discountType === 'PERCENTAGE' ? '100' : undefined}
+                                value={formData.discountValue}
+                                onChange={(e) => setFormData({ ...formData, discountValue: Number(e.target.value) })}
+                                placeholder={formData.discountType === 'PERCENTAGE' ? '10' : '50000'}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Min Purchase & Max Discount */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Đơn tối thiểu (VND)
+                            </label>
+                            <Input
+                                type="number"
+                                step="1000"
+                                min="0"
+                                value={formData.minPurchaseAmount}
+                                onChange={(e) => setFormData({ ...formData, minPurchaseAmount: e.target.value })}
+                                placeholder="0"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Giảm tối đa (VND) {formData.discountType === 'PERCENTAGE' && '(cho phần trăm)'}
+                            </label>
+                            <Input
+                                type="number"
+                                step="1000"
+                                min="0"
+                                value={formData.maxDiscountAmount}
+                                onChange={(e) => setFormData({ ...formData, maxDiscountAmount: e.target.value })}
+                                placeholder="0"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Usage Limit */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Giới hạn sử dụng (để trống = không giới hạn)
+                        </label>
+                        <Input
+                            type="number"
+                            step="1"
+                            min="1"
+                            value={formData.usageLimit}
+                            onChange={(e) => setFormData({ ...formData, usageLimit: e.target.value })}
+                            placeholder="100"
+                        />
+                    </div>
+
+                    {/* Dates */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Ngày bắt đầu *
+                            </label>
+                            <Input
+                                type="datetime-local"
+                                value={formData.startDate}
+                                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Ngày kết thúc *
+                            </label>
+                            <Input
+                                type="datetime-local"
+                                value={formData.endDate}
+                                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Active */}
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            id="isActive"
+                            checked={formData.isActive}
+                            onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                            className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                        />
+                        <label htmlFor="isActive" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Kích hoạt mã khuyến mãi
+                        </label>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex gap-3 pt-4">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={onClose}
+                            className="flex-1"
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            type="submit"
+                            className="flex-1 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900"
+                            disabled={createMutation.isPending || updateMutation.isPending}
+                        >
+                            {createMutation.isPending || updateMutation.isPending
+                                ? 'Đang xử lý...'
+                                : isEditing
+                                ? 'Cập nhật'
+                                : 'Tạo'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}
+

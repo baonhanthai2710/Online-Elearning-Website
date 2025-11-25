@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getQuizForStudent, submitQuizAnswers } from '../services/quiz.service';
+import { getQuizForStudent, submitQuizAnswers, getQuizHistory, getQuizAttempts } from '../services/quiz.service';
 import { AuthenticatedUser } from '../types/auth';
 
 export async function getQuizController(req: Request, res: Response): Promise<Response> {
@@ -85,6 +85,62 @@ export async function submitQuizController(req: Request, res: Response): Promise
     } catch (error) {
         return res.status(500).json({
             error: 'Unable to submit quiz',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function getQuizHistoryController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as Request & { user?: AuthenticatedUser };
+
+        if (!authReq.user) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        const history = await getQuizHistory(authReq.user.userId);
+        return res.status(200).json(history);
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to load quiz history',
+            details: (error as Error).message,
+        });
+    }
+}
+
+export async function getQuizAttemptsController(req: Request, res: Response): Promise<Response> {
+    try {
+        const authReq = req as Request & { user?: AuthenticatedUser };
+
+        if (!authReq.user) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        const contentId = Number.parseInt(req.params.contentId, 10);
+
+        if (Number.isNaN(contentId)) {
+            return res.status(400).json({ error: 'contentId must be a number' });
+        }
+
+        try {
+            const attempts = await getQuizAttempts(contentId, authReq.user.userId);
+            return res.status(200).json(attempts);
+        } catch (error) {
+            const message = (error as Error).message;
+
+            if (message === 'QUIZ_NOT_FOUND') {
+                return res.status(404).json({ error: 'Quiz not found' });
+            }
+
+            if (message === 'NOT_ENROLLED') {
+                return res.status(403).json({ error: 'You are not enrolled in this course' });
+            }
+
+            throw error;
+        }
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Unable to load quiz attempts',
             details: (error as Error).message,
         });
     }

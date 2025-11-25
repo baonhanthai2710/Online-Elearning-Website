@@ -1,0 +1,288 @@
+import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Plus, Edit, Trash2, Tag, Calendar, Percent, DollarSign, Users, CheckCircle, XCircle } from 'lucide-react';
+import { apiClient } from '../../lib/api';
+import { Button } from '../../components/ui/button';
+import { Card } from '../../components/ui/card';
+import { Input } from '../../components/ui/input';
+import { showSuccessAlert, showErrorAlert } from '../../lib/sweetalert';
+import Swal from 'sweetalert2';
+import { AddPromotionModal } from '../../components/AddPromotionModal';
+
+type Promotion = {
+    id: number;
+    code: string;
+    description: string | null;
+    discountType: 'PERCENTAGE' | 'FIXED';
+    discountValue: number;
+    minPurchaseAmount: number | null;
+    maxDiscountAmount: number | null;
+    usageLimit: number | null;
+    usedCount: number;
+    startDate: string;
+    endDate: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export default function ManagePromotions() {
+    const queryClient = useQueryClient();
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [editingPromotion, setEditingPromotion] = useState<Promotion | null>(null);
+
+    // Fetch promotions
+    const { data: promotions = [], isLoading } = useQuery<Promotion[]>({
+        queryKey: ['promotions'],
+        queryFn: async () => {
+            const { data } = await apiClient.get('/promotions');
+            return data;
+        },
+    });
+
+    // Delete promotion mutation
+    const deleteMutation = useMutation({
+        mutationFn: async (promotionId: number) => {
+            await apiClient.delete(`/promotions/${promotionId}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['promotions'] });
+            showSuccessAlert('Xóa thành công!', 'Mã khuyến mãi đã được xóa.');
+        },
+        onError: (error: any) => {
+            showErrorAlert('Lỗi!', error.response?.data?.error || 'Không thể xóa mã khuyến mãi.');
+        },
+    });
+
+    const handleDelete = async (promotion: Promotion) => {
+        const result = await Swal.fire({
+            title: 'Xác nhận xóa?',
+            html: `Bạn có chắc muốn xóa mã khuyến mãi <strong>"${promotion.code}"</strong>?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+        });
+
+        if (result.isConfirmed) {
+            deleteMutation.mutate(promotion.id);
+        }
+    };
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    };
+
+    const isActive = (promotion: Promotion) => {
+        const now = new Date();
+        const startDate = new Date(promotion.startDate);
+        const endDate = new Date(promotion.endDate);
+        return promotion.isActive && now >= startDate && now <= endDate;
+    };
+
+    const formatDiscount = (promotion: Promotion) => {
+        if (promotion.discountType === 'PERCENTAGE') {
+            return `${promotion.discountValue}%`;
+        }
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        }).format(promotion.discountValue);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-gray-600 dark:text-gray-400">Đang tải...</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
+            <div className="container mx-auto px-4 max-w-7xl">
+                {/* Header */}
+                <div className="mb-8 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            Quản lý Mã khuyến mãi
+                        </h1>
+                        <p className="text-gray-600 dark:text-gray-400">
+                            Tạo và quản lý các mã khuyến mãi cho khóa học
+                        </p>
+                    </div>
+                    <Button
+                        onClick={() => {
+                            setEditingPromotion(null);
+                            setIsAddModalOpen(true);
+                        }}
+                        className="gap-2 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Tạo mã khuyến mãi
+                    </Button>
+                </div>
+
+                {/* Promotions List */}
+                {promotions.length === 0 ? (
+                    <Card className="p-12 text-center">
+                        <Tag className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                            Chưa có mã khuyến mãi
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-400 mb-4">
+                            Tạo mã khuyến mãi đầu tiên để bắt đầu.
+                        </p>
+                        <Button
+                            onClick={() => {
+                                setEditingPromotion(null);
+                                setIsAddModalOpen(true);
+                            }}
+                            className="gap-2"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Tạo mã khuyến mãi
+                        </Button>
+                    </Card>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {promotions.map((promotion) => (
+                            <Card
+                                key={promotion.id}
+                                className={`p-6 border-2 ${
+                                    isActive(promotion)
+                                        ? 'border-green-500 dark:border-green-400 bg-green-50/50 dark:bg-green-950/20'
+                                        : 'border-gray-200 dark:border-gray-800'
+                                }`}
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <Tag className="w-5 h-5 text-red-600 dark:text-red-400" />
+                                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                                                {promotion.code}
+                                            </h3>
+                                            {isActive(promotion) ? (
+                                                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                            ) : (
+                                                <XCircle className="w-5 h-5 text-gray-400" />
+                                            )}
+                                        </div>
+                                        {promotion.description && (
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                                {promotion.description}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex items-center gap-2 text-sm">
+                                        {promotion.discountType === 'PERCENTAGE' ? (
+                                            <Percent className="w-4 h-4 text-blue-600" />
+                                        ) : (
+                                            <DollarSign className="w-4 h-4 text-blue-600" />
+                                        )}
+                                        <span className="text-gray-600 dark:text-gray-400">Giảm giá:</span>
+                                        <span className="font-bold text-gray-900 dark:text-white">
+                                            {formatDiscount(promotion)}
+                                        </span>
+                                    </div>
+
+                                    {promotion.minPurchaseAmount && (
+                                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                            <span>Đơn tối thiểu:</span>
+                                            <span className="font-medium">
+                                                {new Intl.NumberFormat('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND',
+                                                }).format(promotion.minPurchaseAmount)}
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    {promotion.maxDiscountAmount && (
+                                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                            <span>Giảm tối đa:</span>
+                                            <span className="font-medium">
+                                                {new Intl.NumberFormat('vi-VN', {
+                                                    style: 'currency',
+                                                    currency: 'VND',
+                                                }).format(promotion.maxDiscountAmount)}
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                        <Users className="w-4 h-4" />
+                                        <span>
+                                            Đã dùng: {promotion.usedCount}
+                                            {promotion.usageLimit ? ` / ${promotion.usageLimit}` : ' / ∞'}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                        <Calendar className="w-4 h-4" />
+                                        <span>{formatDate(promotion.startDate)} - {formatDate(promotion.endDate)}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-2 mt-4">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="flex-1 gap-2"
+                                        onClick={() => {
+                                            setEditingPromotion(promotion);
+                                            setIsAddModalOpen(true);
+                                        }}
+                                    >
+                                        <Edit className="w-4 h-4" />
+                                        Sửa
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2 text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-950/30 dark:text-red-400"
+                                        onClick={() => handleDelete(promotion)}
+                                        disabled={deleteMutation.isPending}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                )}
+
+                {/* Add/Edit Modal */}
+                {isAddModalOpen && (
+                    <AddPromotionModal
+                        promotion={editingPromotion}
+                        onClose={() => {
+                            setIsAddModalOpen(false);
+                            setEditingPromotion(null);
+                        }}
+                        onSuccess={() => {
+                            setIsAddModalOpen(false);
+                            setEditingPromotion(null);
+                            queryClient.invalidateQueries({ queryKey: ['promotions'] });
+                        }}
+                    />
+                )}
+            </div>
+        </div>
+    );
+}
+

@@ -28,6 +28,15 @@ model User {
   lastName       String?
   role           Role    @default(STUDENT)
 
+  // Email verification
+  isVerified              Boolean   @default(false)
+  verificationToken       String?   @unique
+  verificationTokenExpiry DateTime?
+
+  // Password reset
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
+
   coursesAsTeacher Course[]      @relation("TeacherCourses")
   enrollments      Enrollment[]
   quizAttempts     QuizAttempt[]
@@ -46,10 +55,11 @@ model Category {
 }
 
 model Course {
-  id          Int    @id @default(autoincrement())
-  title       String
-  description String
-  price       Float
+  id           Int     @id @default(autoincrement())
+  title        String
+  description  String
+  price        Float
+  thumbnailUrl String?
 
   teacherId Int
   teacher   User @relation("TeacherCourses", fields: [teacherId], references: [id])
@@ -89,9 +99,10 @@ model Content {
   moduleId Int
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
-  questions    Question[]
-  quizAttempts QuizAttempt[]
-  comments     Comment[]
+  questions         Question[]
+  quizAttempts      QuizAttempt[]
+  comments          Comment[]
+  contentProgresses ContentProgress[]
 }
 
 model Question {
@@ -125,10 +136,24 @@ model Enrollment {
   courseId Int
   course   Course @relation(fields: [courseId], references: [id])
 
-  payment Payment? @relation("EnrollmentPayment")
-  review  Review?  @relation("EnrollmentReview")
+  payment           Payment?          @relation("EnrollmentPayment")
+  review            Review?           @relation("EnrollmentReview")
+  contentProgresses ContentProgress[]
 
   @@unique([studentId, courseId])
+}
+
+model ContentProgress {
+  id          Int      @id @default(autoincrement())
+  completedAt DateTime @default(now())
+
+  enrollmentId Int
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  contentId Int
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, contentId])
 }
 
 model Review {
@@ -187,4 +212,22 @@ model Comment {
   replies  Comment[] @relation("Replies")
 
   createdAt DateTime @default(now())
+}
+
+model Promotion {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique
+  description String?
+  discountType String  // 'PERCENTAGE' or 'FIXED'
+  discountValue Float   // Percentage (0-100) or fixed amount
+  minPurchaseAmount Float? // Minimum purchase to apply
+  maxDiscountAmount Float? // Maximum discount (for percentage)
+  usageLimit  Int?      // Total usage limit (null = unlimited)
+  usedCount   Int       @default(0)
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean   @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Users, BookOpen, GraduationCap, FolderTree, TrendingUp, UserCheck, UserCog } from 'lucide-react';
+import { Users, BookOpen, GraduationCap, FolderTree, TrendingUp, UserCheck, UserCog, Tag } from 'lucide-react';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
@@ -181,13 +181,10 @@ export default function AdminDashboard() {
                         </Button>
                     </Link>
 
-                    <Link to="/">
-                        <Button
-                            variant="outline"
-                            className="w-full h-20 border-2 border-gray-300 dark:border-gray-700"
-                        >
-                            <TrendingUp className="mr-2 h-5 w-5" />
-                            Xem website
+                    <Link to="/admin/promotions">
+                        <Button className="w-full h-20 bg-gradient-to-r from-pink-600 to-pink-800 hover:from-pink-700 hover:to-pink-900 text-white">
+                            <Tag className="mr-2 h-5 w-5" />
+                            Mã khuyến mãi
                         </Button>
                     </Link>
                 </div>

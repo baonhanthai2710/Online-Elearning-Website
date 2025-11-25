@@ -1,0 +1,408 @@
+import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Star, Trash2, Edit2, Send, X } from 'lucide-react';
+import { Card } from './ui/card';
+import { Button } from './ui/button';
+import { Textarea } from './ui/textarea';
+import { apiClient } from '../lib/api';
+import { useAuthStore } from '../stores/useAuthStore';
+import { showSuccessAlert, showErrorAlert } from '../lib/sweetalert';
+
+type Review = {
+    id: number;
+    rating: number;
+    comment: string | null;
+    datePosted: string;
+    student: {
+        id: number;
+        username: string;
+        fullName: string;
+    };
+    enrollmentDate: string;
+};
+
+type ReviewStats = {
+    reviews: Review[];
+    averageRating: number;
+    totalReviews: number;
+    ratingCounts: {
+        5: number;
+        4: number;
+        3: number;
+        2: number;
+        1: number;
+    };
+};
+
+type ReviewSectionProps = {
+    courseId: number;
+    isEnrolled: boolean;
+};
+
+export function ReviewSection({ courseId, isEnrolled }: ReviewSectionProps) {
+    const user = useAuthStore((state) => state.user);
+    const queryClient = useQueryClient();
+    const [showForm, setShowForm] = useState(false);
+    const [rating, setRating] = useState(5);
+    const [comment, setComment] = useState('');
+    const [hoveredStar, setHoveredStar] = useState(0);
+
+    // Fetch reviews
+    const { data: reviewData, isLoading } = useQuery<ReviewStats>({
+        queryKey: ['course-reviews', courseId],
+        queryFn: async () => {
+            const { data } = await apiClient.get(`/courses/${courseId}/reviews`);
+            return data;
+        },
+    });
+
+    // Fetch user's review
+    const { data: userReview } = useQuery<Review | null>({
+        queryKey: ['user-review', courseId],
+        queryFn: async () => {
+            try {
+                const { data } = await apiClient.get(`/courses/${courseId}/reviews/my`);
+                return data;
+            } catch (error: any) {
+                if (error.response?.status === 404) {
+                    return null;
+                }
+                throw error;
+            }
+        },
+        enabled: !!user && isEnrolled,
+    });
+
+    // Submit review mutation
+    const submitReviewMutation = useMutation({
+        mutationFn: async () => {
+            const { data } = await apiClient.post(`/courses/${courseId}/reviews`, {
+                rating,
+                comment: comment.trim() || undefined,
+            });
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['course-reviews', courseId] });
+            queryClient.invalidateQueries({ queryKey: ['user-review', courseId] });
+            showSuccessAlert('Thành công!', 'Đánh giá của bạn đã được gửi.');
+            setShowForm(false);
+            setComment('');
+            setRating(5);
+        },
+        onError: (error: any) => {
+            const errorMessage = error.response?.data?.error || 'Không thể gửi đánh giá. Vui lòng thử lại.';
+            showErrorAlert('Lỗi', errorMessage);
+        },
+    });
+
+    // Delete review mutation
+    const deleteReviewMutation = useMutation({
+        mutationFn: async (reviewId: number) => {
+            await apiClient.delete(`/reviews/${reviewId}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['course-reviews', courseId] });
+            queryClient.invalidateQueries({ queryKey: ['user-review', courseId] });
+            showSuccessAlert('Thành công!', 'Đánh giá đã được xóa.');
+        },
+        onError: (error: any) => {
+            const errorMessage = error.response?.data?.error || 'Không thể xóa đánh giá.';
+            showErrorAlert('Lỗi', errorMessage);
+        },
+    });
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
+    const handleEdit = () => {
+        if (userReview) {
+            setRating(userReview.rating);
+            setComment(userReview.comment || '');
+            setShowForm(true);
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <div className="text-center py-8">
+                <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-400">Đang tải đánh giá...</p>
+            </div>
+        );
+    }
+
+    if (!reviewData) {
+        return null;
+    }
+
+    return (
+        <div className="space-y-6">
+            {/* Stats Section */}
+            <Card className="p-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                    Đánh giá và nhận xét
+                </h2>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                    {/* Average Rating */}
+                    <div className="text-center md:text-left">
+                        <div className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
+                            {reviewData.averageRating.toFixed(1)}
+                        </div>
+                        <div className="flex items-center justify-center md:justify-start gap-1 mb-2">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                    key={star}
+                                    className={`w-6 h-6 ${
+                                        star <= Math.round(reviewData.averageRating)
+                                            ? 'fill-yellow-400 text-yellow-400'
+                                            : 'text-gray-300 dark:text-gray-600'
+                                    }`}
+                                />
+                            ))}
+                        </div>
+                        <p className="text-gray-600 dark:text-gray-400">
+                            Dựa trên {reviewData.totalReviews} đánh giá
+                        </p>
+                    </div>
+
+                    {/* Rating Breakdown */}
+                    <div className="space-y-2">
+                        {[5, 4, 3, 2, 1].map((star) => {
+                            const count = reviewData.ratingCounts[star as keyof typeof reviewData.ratingCounts];
+                            const percentage = reviewData.totalReviews > 0 ? (count / reviewData.totalReviews) * 100 : 0;
+                            return (
+                                <div key={star} className="flex items-center gap-3">
+                                    <div className="flex items-center gap-1 w-20">
+                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            {star}
+                                        </span>
+                                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                    </div>
+                                    <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-yellow-400 transition-all"
+                                            style={{ width: `${percentage}%` }}
+                                        />
+                                    </div>
+                                    <span className="text-sm text-gray-600 dark:text-gray-400 w-12 text-right">
+                                        {count}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </Card>
+
+            {/* User Review Form */}
+            {isEnrolled && user && (
+                <Card className="p-6">
+                    {userReview && !showForm ? (
+                        <div>
+                            <div className="flex items-start justify-between mb-4">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <h3 className="font-semibold text-gray-900 dark:text-white">
+                                            Đánh giá của bạn
+                                        </h3>
+                                        <div className="flex gap-1">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <Star
+                                                    key={star}
+                                                    className={`w-4 h-4 ${
+                                                        star <= userReview.rating
+                                                            ? 'fill-yellow-400 text-yellow-400'
+                                                            : 'text-gray-300 dark:text-gray-600'
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    {userReview.comment && (
+                                        <p className="text-gray-600 dark:text-gray-400 mb-2">
+                                            {userReview.comment}
+                                        </p>
+                                    )}
+                                    <p className="text-sm text-gray-500 dark:text-gray-500">
+                                        {formatDate(userReview.datePosted)}
+                                    </p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={handleEdit}
+                                        className="text-blue-600 hover:text-blue-700"
+                                    >
+                                        <Edit2 className="w-4 h-4 mr-1" />
+                                        Sửa
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => {
+                                            if (confirm('Bạn có chắc muốn xóa đánh giá này?')) {
+                                                deleteReviewMutation.mutate(userReview.id);
+                                            }
+                                        }}
+                                        className="text-red-600 hover:text-red-700"
+                                        disabled={deleteReviewMutation.isPending}
+                                    >
+                                        <Trash2 className="w-4 h-4 mr-1" />
+                                        Xóa
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (showForm || !userReview) ? (
+                        <div>
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+                                {userReview ? 'Chỉnh sửa đánh giá' : 'Viết đánh giá'}
+                            </h3>
+                            <div className="space-y-4">
+                                {/* Star Rating */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Đánh giá
+                                    </label>
+                                    <div className="flex gap-2">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <button
+                                                key={star}
+                                                type="button"
+                                                onClick={() => setRating(star)}
+                                                onMouseEnter={() => setHoveredStar(star)}
+                                                onMouseLeave={() => setHoveredStar(0)}
+                                                className="focus:outline-none"
+                                            >
+                                                <Star
+                                                    className={`w-8 h-8 transition-colors ${
+                                                        star <= (hoveredStar || rating)
+                                                            ? 'fill-yellow-400 text-yellow-400'
+                                                            : 'text-gray-300 dark:text-gray-600'
+                                                    }`}
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Comment */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Nhận xét (tùy chọn)
+                                    </label>
+                                    <Textarea
+                                        value={comment}
+                                        onChange={(e) => setComment(e.target.value)}
+                                        placeholder="Chia sẻ trải nghiệm của bạn về khóa học này..."
+                                        rows={4}
+                                        className="resize-none"
+                                    />
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex gap-2">
+                                    <Button
+                                        onClick={() => {
+                                            submitReviewMutation.mutate();
+                                        }}
+                                        disabled={submitReviewMutation.isPending}
+                                        className="gap-2"
+                                    >
+                                        <Send className="w-4 h-4" />
+                                        {submitReviewMutation.isPending ? 'Đang gửi...' : 'Gửi đánh giá'}
+                                    </Button>
+                                    {userReview && (
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => {
+                                                setShowForm(false);
+                                                setComment('');
+                                                setRating(5);
+                                            }}
+                                        >
+                                            <X className="w-4 h-4 mr-1" />
+                                            Hủy
+                                        </Button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            <Button
+                                variant="outline"
+                                onClick={() => setShowForm(true)}
+                                className="w-full"
+                            >
+                                <Star className="w-4 h-4 mr-2" />
+                                Viết đánh giá
+                            </Button>
+                        </div>
+                    )}
+                </Card>
+            )}
+
+            {/* Reviews List */}
+            {reviewData.reviews.length === 0 ? (
+                <Card className="p-8 text-center">
+                    <Star className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                        Chưa có đánh giá nào
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        Hãy là người đầu tiên đánh giá khóa học này!
+                    </p>
+                </Card>
+            ) : (
+                <div className="space-y-4">
+                    {reviewData.reviews.map((review) => (
+                        <Card key={review.id} className="p-6">
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white font-semibold">
+                                        {review.student.fullName.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-gray-900 dark:text-white">
+                                            {review.student.fullName}
+                                        </p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-500">
+                                            {formatDate(review.datePosted)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-1">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <Star
+                                            key={star}
+                                            className={`w-4 h-4 ${
+                                                star <= review.rating
+                                                    ? 'fill-yellow-400 text-yellow-400'
+                                                    : 'text-gray-300 dark:text-gray-600'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                            {review.comment && (
+                                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                                    {review.comment}
+                                </p>
+                            )}
+                        </Card>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+

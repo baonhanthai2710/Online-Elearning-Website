@@ -204,3 +204,98 @@ export async function submitQuizAnswers(contentId: number, studentId: number, ra
         totalQuestions,
     };
 }
+
+/**
+ * Get all quiz attempts for a student
+ */
+export async function getQuizHistory(studentId: number) {
+    const attempts = await prisma.quizAttempt.findMany({
+        where: { studentId },
+        orderBy: { endTime: 'desc' },
+        select: {
+            id: true,
+            score: true,
+            startTime: true,
+            endTime: true,
+            quizContent: {
+                select: {
+                    id: true,
+                    title: true,
+                    module: {
+                        select: {
+                            title: true,
+                            course: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                    thumbnailUrl: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    return attempts
+        .filter(attempt => attempt.quizContent.module !== null)
+        .map(attempt => ({
+            attemptId: attempt.id,
+            score: attempt.score,
+            startTime: attempt.startTime,
+            endTime: attempt.endTime,
+            quiz: {
+                contentId: attempt.quizContent.id,
+                title: attempt.quizContent.title,
+                moduleName: attempt.quizContent.module!.title,
+            },
+            course: {
+                id: attempt.quizContent.module!.course.id,
+                title: attempt.quizContent.module!.course.title,
+                thumbnailUrl: attempt.quizContent.module!.course.thumbnailUrl,
+            },
+        }));
+}
+
+/**
+ * Get quiz attempts for a specific quiz content
+ */
+export async function getQuizAttempts(contentId: number, studentId: number) {
+    // Verify student can access this quiz
+    const content = await prisma.content.findUnique({
+        where: { id: contentId },
+        select: {
+            module: {
+                select: { courseId: true },
+            },
+        },
+    });
+
+    if (!content?.module) {
+        throw new Error('QUIZ_NOT_FOUND');
+    }
+
+    await assertStudentEnrollment(content.module.courseId, studentId);
+
+    const attempts = await prisma.quizAttempt.findMany({
+        where: {
+            studentId,
+            quizContentId: contentId,
+        },
+        orderBy: { endTime: 'desc' },
+        select: {
+            id: true,
+            score: true,
+            startTime: true,
+            endTime: true,
+        },
+    });
+
+    return attempts.map(attempt => ({
+        attemptId: attempt.id,
+        score: attempt.score,
+        startTime: attempt.startTime,
+        endTime: attempt.endTime,
+    }));
+}

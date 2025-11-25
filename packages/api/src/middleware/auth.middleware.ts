@@ -26,7 +26,13 @@ function isAuthenticatedUser(payload: unknown): payload is AuthenticatedUser {
 
 export function isAuthenticated(req: Request, res: Response, next: NextFunction): void {
     try {
-        const token = req.cookies?.[COOKIE_NAME];
+        // Try to get token from Authorization header first, then from cookie
+        let token = req.cookies?.[COOKIE_NAME];
+        
+        const authHeader = req.headers.authorization;
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7); // Remove 'Bearer ' prefix
+        }
 
         if (!token) {
             res.status(401).json({ error: 'Authentication token is missing' });
