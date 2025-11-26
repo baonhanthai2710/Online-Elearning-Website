@@ -110,28 +110,28 @@ export default function Home() {
                         </div>
 
                         {/* Stats */}
-                        <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto pt-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto pt-8">
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     {courses.length}+
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Khóa học
                                 </div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     50K+
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Học viên
                                 </div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     4.8/5
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Đánh giá
                                 </div>
                             </div>

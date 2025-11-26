@@ -18,7 +18,7 @@ export function Footer() {
                                     className="relative h-12 w-12 object-contain rounded-xl"
                                 />
                             </div>
-                            <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
+                            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
                                 E-Learning
                             </span>
                         </Link>

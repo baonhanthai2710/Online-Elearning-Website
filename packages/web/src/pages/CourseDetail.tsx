@@ -306,11 +306,11 @@ export default function CourseDetail() {
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-4">
                                         {appliedPromotion ? (
-                                            <div className="flex items-center gap-2">
-                                                <div className="text-2xl line-through text-gray-400">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                                <div className="text-xl sm:text-2xl line-through text-gray-400">
                                                     {formattedPrice}
                                                 </div>
-                                                <div className="text-4xl font-bold text-green-600 dark:text-green-400">
+                                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
                                                     {new Intl.NumberFormat('vi-VN', {
                                                         style: 'currency',
                                                         currency: 'VND',
@@ -318,7 +318,7 @@ export default function CourseDetail() {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="text-4xl font-bold">
+                                            <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
                                                 {course.price === 0 ? 'Miễn phí' : formattedPrice}
                                             </div>
                                         )}

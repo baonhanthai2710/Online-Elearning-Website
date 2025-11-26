@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useForm, type ControllerRenderProps } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { Eye, EyeOff, LogIn, Mail, Lock, GraduationCap, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import logo from '../logo.png';
 
 import { apiClient } from '../lib/api';
 import { useAuthStore, type User } from '../stores/useAuthStore';
@@ -90,12 +91,12 @@ export default function Login() {
     });
 
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-red-50 via-white to-black/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl animate-pulse dark:bg-blue-600/20"></div>
-                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl animate-pulse delay-1000 dark:bg-purple-600/20"></div>
-                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink-400/10 blur-3xl animate-pulse delay-500 dark:bg-pink-600/10"></div>
+                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-400/20 blur-3xl animate-pulse dark:bg-red-600/20"></div>
+                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-black/20 blur-3xl animate-pulse delay-1000 dark:bg-black/30"></div>
+                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-400/10 blur-3xl animate-pulse delay-500 dark:bg-red-600/10"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -107,10 +108,10 @@ export default function Login() {
                 <div className="w-full max-w-md">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg">
-                            <GraduationCap className="h-9 w-9 text-white" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-black shadow-lg">
+                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
                         </div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+                        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent dark:from-red-500 dark:to-red-300">
                             E-Learning Platform
                         </h2>
                         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
@@ -170,7 +171,7 @@ export default function Login() {
                                                         placeholder="email@example.com hoặc username"
                                                         autoComplete="username"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -184,7 +185,7 @@ export default function Login() {
                                 <div className="text-right">
                                     <Link 
                                         to="/forgot-password"
-                                        className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
+                                        className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline"
                                     >
                                         Quên mật khẩu?
                                     </Link>
@@ -211,7 +212,7 @@ export default function Login() {
                                                         placeholder="••••••••"
                                                         autoComplete="current-password"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
@@ -234,7 +235,7 @@ export default function Login() {
 
                                 <Button 
                                     type="submit" 
-                                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]" 
+                                    className="w-full h-12 bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-black text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]" 
                                     disabled={loginMutation.isPending}
                                 >
                                     {loginMutation.isPending ? (
@@ -321,11 +322,11 @@ export default function Login() {
                     {/* Additional Info */}
                     <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                         Bằng cách đăng nhập, bạn đồng ý với{' '}
-                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
                         </a>{' '}
                         và{' '}
-                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Chính sách bảo mật
                         </a>
                     </p>

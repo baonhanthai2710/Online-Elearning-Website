@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useForm, type ControllerRenderProps } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { Eye, EyeOff, UserPlus, Mail, Lock, User, GraduationCap, CheckCircle, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, UserPlus, Mail, Lock, User, CheckCircle, ArrowRight } from 'lucide-react';
+import logo from '../logo.png';
 
 import { apiClient } from '../lib/api';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
@@ -140,12 +141,12 @@ export default function Register() {
     }
 
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-red-50 via-white to-black/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl animate-pulse dark:bg-purple-600/20"></div>
-                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl animate-pulse delay-1000 dark:bg-blue-600/20"></div>
-                <div className="absolute top-1/3 right-1/3 h-60 w-60 rounded-full bg-pink-400/10 blur-3xl animate-pulse delay-500 dark:bg-pink-600/10"></div>
+                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-red-400/20 blur-3xl animate-pulse dark:bg-red-600/20"></div>
+                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-black/20 blur-3xl animate-pulse delay-1000 dark:bg-black/30"></div>
+                <div className="absolute top-1/3 right-1/3 h-60 w-60 rounded-full bg-red-400/10 blur-3xl animate-pulse delay-500 dark:bg-red-600/10"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -157,10 +158,10 @@ export default function Register() {
                 <div className="w-full max-w-2xl">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-blue-600 shadow-lg">
-                            <GraduationCap className="h-9 w-9 text-white" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-black shadow-lg">
+                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
                         </div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-blue-400">
+                        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent dark:from-red-500 dark:to-red-300">
                             E-Learning Platform
                         </h2>
                         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
@@ -204,7 +205,7 @@ export default function Register() {
                                                         placeholder="username123"
                                                         autoComplete="username"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -236,7 +237,7 @@ export default function Register() {
                                                         placeholder="example@email.com"
                                                         autoComplete="email"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -260,7 +261,7 @@ export default function Register() {
                                                         placeholder="Duy"
                                                         autoComplete="given-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -281,7 +282,7 @@ export default function Register() {
                                                         placeholder="Nguyễn"
                                                         autoComplete="family-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -376,7 +377,7 @@ export default function Register() {
 
                                 <Button
                                     type="submit"
-                                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+                                    className="w-full h-12 bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-black text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
                                     disabled={registerMutation.isPending}
                                 >
                                     {registerMutation.isPending ? (
@@ -463,11 +464,11 @@ export default function Register() {
                     {/* Additional Info */}
                     <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                         Bằng cách đăng ký, bạn đồng ý với{' '}
-                        <a href="#" className="font-medium text-purple-600 hover:text-purple-500 dark:text-purple-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
                         </a>{' '}
                         và{' '}
-                        <a href="#" className="font-medium text-purple-600 hover:text-purple-500 dark:text-purple-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Chính sách bảo mật
                         </a>
                     </p>

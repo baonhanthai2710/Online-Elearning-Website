@@ -1,5 +1,7 @@
 import { Users, Target, Award, BookOpen, Heart, Lightbulb } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import DuongImage from '../Duong.png';
+import NhanImage from '../Nhan.png';
 
 export default function About() {
     const stats = [
@@ -28,8 +30,8 @@ export default function About() {
     ];
 
     const team = [
-        { name: 'Nguyễn Hải Dương', role: 'Co-Founder & Developer', image: 'https://i.pravatar.cc/150?img=11' },
-        { name: 'Thái Bảo Nhân', role: 'Co-Founder & Developer', image: 'https://i.pravatar.cc/150?img=12' },
+        { name: 'Nguyễn Hải Dương', role: 'Co-Founder & Developer', image: DuongImage },
+        { name: 'Thái Bảo Nhân', role: 'Co-Founder & Developer', image: NhanImage },
     ];
 
     return (
