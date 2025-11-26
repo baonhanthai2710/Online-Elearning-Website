@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Upload, X, Image } from 'lucide-react';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
@@ -15,7 +15,9 @@ export default function AdminCreateCourse() {
         price: 0,
         categoryId: 0,
         teacherId: 0,
+        thumbnailUrl: '',
     });
+    const [uploading, setUploading] = useState(false);
 
     const { data: categories = [] } = useQuery({
         queryKey: ['categories'],
@@ -45,6 +47,43 @@ export default function AdminCreateCourse() {
             showErrorAlert('Lỗi', error.response?.data?.error || 'Không thể tạo khóa học');
         },
     });
+
+    const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showErrorAlert('Lỗi', 'Vui lòng chọn file ảnh');
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            showErrorAlert('Lỗi', 'Kích thước ảnh tối đa là 5MB');
+            return;
+        }
+
+        setUploading(true);
+        try {
+            const uploadData = new FormData();
+            uploadData.append('file', file);
+
+            const { data } = await apiClient.post('/upload', uploadData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            setFormData(prev => ({ ...prev, thumbnailUrl: data.url }));
+        } catch (error) {
+            showErrorAlert('Lỗi', 'Không thể upload ảnh');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const removeThumbnail = () => {
+        setFormData(prev => ({ ...prev, thumbnailUrl: '' }));
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -135,6 +174,50 @@ export default function AdminCreateCourse() {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+
+                        {/* Thumbnail Upload */}
+                        <div>
+                            <label className="block text-sm font-medium mb-2">Ảnh thumbnail</label>
+                            {formData.thumbnailUrl ? (
+                                <div className="relative w-full max-w-md">
+                                    <img
+                                        src={formData.thumbnailUrl}
+                                        alt="Thumbnail"
+                                        className="w-full aspect-video object-cover rounded-lg border"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={removeThumbnail}
+                                        className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                        {uploading ? (
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                                        ) : (
+                                            <>
+                                                <Image className="w-10 h-10 text-gray-400 mb-3" />
+                                                <p className="text-sm text-gray-500">
+                                                    <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
+                                                </p>
+                                                <p className="text-xs text-gray-400 mt-1">PNG, JPG (tối đa 5MB)</p>
+                                            </>
+                                        )}
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handleThumbnailUpload}
+                                        disabled={uploading}
+                                    />
+                                </label>
+                            )}
                         </div>
 
                         <div className="flex gap-3 pt-4">

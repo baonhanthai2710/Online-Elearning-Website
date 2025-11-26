@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Plus, BookOpen, Users, DollarSign, TrendingUp, Edit, Trash2, BarChart3 } from 'lucide-react';
+import { Plus, BookOpen, Users, DollarSign, TrendingUp, Edit, Trash2, UserCheck, UserCircle } from 'lucide-react';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
@@ -73,8 +73,8 @@ export default function Dashboard() {
 
     // Calculate stats
     const totalCourses = courses.length;
-    const totalStudents = courses.reduce((acc, course) => acc + (course.totalEnrollments || 0), 0);
-    const totalRevenue = courses.reduce((acc, course) => acc + (course.price * (course.totalEnrollments || 0)), 0);
+    const totalStudents = courses.reduce((acc, course) => acc + (course._count?.enrollments || 0), 0);
+    const totalRevenue = courses.reduce((acc, course) => acc + (course.price * (course._count?.enrollments || 0)), 0);
 
     const formattedRevenue = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -163,14 +163,18 @@ export default function Dashboard() {
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Khóa học của tôi
-                    </h2>
-                    <div className="flex gap-3">
-                        <Button variant="outline" className="gap-2">
-                            <BarChart3 className="h-4 w-4" />
-                            Thống kê
-                        </Button>
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                            Khóa học của tôi
+                        </h2>
+                        <Link to="/profile">
+                            <Button variant="outline" className="gap-2">
+                                <UserCircle className="h-4 w-4" />
+                                Cập nhật hồ sơ
+                            </Button>
+                        </Link>
+                    </div>
+                    <div className="flex gap-3 mt-4">
                         <Link to="/courses/create">
                             <Button className="gap-2 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
                                 <Plus className="h-4 w-4" />
@@ -234,17 +238,17 @@ export default function Dashboard() {
                                         {/* Content */}
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-start justify-between gap-4">
-                                                <div className="flex-1">
-                                                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+                                                <div className="flex-1 min-w-0">
+                                                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2 break-all">
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2">
+                                                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2 break-all">
                                                         {course.description}
                                                     </p>
                                                     <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
                                                         <div className="flex items-center gap-1">
                                                             <Users className="h-4 w-4" />
-                                                            <span>{course.totalEnrollments || 0} học viên</span>
+                                                            <span>{course._count?.enrollments || course.totalEnrollments || 0} học viên</span>
                                                         </div>
                                                         <div className="flex items-center gap-1">
                                                             <DollarSign className="h-4 w-4" />
@@ -260,6 +264,12 @@ export default function Dashboard() {
                                                     <Link to={`/courses/${course.courseId || course.id}/manage`}>
                                                         <Button variant="default" size="sm" className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
                                                             Quản lý
+                                                        </Button>
+                                                    </Link>
+                                                    <Link to={`/courses/${course.courseId || course.id}/students`}>
+                                                        <Button variant="outline" size="sm" className="gap-2">
+                                                            <UserCheck className="h-4 w-4" />
+                                                            Học viên
                                                         </Button>
                                                     </Link>
                                                     <Link to={`/courses/${course.courseId || course.id}`}>

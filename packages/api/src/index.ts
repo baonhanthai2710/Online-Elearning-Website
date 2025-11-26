@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import passport from 'passport';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.routes';
 import courseRoutes from './routes/course.routes';
@@ -12,7 +13,15 @@ import questionRoutes from './routes/question.routes';
 import commentRoutes from './routes/comment.routes';
 import chatbotRoutes from './routes/chatbot.routes';
 import adminRoutes from './routes/admin.routes';
+import progressRoutes from './routes/progress.routes';
+import teacherRoutes from './routes/teacher.routes';
+import contactRoutes from './routes/contact.routes';
+import reviewRoutes from './routes/review.routes';
+import userRoutes from './routes/user.routes';
+import passwordRoutes from './routes/password.routes';
+import promotionRoutes from './routes/promotion.routes';
 import { simpleChatbotService } from './services/simpleChatbot.service';
+import './config/passport'; // Initialize passport strategies
 
 dotenv.config();
 
@@ -34,6 +43,7 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 app.use('/api/auth', authRoutes);
 app.use('/api', courseRoutes);
@@ -44,6 +54,13 @@ app.use('/api', questionRoutes);
 app.use('/api', commentRoutes);
 app.use('/api', chatbotRoutes);
 app.use('/api', adminRoutes);
+app.use('/api', progressRoutes);
+app.use('/api', teacherRoutes);
+app.use('/api', contactRoutes);
+app.use('/api', reviewRoutes);
+app.use('/api', userRoutes);
+app.use('/api', passwordRoutes);
+app.use('/api', promotionRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server for E-Learning Platform');

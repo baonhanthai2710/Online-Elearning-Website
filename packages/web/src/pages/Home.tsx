@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, TrendingUp, Award, Users, BookOpen, ArrowRight, Sparkles, Target, Zap } from 'lucide-react';
 import { apiClient } from '../lib/api';
 import { CourseCard, type Course } from '../components/CourseCard';
@@ -8,7 +9,8 @@ import { Input } from '../components/ui/input';
 import { Card } from '../components/ui/card';
 
 type Category = {
-    categoryId: number;
+    id: number;
+    categoryId?: number; // fallback
     name: string;
     _count?: {
         courses: number;
@@ -16,6 +18,9 @@ type Category = {
 };
 
 export default function Home() {
+    const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState('');
+
     const {
         data: courses = [],
         isLoading: coursesLoading,
@@ -36,6 +41,20 @@ export default function Home() {
             return data;
         },
     });
+
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/courses?search=${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            navigate('/courses');
+        }
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     return (
         <div className="min-h-screen">
@@ -76,37 +95,43 @@ export default function Home() {
                                 <Input
                                     type="text"
                                     placeholder="Tìm kiếm khóa học..."
-                                    className="pl-12 pr-4 h-14 text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-red-200 shadow-lg"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={handleKeyPress}
+                                    className="pl-12 pr-28 h-14 text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-red-200 shadow-lg"
                                 />
-                                <Button className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-red-600 hover:bg-red-50">
+                                <Button 
+                                    onClick={handleSearch}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-red-600 hover:bg-red-50"
+                                >
                                     Tìm kiếm
                                 </Button>
                             </div>
                         </div>
 
                         {/* Stats */}
-                        <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto pt-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 max-w-3xl mx-auto pt-8">
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     {courses.length}+
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Khóa học
                                 </div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     50K+
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Học viên
                                 </div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold text-white">
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     4.8/5
                                 </div>
-                                <div className="text-sm md:text-base text-red-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Đánh giá
                                 </div>
                             </div>
@@ -130,17 +155,21 @@ export default function Home() {
 
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                             {categories.map((category) => (
-                                <Card
-                                    key={category.categoryId}
-                                    className="p-6 text-center hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300 cursor-pointer group border-gray-200 dark:border-gray-800"
+                                <Link 
+                                    key={category.id || category.categoryId} 
+                                    to={`/courses?category=${category.id || category.categoryId}`}
                                 >
-                                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-red-600 to-red-800 group-hover:scale-110 transition-transform shadow-lg shadow-red-500/30">
-                                        <BookOpen className="h-7 w-7 text-white" />
-                                    </div>
-                                    <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                                        {category.name}
-                                    </h3>
-                                </Card>
+                                    <Card
+                                        className="p-6 text-center hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300 cursor-pointer group border-gray-200 dark:border-gray-800 h-full"
+                                    >
+                                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-red-600 to-red-800 group-hover:scale-110 transition-transform shadow-lg shadow-red-500/30">
+                                            <BookOpen className="h-7 w-7 text-white" />
+                                        </div>
+                                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                                            {category.name}
+                                        </h3>
+                                    </Card>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -159,10 +188,12 @@ export default function Home() {
                                 Các khóa học được yêu thích nhất
                             </p>
                         </div>
-                        <Button variant="outline" className="gap-2 hidden md:flex border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
-                            Xem tất cả
-                            <ArrowRight className="h-4 w-4" />
-                        </Button>
+                        <Link to="/courses">
+                            <Button variant="outline" className="gap-2 hidden md:flex border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30">
+                                Xem tất cả
+                                <ArrowRight className="h-4 w-4" />
+                            </Button>
+                        </Link>
                     </div>
 
                     {coursesLoading ? (

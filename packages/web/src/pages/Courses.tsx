@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, X } from 'lucide-react';
 import { apiClient } from '../lib/api';
 import { CourseCard, type Course } from '../components/CourseCard';
@@ -8,14 +9,28 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 
 type Category = {
-    categoryId: number;
+    id: number;
+    categoryId?: number; // fallback
     name: string;
 };
 
 export default function Courses() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(
+        searchParams.get('category') ? parseInt(searchParams.get('category')!) : null
+    );
     const [priceFilter, setPriceFilter] = useState<'all' | 'free' | 'paid'>('all');
+
+    // Update URL when filters change
+    useEffect(() => {
+        const params = new URLSearchParams();
+        if (searchQuery) params.set('search', searchQuery);
+        if (selectedCategory !== null && selectedCategory !== undefined) {
+            params.set('category', String(selectedCategory));
+        }
+        setSearchParams(params, { replace: true });
+    }, [searchQuery, selectedCategory, setSearchParams]);
 
     // Fetch courses
     const {
@@ -45,9 +60,8 @@ export default function Courses() {
             course.description.toLowerCase().includes(searchQuery.toLowerCase());
 
         // Category filter
-        const matchesCategory = selectedCategory === null || 
-            course.category.categoryId === selectedCategory ||
-            course.category.id === selectedCategory;
+        const courseCatId = course.category?.id || course.category?.categoryId;
+        const matchesCategory = selectedCategory === null || courseCatId === selectedCategory;
 
         // Price filter
         const matchesPrice = priceFilter === 'all' ||
@@ -61,6 +75,7 @@ export default function Courses() {
         setSearchQuery('');
         setSelectedCategory(null);
         setPriceFilter('all');
+        setSearchParams({}, { replace: true });
     };
 
     const hasActiveFilters = searchQuery || selectedCategory !== null || priceFilter !== 'all';
@@ -180,19 +195,22 @@ export default function Courses() {
                                     >
                                         Tất cả danh mục
                                     </button>
-                                    {categories.map((category) => (
-                                        <button
-                                            key={category.categoryId}
-                                            onClick={() => setSelectedCategory(category.categoryId)}
-                                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                                                selectedCategory === category.categoryId
-                                                    ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-medium'
-                                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                            }`}
-                                        >
-                                            {category.name}
-                                        </button>
-                                    ))}
+                                    {categories.map((category) => {
+                                        const catId = category.id || category.categoryId;
+                                        return (
+                                            <button
+                                                key={catId}
+                                                onClick={() => setSelectedCategory(catId!)}
+                                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                                                    selectedCategory === catId
+                                                        ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-medium'
+                                                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                {category.name}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </Card>

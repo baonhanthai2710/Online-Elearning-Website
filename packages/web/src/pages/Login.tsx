@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useForm, type ControllerRenderProps } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { Eye, EyeOff, LogIn, Mail, Lock, GraduationCap } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import logo from '../logo.png';
 
 import { apiClient } from '../lib/api';
 import { useAuthStore, type User } from '../stores/useAuthStore';
@@ -14,53 +15,73 @@ import { ThemeToggle } from '../components/ThemeToggle';
 import { showErrorAlert, showSuccessAlert } from '../lib/sweetalert';
 
 type LoginFormValues = {
-    email: string;
+    emailOrUsername: string;
     password: string;
 };
 
 type LoginResponse = {
     message: string;
     user: User;
+    token: string;
 };
 
 export default function Login() {
     const navigate = useNavigate();
     const setUser = useAuthStore((state) => state.setUser);
     const [showPassword, setShowPassword] = useState(false);
+    const [emailNotVerified, setEmailNotVerified] = useState(false);
+    const [unverifiedEmail, setUnverifiedEmail] = useState('');
 
     const form = useForm<LoginFormValues>({
         defaultValues: {
-            email: '',
+            emailOrUsername: '',
             password: '',
         },
     });
 
-    const loginMutation = useMutation<User, unknown, LoginFormValues>({
+    const loginMutation = useMutation<LoginResponse, unknown, LoginFormValues>({
         mutationFn: async (values) => {
-            const { data } = await apiClient.post<LoginResponse>('/auth/login', values);
-            return data.user;
+            // Send as email or username (backend will handle both)
+            const { data } = await apiClient.post<LoginResponse>('/auth/login', {
+                email: values.emailOrUsername,
+                username: values.emailOrUsername,
+                password: values.password,
+            });
+            return data;
         },
-        onSuccess: async (user) => {
-            setUser(user);
+        onSuccess: async (data) => {
+            // Store token in localStorage
+            localStorage.setItem('token', data.token);
+            setUser(data.user);
             
             await showSuccessAlert(
                 'Đăng nhập thành công!',
-                `Chào mừng trở lại, ${user.firstName || user.username}!`
+                `Chào mừng trở lại, ${data.user.firstName || data.user.username}!`
             );
 
-            const isTeacher = user.role === 'TEACHER';
-            navigate(isTeacher ? '/dashboard' : '/');
+            const isTeacher = data.user.role === 'TEACHER';
+            const isAdmin = data.user.role === 'ADMIN';
+            navigate(isAdmin ? '/admin' : isTeacher ? '/dashboard' : '/');
         },
         onError: (error) => {
             let message = 'Đăng nhập thất bại. Vui lòng thử lại.';
 
             if (error instanceof AxiosError) {
-                const responseMessage = (error.response?.data as { message?: string })?.message;
-                message = responseMessage ?? error.message ?? message;
+                const errorCode = error.response?.data?.code;
+                const errorMessage = error.response?.data?.message || error.response?.data?.error;
+
+                if (errorCode === 'EMAIL_NOT_VERIFIED') {
+            setEmailNotVerified(true);
+            setUnverifiedEmail(form.getValues('emailOrUsername'));
+                    return; // Don't show generic error alert
+                }
+
+                message = errorMessage ?? error.message ?? message;
             } else if (error instanceof Error) {
                 message = error.message;
             }
 
+            setEmailNotVerified(false);
             showErrorAlert('Lỗi đăng nhập', message);
         },
     });
@@ -70,12 +91,12 @@ export default function Login() {
     });
 
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-red-50 via-white to-black/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl animate-pulse dark:bg-blue-600/20"></div>
-                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl animate-pulse delay-1000 dark:bg-purple-600/20"></div>
-                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink-400/10 blur-3xl animate-pulse delay-500 dark:bg-pink-600/10"></div>
+                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-400/20 blur-3xl animate-pulse dark:bg-red-600/20"></div>
+                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-black/20 blur-3xl animate-pulse delay-1000 dark:bg-black/30"></div>
+                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-400/10 blur-3xl animate-pulse delay-500 dark:bg-red-600/10"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -87,10 +108,10 @@ export default function Login() {
                 <div className="w-full max-w-md">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg">
-                            <GraduationCap className="h-9 w-9 text-white" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-black shadow-lg">
+                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
                         </div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-purple-400">
+                        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent dark:from-red-500 dark:to-red-300">
                             E-Learning Platform
                         </h2>
                         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
@@ -107,30 +128,50 @@ export default function Login() {
                             </p>
                         </header>
 
+                        {/* Email Not Verified Warning */}
+                        {emailNotVerified && (
+                            <div className="p-4 rounded-xl bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+                                <div className="flex items-start gap-3">
+                                    <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 mt-0.5 shrink-0" />
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                                            Email chưa được xác thực
+                                        </h3>
+                                        <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-3">
+                                            Vui lòng kiểm tra hộp thư <strong>{unverifiedEmail}</strong> và click vào link xác thực.
+                                        </p>
+                                        <Link 
+                                            to={`/resend-verification?email=${encodeURIComponent(unverifiedEmail)}`}
+                                            className="inline-flex items-center gap-2 text-sm font-medium text-yellow-700 dark:text-yellow-300 hover:text-yellow-900 dark:hover:text-yellow-100 underline"
+                                        >
+                                            <Mail className="h-4 w-4" />
+                                            Gửi lại email xác thực
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         <Form {...form}>
                             <form className="space-y-5" onSubmit={onSubmit}>
                                 <FormField
                                     control={form.control}
-                                    name="email"
+                                    name="emailOrUsername"
                                     rules={{ 
-                                        required: 'Vui lòng nhập email',
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: 'Email không hợp lệ'
-                                        }
+                                        required: 'Vui lòng nhập email hoặc tên đăng nhập',
                                     }}
-                                    render={({ field }: { field: ControllerRenderProps<LoginFormValues, 'email'> }) => (
+                                    render={({ field }: { field: ControllerRenderProps<LoginFormValues, 'emailOrUsername'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Email</FormLabel>
+                                            <FormLabel className="text-slate-700 dark:text-slate-300">Email hoặc Tên đăng nhập</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
                                                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
                                                     <Input
-                                                        type="email"
-                                                        placeholder="example@email.com"
-                                                        autoComplete="email"
+                                                        type="text"
+                                                        placeholder="email@example.com hoặc username"
+                                                        autoComplete="username"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -139,6 +180,16 @@ export default function Login() {
                                         </FormItem>
                                     )}
                                 />
+
+                                {/* Forgot Password Link */}
+                                <div className="text-right">
+                                    <Link 
+                                        to="/forgot-password"
+                                        className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline"
+                                    >
+                                        Quên mật khẩu?
+                                    </Link>
+                                </div>
 
                                 <FormField
                                     control={form.control}
@@ -161,7 +212,7 @@ export default function Login() {
                                                         placeholder="••••••••"
                                                         autoComplete="current-password"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
@@ -184,7 +235,7 @@ export default function Login() {
 
                                 <Button 
                                     type="submit" 
-                                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]" 
+                                    className="w-full h-12 bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-black text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]" 
                                     disabled={loginMutation.isPending}
                                 >
                                     {loginMutation.isPending ? (
@@ -201,6 +252,47 @@ export default function Login() {
                                 </Button>
                             </form>
                         </Form>
+
+                        {/* Divider */}
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="px-4 bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400">
+                                    hoặc tiếp tục với
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Google Login Button */}
+                        <a href="http://localhost:3001/api/auth/google" className="block">
+                            <Button 
+                                type="button" 
+                                variant="outline" 
+                                className="w-full h-12 border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3"
+                            >
+                                <svg className="h-5 w-5" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                        fill="#4285F4"
+                                    />
+                                    <path
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                        fill="#34A853"
+                                    />
+                                    <path
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                        fill="#FBBC05"
+                                    />
+                                    <path
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                        fill="#EA4335"
+                                    />
+                                </svg>
+                                Đăng nhập với Google
+                            </Button>
+                        </a>
 
                         {/* Footer Links */}
                         <div className="space-y-4">
@@ -230,11 +322,11 @@ export default function Login() {
                     {/* Additional Info */}
                     <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                         Bằng cách đăng nhập, bạn đồng ý với{' '}
-                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
                         </a>{' '}
                         và{' '}
-                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Chính sách bảo mật
                         </a>
                     </p>

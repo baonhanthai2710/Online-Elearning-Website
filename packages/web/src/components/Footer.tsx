@@ -18,7 +18,7 @@ export function Footer() {
                                     className="relative h-12 w-12 object-contain rounded-xl"
                                 />
                             </div>
-                            <span className="text-xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
+                            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
                                 E-Learning
                             </span>
                         </Link>
@@ -27,25 +27,33 @@ export function Footer() {
                         </p>
                         <div className="flex gap-3">
                             <a
-                                href="#"
+                                href="https://facebook.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/30 hover:bg-red-600 dark:hover:bg-red-600 text-red-600 hover:text-white dark:text-red-400 dark:hover:text-white transition-all shadow-md hover:shadow-lg hover:shadow-red-500/30"
                             >
                                 <Facebook className="h-5 w-5" />
                             </a>
                             <a
-                                href="#"
+                                href="https://twitter.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/30 hover:bg-red-600 dark:hover:bg-red-600 text-red-600 hover:text-white dark:text-red-400 dark:hover:text-white transition-all shadow-md hover:shadow-lg hover:shadow-red-500/30"
                             >
                                 <Twitter className="h-5 w-5" />
                             </a>
                             <a
-                                href="#"
+                                href="https://instagram.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/30 hover:bg-red-600 dark:hover:bg-red-600 text-red-600 hover:text-white dark:text-red-400 dark:hover:text-white transition-all shadow-md hover:shadow-lg hover:shadow-red-500/30"
                             >
                                 <Instagram className="h-5 w-5" />
                             </a>
                             <a
-                                href="#"
+                                href="https://youtube.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/30 hover:bg-red-600 dark:hover:bg-red-600 text-red-600 hover:text-white dark:text-red-400 dark:hover:text-white transition-all shadow-md hover:shadow-lg hover:shadow-red-500/30"
                             >
                                 <Youtube className="h-5 w-5" />
@@ -107,40 +115,40 @@ export function Footer() {
                         </h3>
                         <ul className="space-y-2">
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/support"
                                     className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-2 group"
                                 >
                                     <span className="h-1.5 w-1.5 rounded-full bg-red-600 dark:bg-red-500 group-hover:w-4 transition-all"></span>
                                     Trung tâm hỗ trợ
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/faq"
                                     className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-2 group"
                                 >
                                     <span className="h-1.5 w-1.5 rounded-full bg-red-600 dark:bg-red-500 group-hover:w-4 transition-all"></span>
                                     Câu hỏi thường gặp
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/terms"
                                     className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-2 group"
                                 >
                                     <span className="h-1.5 w-1.5 rounded-full bg-red-600 dark:bg-red-500 group-hover:w-4 transition-all"></span>
                                     Điều khoản dịch vụ
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/privacy"
                                     className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-2 group"
                                 >
                                     <span className="h-1.5 w-1.5 rounded-full bg-red-600 dark:bg-red-500 group-hover:w-4 transition-all"></span>
                                     Chính sách bảo mật
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -184,26 +192,26 @@ export function Footer() {
                             in Vietnam
                         </p>
                         <div className="flex items-center gap-6">
-                            <a
-                                href="#"
+                            <Link
+                                to="/terms"
                                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                             >
                                 Điều khoản
-                            </a>
+                            </Link>
                             <span className="text-gray-300 dark:text-gray-700">|</span>
-                            <a
-                                href="#"
+                            <Link
+                                to="/privacy"
                                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                             >
                                 Bảo mật
-                            </a>
+                            </Link>
                             <span className="text-gray-300 dark:text-gray-700">|</span>
-                            <a
-                                href="#"
+                            <Link
+                                to="/privacy"
                                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                             >
                                 Cookies
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

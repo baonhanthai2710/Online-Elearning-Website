@@ -13,7 +13,8 @@ import {
     ChevronRight,
     Loader2,
     Save,
-    X
+    X,
+    UserCheck
 } from 'lucide-react';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
@@ -62,6 +63,7 @@ export default function ManageCourse() {
     const isAdmin = user?.role === 'ADMIN' || location.pathname.startsWith('/admin');
     const dashboardPath = isAdmin ? '/admin' : '/dashboard';
     const editPath = isAdmin ? `/admin/courses/${id}/edit` : `/courses/${id}/edit`;
+    const studentsPath = `/courses/${id}/students`;
     const quizManagePath = (contentId: number) => isAdmin ? `/admin/quiz/${contentId}/manage` : `/quiz/${contentId}/manage`;
     
     const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set());
@@ -253,14 +255,24 @@ export default function ManageCourse() {
                                 {course.title}
                             </p>
                         </div>
-                        <Button
-                            onClick={() => navigate(editPath)}
-                            variant="outline"
-                            className="gap-2"
-                        >
-                            <Edit className="h-4 w-4" />
-                            Sửa thông tin
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button
+                                onClick={() => navigate(studentsPath)}
+                                variant="outline"
+                                className="gap-2"
+                            >
+                                <UserCheck className="h-4 w-4" />
+                                Xem học viên
+                            </Button>
+                            <Button
+                                onClick={() => navigate(editPath)}
+                                variant="outline"
+                                className="gap-2"
+                            >
+                                <Edit className="h-4 w-4" />
+                                Sửa thông tin
+                            </Button>
+                        </div>
                     </div>
                 </div>
 

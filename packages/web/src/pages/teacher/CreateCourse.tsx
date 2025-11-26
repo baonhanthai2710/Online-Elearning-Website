@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Image, X } from 'lucide-react';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
@@ -20,10 +20,12 @@ type CourseFormValues = {
     description: string;
     price: number;
     categoryId: number;
+    thumbnailUrl: string;
 };
 
 export default function CreateCourse() {
     const navigate = useNavigate();
+    const [uploading, setUploading] = useState(false);
 
     const form = useForm<CourseFormValues>({
         defaultValues: {
@@ -31,8 +33,44 @@ export default function CreateCourse() {
             description: '',
             price: 0,
             categoryId: 0,
+            thumbnailUrl: '',
         },
     });
+
+    const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            showErrorAlert('Lỗi', 'Vui lòng chọn file ảnh');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showErrorAlert('Lỗi', 'Kích thước ảnh tối đa là 5MB');
+            return;
+        }
+
+        setUploading(true);
+        try {
+            const uploadData = new FormData();
+            uploadData.append('file', file);
+
+            const { data } = await apiClient.post('/upload', uploadData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            form.setValue('thumbnailUrl', data.url);
+        } catch (error) {
+            showErrorAlert('Lỗi', 'Không thể upload ảnh');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const removeThumbnail = () => {
+        form.setValue('thumbnailUrl', '');
+    };
 
     // Fetch categories
     const { data: categories = [] } = useQuery<Category[]>({
@@ -214,6 +252,52 @@ export default function CreateCourse() {
                                     </FormItem>
                                 )}
                             />
+
+                            {/* Thumbnail Upload */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Ảnh thumbnail
+                                </label>
+                                {form.watch('thumbnailUrl') ? (
+                                    <div className="relative w-full max-w-md">
+                                        <img
+                                            src={form.watch('thumbnailUrl')}
+                                            alt="Thumbnail"
+                                            className="w-full aspect-video object-cover rounded-lg border"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={removeThumbnail}
+                                            className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            {uploading ? (
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                                            ) : (
+                                                <>
+                                                    <Image className="w-10 h-10 text-gray-400 mb-3" />
+                                                    <p className="text-sm text-gray-500">
+                                                        <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
+                                                    </p>
+                                                    <p className="text-xs text-gray-400 mt-1">PNG, JPG (tối đa 5MB)</p>
+                                                </>
+                                            )}
+                                        </div>
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleThumbnailUpload}
+                                            disabled={uploading}
+                                        />
+                                    </label>
+                                )}
+                            </div>
 
                             {/* Info Box */}
                             <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 rounded-lg p-4">

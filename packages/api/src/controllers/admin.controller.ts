@@ -311,7 +311,7 @@ export async function createUserController(req: Request, res: Response): Promise
 
 export async function createCourseAdminController(req: Request, res: Response): Promise<Response> {
     try {
-        const { title, description, price, categoryId, teacherId } = req.body;
+        const { title, description, price, categoryId, teacherId, thumbnailUrl } = req.body;
 
         if (!title || !description || price === undefined || !categoryId || !teacherId) {
             return res.status(400).json({
@@ -344,6 +344,7 @@ export async function createCourseAdminController(req: Request, res: Response): 
                 price: Number(price),
                 categoryId,
                 teacherId,
+                thumbnailUrl: thumbnailUrl || null,
             },
             include: {
                 category: true,
@@ -370,7 +371,7 @@ export async function createCourseAdminController(req: Request, res: Response): 
 export async function updateCourseAdminController(req: Request, res: Response): Promise<Response> {
     try {
         const courseId = Number.parseInt(req.params.id, 10);
-        const { title, description, price, categoryId, teacherId } = req.body;
+        const { title, description, price, categoryId, teacherId, thumbnailUrl } = req.body;
 
         if (Number.isNaN(courseId)) {
             return res.status(400).json({ error: 'Invalid course ID' });
@@ -390,6 +391,7 @@ export async function updateCourseAdminController(req: Request, res: Response): 
         if (title !== undefined) updateData.title = title;
         if (description !== undefined) updateData.description = description;
         if (price !== undefined) updateData.price = Number(price);
+        if (thumbnailUrl !== undefined) updateData.thumbnailUrl = thumbnailUrl || null;
 
         if (categoryId !== undefined) {
             const category = await prisma.category.findUnique({

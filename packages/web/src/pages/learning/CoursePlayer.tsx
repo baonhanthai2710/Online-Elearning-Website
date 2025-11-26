@@ -1,12 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, CheckCircle, PlayCircle, FileText, HelpCircle, MessageCircle, Menu } from 'lucide-react';
+import { ChevronLeft, ChevronRight, PlayCircle, FileText, HelpCircle, Menu, CheckCircle, Circle } from 'lucide-react';
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
-import { showErrorAlert } from '../../lib/sweetalert';
+import { showErrorAlert, showSuccessAlert } from '../../lib/sweetalert';
 
+type ContentRaw = {
+    id: number;
+    title: string;
+    order: number;
+    contentType: 'VIDEO' | 'DOCUMENT' | 'QUIZ';
+    videoUrl?: string | null;
+    documentUrl?: string | null;
+    durationInSeconds?: number | null;
+};
+
+type ModuleRaw = {
+    id: number;
+    title: string;
+    order: number;
+    contents: ContentRaw[];
+};
+
+type CourseDataRaw = {
+    id: number;
+    title: string;
+    description: string;
+    modules: ModuleRaw[];
+    enrollment: {
+        enrollmentId: number;
+        progress: number;
+        completionDate: string | null;
+    };
+};
+
+// Normalized types for internal use
 type Content = {
     contentId: number;
     title: string;
@@ -25,8 +55,7 @@ type Module = {
 };
 
 type CourseData = {
-    id?: number;
-    courseId?: number;
+    id: number;
     title: string;
     description: string;
     modules: Module[];
@@ -38,6 +67,47 @@ type Enrollment = {
     completionDate: string | null;
 };
 
+// Helper to get download URL with Cloudinary attachment flag
+const getDownloadUrl = (url: string): string => {
+    // Add fl_attachment to Cloudinary URLs to force download
+    if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+        return url.replace('/upload/', '/upload/fl_attachment/');
+    }
+    return url;
+};
+
+type QuizOption = {
+    id: number;
+    optionText: string;
+};
+
+type QuizQuestion = {
+    id: number;
+    questionText: string;
+    options: QuizOption[];
+};
+
+type QuizData = {
+    contentId: number;
+    title: string;
+    timeLimitInMinutes: number | null;
+    questions: QuizQuestion[];
+};
+
+type QuizResult = {
+    attemptId: number;
+    score: number;
+    correctCount: number;
+    totalQuestions: number;
+};
+
+type QuizAttemptHistory = {
+    attemptId: number;
+    score: number;
+    startTime: string;
+    endTime: string;
+};
+
 export default function CoursePlayer() {
     const { courseId } = useParams<{ courseId: string }>();
     const navigate = useNavigate();
@@ -46,48 +116,225 @@ export default function CoursePlayer() {
     const [currentModuleId, setCurrentModuleId] = useState<number | null>(null);
     const [currentContentId, setCurrentContentId] = useState<number | null>(null);
     const [showSidebar, setShowSidebar] = useState(true);
+    const [completedContentIds, setCompletedContentIds] = useState<number[]>([]);
+    const [currentProgress, setCurrentProgress] = useState(0);
+    const [documentReadTime, setDocumentReadTime] = useState(0);
 
-    // Fetch course data
+    // Quiz states
+    const [isQuizStarted, setIsQuizStarted] = useState(false);
+    const [quizData, setQuizData] = useState<QuizData | null>(null);
+    const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+    const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+    const [quizLoading, setQuizLoading] = useState(false);
+    const [quizAttempts, setQuizAttempts] = useState<QuizAttemptHistory[]>([]);
+
+    // Fetch course data with content (enrolled students only)
     const {
-        data: course,
+        data: courseData,
         isLoading: courseLoading,
-    } = useQuery<CourseData>({
-        queryKey: ['course', courseId],
+        error: courseError,
+    } = useQuery<{ course: CourseData; enrollment: Enrollment }>({
+        queryKey: ['enrolled-course-content', courseId],
         queryFn: async () => {
-            const { data } = await apiClient.get(`/courses/${courseId}`);
+            const { data } = await apiClient.get<CourseDataRaw>(`/enroll/courses/${courseId}/content`);
+            // Normalize the data to use consistent field names
+            const normalizedCourse: CourseData = {
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                modules: data.modules.map(m => ({
+                    moduleId: m.id,
+                    title: m.title,
+                    order: m.order,
+                    contents: m.contents.map(c => ({
+                        contentId: c.id,
+                        title: c.title,
+                        order: c.order,
+                        contentType: c.contentType,
+                        videoUrl: c.videoUrl,
+                        documentUrl: c.documentUrl,
+                        durationInSeconds: c.durationInSeconds,
+                    })),
+                })),
+            };
+            return {
+                course: normalizedCourse,
+                enrollment: data.enrollment,
+            };
+        },
+        enabled: !!courseId,
+    });
+
+    const course = courseData?.course;
+    const enrollment = courseData?.enrollment;
+
+    // Fetch completed contents
+    const { data: completedData } = useQuery<{ completedContentIds: number[] }>({
+        queryKey: ['completed-contents', courseId],
+        queryFn: async () => {
+            const { data } = await apiClient.get(`/progress/course/${courseId}/completed`);
             return data;
         },
         enabled: !!courseId,
     });
 
-    // Fetch enrollment status
-    const {
-        data: enrollment,
-    } = useQuery<Enrollment>({
-        queryKey: ['enrollment', courseId],
-        queryFn: async () => {
-            const { data } = await apiClient.get(`/enroll/my-enrollments`);
-            const enroll = data.find((e: any) => (e.course.courseId || e.course.id) === parseInt(courseId!));
-            return enroll;
+    // Update completed contents when data changes
+    useEffect(() => {
+        if (completedData?.completedContentIds) {
+            setCompletedContentIds(completedData.completedContentIds);
+        }
+    }, [completedData]);
+
+    // Update progress from enrollment
+    useEffect(() => {
+        if (enrollment?.progress !== undefined) {
+            setCurrentProgress(enrollment.progress);
+        }
+    }, [enrollment]);
+
+    // Mark content as completed mutation
+    const markCompleteMutation = useMutation({
+        mutationFn: async (contentId: number) => {
+            const { data } = await apiClient.post(`/progress/content/${contentId}/complete`);
+            return data;
         },
-        enabled: !!courseId,
+        onSuccess: (data, contentId) => {
+            setCompletedContentIds(prev => [...prev, contentId]);
+            setCurrentProgress(data.progress);
+            queryClient.invalidateQueries({ queryKey: ['completed-contents', courseId] });
+            queryClient.invalidateQueries({ queryKey: ['enrolled-course-content', courseId] });
+            if (data.isCompleted) {
+                showSuccessAlert('Chúc mừng!', 'Bạn đã hoàn thành khóa học này! 🎉');
+            }
+        },
     });
 
-    // Set initial content
-    useState(() => {
-        if (course && !currentModuleId && !currentContentId) {
+    // Function to mark current content as complete
+    const markCurrentContentComplete = () => {
+        if (currentContentId && !completedContentIds.includes(currentContentId)) {
+            markCompleteMutation.mutate(currentContentId);
+        }
+    };
+
+    // Set initial content when course data is loaded
+    useEffect(() => {
+        if (course && course.modules.length > 0 && !currentModuleId && !currentContentId) {
             const firstModule = course.modules[0];
             if (firstModule) {
                 setCurrentModuleId(firstModule.moduleId);
-                if (firstModule.contents[0]) {
+                if (firstModule.contents && firstModule.contents.length > 0) {
                     setCurrentContentId(firstModule.contents[0].contentId);
                 }
             }
         }
-    });
+    }, [course, currentModuleId, currentContentId]);
 
+    // Reset quiz state when content changes
+    useEffect(() => {
+        setIsQuizStarted(false);
+        setQuizData(null);
+        setSelectedAnswers({});
+        setQuizResult(null);
+        setDocumentReadTime(0); // Reset document timer
+        setQuizAttempts([]); // Reset quiz attempts
+    }, [currentContentId]);
+
+    // Get current content info
     const currentModule = course?.modules.find(m => m.moduleId === currentModuleId);
     const currentContent = currentModule?.contents.find(c => c.contentId === currentContentId);
+
+    // Fetch quiz attempts when viewing a quiz
+    useEffect(() => {
+        if (!currentContent || currentContent.contentType !== 'QUIZ' || !currentContentId) return;
+
+        const fetchAttempts = async () => {
+            try {
+                const { data } = await apiClient.get<QuizAttemptHistory[]>(`/quiz/${currentContentId}/attempts`);
+                setQuizAttempts(data);
+            } catch (error) {
+                console.error('Failed to fetch quiz attempts:', error);
+            }
+        };
+
+        fetchAttempts();
+    }, [currentContent, currentContentId]);
+
+    // Auto mark document as complete after 20 seconds of viewing
+    useEffect(() => {
+        if (!currentContent || currentContent.contentType !== 'DOCUMENT') return;
+        if (!currentContentId || completedContentIds.includes(currentContentId)) return;
+
+        const timer = setInterval(() => {
+            setDocumentReadTime(prev => {
+                const newTime = prev + 1;
+                // Auto complete after 20 seconds
+                if (newTime >= 20 && currentContentId && !completedContentIds.includes(currentContentId)) {
+                    markCompleteMutation.mutate(currentContentId);
+                }
+                return newTime;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [currentContent, currentContentId, completedContentIds]);
+
+    // Quiz functions
+    const startQuiz = async () => {
+        if (!currentContentId) return;
+        
+        setQuizLoading(true);
+        try {
+            const { data } = await apiClient.get<QuizData>(`/quiz/${currentContentId}`);
+            setQuizData(data);
+            setIsQuizStarted(true);
+            setSelectedAnswers({});
+            setQuizResult(null);
+        } catch (error) {
+            showErrorAlert('Không thể tải bài kiểm tra. Vui lòng thử lại.');
+        } finally {
+            setQuizLoading(false);
+        }
+    };
+
+    const handleSelectAnswer = (questionId: number, optionId: number) => {
+        setSelectedAnswers(prev => ({
+            ...prev,
+            [questionId]: optionId,
+        }));
+    };
+
+    const submitQuiz = async () => {
+        if (!currentContentId || !quizData) return;
+
+        const answers = Object.entries(selectedAnswers).map(([questionId, answerOptionId]) => ({
+            questionId: parseInt(questionId),
+            answerOptionId,
+        }));
+
+        if (answers.length === 0) {
+            showErrorAlert('Vui lòng chọn ít nhất một câu trả lời');
+            return;
+        }
+
+        setQuizLoading(true);
+        try {
+            const { data } = await apiClient.post<QuizResult>(`/quiz/submit/${currentContentId}`, { answers });
+            setQuizResult(data);
+            // Auto mark quiz as completed
+            if (!completedContentIds.includes(currentContentId)) {
+                markCompleteMutation.mutate(currentContentId);
+            }
+        } catch (error) {
+            showErrorAlert('Không thể nộp bài. Vui lòng thử lại.');
+        } finally {
+            setQuizLoading(false);
+        }
+    };
+
+    const retryQuiz = () => {
+        setQuizResult(null);
+        setSelectedAnswers({});
+    };
 
     const handleContentSelect = (moduleId: number, contentId: number) => {
         setCurrentModuleId(moduleId);
@@ -186,19 +433,16 @@ export default function CoursePlayer() {
         );
     }
 
-    if (!course) {
+    if (courseError || !course || !enrollment) {
+        const isNotEnrolled = (courseError as any)?.response?.status === 403;
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <p className="text-red-600">Không tìm thấy khóa học</p>
-            </div>
-        );
-    }
-
-    if (!enrollment) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center min-h-screen bg-slate-900">
                 <div className="text-center">
-                    <p className="text-red-600 mb-4">Bạn chưa đăng ký khóa học này</p>
+                    <p className="text-red-400 mb-4">
+                        {isNotEnrolled
+                            ? 'Bạn chưa đăng ký khóa học này'
+                            : 'Không tìm thấy khóa học hoặc có lỗi xảy ra'}
+                    </p>
                     <Button onClick={() => navigate(`/courses/${courseId}`)}>
                         Quay lại trang khóa học
                     </Button>
@@ -234,12 +478,12 @@ export default function CoursePlayer() {
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-slate-400">
-                                Tiến độ: {enrollment.progress.toFixed(0)}%
+                                Tiến độ: {currentProgress}%
                             </span>
                             <div className="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all"
-                                    style={{ width: `${enrollment.progress}%` }}
+                                    style={{ width: `${currentProgress}%` }}
                                 />
                             </div>
                         </div>
@@ -251,38 +495,351 @@ export default function CoursePlayer() {
                     {currentContent && (
                         <div className="w-full h-full">
                             {currentContent.contentType === 'VIDEO' && currentContent.videoUrl && (
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <video
-                                        key={currentContent.videoUrl}
-                                        controls
-                                        className="w-full h-full"
-                                        src={currentContent.videoUrl}
-                                    >
-                                        Trình duyệt của bạn không hỗ trợ video.
-                                    </video>
+                                <div className="w-full h-full flex flex-col">
+                                    <div className="flex-1 flex items-center justify-center">
+                                        <video
+                                            key={currentContent.videoUrl}
+                                            controls
+                                            className="w-full h-full"
+                                            src={currentContent.videoUrl}
+                                            onEnded={markCurrentContentComplete}
+                                        >
+                                            Trình duyệt của bạn không hỗ trợ video.
+                                        </video>
+                                    </div>
+                                    {/* Video action bar */}
+                                    <div className="bg-slate-800 px-4 py-3 flex items-center justify-between">
+                                        <span className="text-slate-300 text-sm">{currentContent.title}</span>
+                                        <Button
+                                            size="sm"
+                                            onClick={markCurrentContentComplete}
+                                            disabled={completedContentIds.includes(currentContent.contentId) || markCompleteMutation.isPending}
+                                            className={completedContentIds.includes(currentContent.contentId) 
+                                                ? 'bg-green-600 hover:bg-green-600 cursor-default' 
+                                                : 'bg-blue-600 hover:bg-blue-700'}
+                                        >
+                                            {completedContentIds.includes(currentContent.contentId) ? (
+                                                <>
+                                                    <CheckCircle className="w-4 h-4 mr-2" />
+                                                    Đã hoàn thành
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Circle className="w-4 h-4 mr-2" />
+                                                    Đánh dấu hoàn thành
+                                                </>
+                                            )}
+                                        </Button>
+                                    </div>
                                 </div>
                             )}
 
-                            {currentContent.contentType === 'DOCUMENT' && currentContent.documentUrl && (
-                                <div className="w-full h-full flex items-center justify-center p-8">
-                                    <Card className="w-full max-w-4xl p-8 bg-white dark:bg-slate-800">
-                                        <h2 className="text-2xl font-bold mb-4">{currentContent.title}</h2>
-                                        <div className="prose dark:prose-invert max-w-none">
-                                            <p>Tài liệu: <a href={currentContent.documentUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600">Tải xuống</a></p>
+                            {currentContent.contentType === 'DOCUMENT' && currentContent.documentUrl && (() => {
+                                const docUrl = currentContent.documentUrl;
+                                const isPdf = docUrl.toLowerCase().endsWith('.pdf');
+                                
+                                return (
+                                    <div className="w-full h-full flex flex-col bg-slate-100 dark:bg-slate-900">
+                                        {/* Document Header */}
+                                        <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between">
+                                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                                                {currentContent.title}
+                                            </h2>
+                                            <div className="flex gap-2 items-center">
+                                                {/* Auto-complete countdown */}
+                                                {!completedContentIds.includes(currentContent.contentId) && documentReadTime < 20 && (
+                                                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                                                        Tự động hoàn thành sau {20 - documentReadTime}s
+                                                    </span>
+                                                )}
+                                                <Button
+                                                    size="sm"
+                                                    onClick={markCurrentContentComplete}
+                                                    disabled={completedContentIds.includes(currentContent.contentId) || markCompleteMutation.isPending}
+                                                    className={completedContentIds.includes(currentContent.contentId) 
+                                                        ? 'bg-green-600 hover:bg-green-600 cursor-default' 
+                                                        : 'bg-emerald-600 hover:bg-emerald-700'}
+                                                >
+                                                    {completedContentIds.includes(currentContent.contentId) ? (
+                                                        <>
+                                                            <CheckCircle className="w-4 h-4 mr-2" />
+                                                            Đã hoàn thành
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Circle className="w-4 h-4 mr-2" />
+                                                            Đánh dấu hoàn thành
+                                                        </>
+                                                    )}
+                                                </Button>
+                                                <a
+                                                    href={docUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                                                >
+                                                    Mở trong tab mới
+                                                </a>
+                                                <a
+                                                    href={getDownloadUrl(docUrl)}
+                                                    download
+                                                    className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm"
+                                                >
+                                                    Tải xuống
+                                                </a>
+                                            </div>
                                         </div>
-                                    </Card>
-                                </div>
-                            )}
+                                        {/* Document Viewer - embed PDF directly */}
+                                        <div className="flex-1 p-4">
+                                            {isPdf ? (
+                                                <object
+                                                    data={docUrl}
+                                                    type="application/pdf"
+                                                    className="w-full h-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white"
+                                                >
+                                                    {/* Fallback if browser can't display PDF inline */}
+                                                    <div className="w-full h-full flex items-center justify-center">
+                                                        <Card className="p-8 bg-white dark:bg-slate-800 text-center">
+                                                            <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
+                                                            <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+                                                                {currentContent.title}
+                                                            </h3>
+                                                            <p className="text-slate-500 mb-4">
+                                                                Không thể hiển thị PDF trực tiếp. Vui lòng mở trong tab mới hoặc tải xuống.
+                                                            </p>
+                                                            <div className="flex gap-2 justify-center">
+                                                                <a
+                                                                    href={docUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                                >
+                                                                    <FileText className="w-4 h-4" />
+                                                                    Mở trong tab mới
+                                                                </a>
+                                                                <a
+                                                                    href={getDownloadUrl(docUrl)}
+                                                                    download
+                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors"
+                                                                >
+                                                                    <FileText className="w-4 h-4" />
+                                                                    Tải xuống
+                                                                </a>
+                                                            </div>
+                                                        </Card>
+                                                    </div>
+                                                </object>
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <Card className="p-8 bg-white dark:bg-slate-800 text-center">
+                                                        <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
+                                                        <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+                                                            {currentContent.title}
+                                                        </h3>
+                                                        <p className="text-slate-500 mb-4">
+                                                            Loại tài liệu này cần tải xuống để xem
+                                                        </p>
+                                                        <a
+                                                            href={getDownloadUrl(docUrl)}
+                                                            download
+                                                            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                        >
+                                                            <FileText className="w-4 h-4" />
+                                                            Tải xuống tài liệu
+                                                        </a>
+                                                    </Card>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })()}
 
                             {currentContent.contentType === 'QUIZ' && (
-                                <div className="w-full h-full flex items-center justify-center p-8">
-                                    <Card className="w-full max-w-2xl p-8 bg-white dark:bg-slate-800">
-                                        <h2 className="text-2xl font-bold mb-4">Bài kiểm tra: {currentContent.title}</h2>
-                                        <p className="text-slate-600 dark:text-slate-400 mb-6">
-                                            Bài kiểm tra sẽ được hiển thị ở đây
-                                        </p>
-                                        <Button>Bắt đầu làm bài</Button>
-                                    </Card>
+                                <div className="w-full h-full flex items-center justify-center p-8 overflow-y-auto">
+                                    {/* Quiz Start Screen */}
+                                    {!isQuizStarted && !quizResult && (
+                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-slate-800">
+                                            <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
+                                                Bài kiểm tra: {currentContent.title}
+                                            </h2>
+                                            <p className="text-slate-600 dark:text-slate-400 mb-6">
+                                                Nhấn nút bên dưới để bắt đầu làm bài kiểm tra
+                                            </p>
+
+                                            {/* Previous Attempts */}
+                                            {quizAttempts.length > 0 && (
+                                                <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                                                    <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                                                        <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                        </svg>
+                                                        Lịch sử làm bài ({quizAttempts.length} lần)
+                                                    </h3>
+                                                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                                                        {quizAttempts.slice(0, 5).map((attempt, index) => (
+                                                            <div 
+                                                                key={attempt.attemptId}
+                                                                className="flex items-center justify-between p-2 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700"
+                                                            >
+                                                                <span className="text-sm text-slate-600 dark:text-slate-400">
+                                                                    Lần {quizAttempts.length - index} - {new Date(attempt.endTime).toLocaleDateString('vi-VN', {
+                                                                        day: '2-digit',
+                                                                        month: '2-digit', 
+                                                                        hour: '2-digit',
+                                                                        minute: '2-digit'
+                                                                    })}
+                                                                </span>
+                                                                <span className={`text-sm font-bold ${
+                                                                    attempt.score >= 80 ? 'text-green-500' :
+                                                                    attempt.score >= 60 ? 'text-yellow-500' : 'text-red-500'
+                                                                }`}>
+                                                                    {attempt.score}%
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                                                        <div className="flex justify-between text-sm">
+                                                            <span className="text-slate-600 dark:text-slate-400">Điểm cao nhất:</span>
+                                                            <span className="font-bold text-green-500">
+                                                                {Math.max(...quizAttempts.map(a => a.score))}%
+                                                            </span>
+                                                        </div>
+                                                        <div className="flex justify-between text-sm mt-1">
+                                                            <span className="text-slate-600 dark:text-slate-400">Điểm trung bình:</span>
+                                                            <span className="font-semibold text-blue-500">
+                                                                {(quizAttempts.reduce((sum, a) => sum + a.score, 0) / quizAttempts.length).toFixed(1)}%
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <Button 
+                                                onClick={startQuiz} 
+                                                disabled={quizLoading}
+                                                className="bg-gradient-to-r from-blue-600 to-purple-600"
+                                            >
+                                                {quizLoading ? 'Đang tải...' : quizAttempts.length > 0 ? 'Làm lại bài kiểm tra' : 'Bắt đầu làm bài'}
+                                            </Button>
+                                        </Card>
+                                    )}
+
+                                    {/* Quiz Questions */}
+                                    {isQuizStarted && quizData && !quizResult && (
+                                        <Card className="w-full max-w-3xl p-8 bg-white dark:bg-slate-800 max-h-full overflow-y-auto">
+                                            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
+                                                {quizData.title}
+                                            </h2>
+                                            {quizData.timeLimitInMinutes && (
+                                                <p className="text-sm text-orange-500 mb-4">
+                                                    Thời gian: {quizData.timeLimitInMinutes} phút
+                                                </p>
+                                            )}
+                                            <p className="text-slate-500 mb-6">
+                                                {quizData.questions.length} câu hỏi
+                                            </p>
+
+                                            <div className="space-y-6">
+                                                {quizData.questions.map((question, qIndex) => (
+                                                    <div key={question.id} className="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0">
+                                                        <h3 className="font-medium text-slate-900 dark:text-white mb-4">
+                                                            Câu {qIndex + 1}: {question.questionText}
+                                                        </h3>
+                                                        <div className="space-y-2">
+                                                            {question.options.map((option) => (
+                                                                <label
+                                                                    key={option.id}
+                                                                    className={`flex items-center p-3 rounded-lg border cursor-pointer transition-colors ${
+                                                                        selectedAnswers[question.id] === option.id
+                                                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
+                                                                            : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                                                                    }`}
+                                                                >
+                                                                    <input
+                                                                        type="radio"
+                                                                        name={`question-${question.id}`}
+                                                                        value={option.id}
+                                                                        checked={selectedAnswers[question.id] === option.id}
+                                                                        onChange={() => handleSelectAnswer(question.id, option.id)}
+                                                                        className="mr-3"
+                                                                    />
+                                                                    <span className="text-slate-700 dark:text-slate-300">
+                                                                        {option.optionText}
+                                                                    </span>
+                                                                </label>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex gap-4 mt-8">
+                                                <Button
+                                                    variant="outline"
+                                                    onClick={() => setIsQuizStarted(false)}
+                                                >
+                                                    Hủy
+                                                </Button>
+                                                <Button
+                                                    onClick={submitQuiz}
+                                                    disabled={quizLoading || Object.keys(selectedAnswers).length === 0}
+                                                    className="bg-gradient-to-r from-green-600 to-emerald-600"
+                                                >
+                                                    {quizLoading ? 'Đang nộp...' : 'Nộp bài'}
+                                                </Button>
+                                            </div>
+                                        </Card>
+                                    )}
+
+                                    {/* Quiz Result */}
+                                    {quizResult && (
+                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-slate-800 text-center">
+                                            <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center ${
+                                                quizResult.score >= 80 
+                                                    ? 'bg-green-100 dark:bg-green-900/30' 
+                                                    : quizResult.score >= 50 
+                                                        ? 'bg-yellow-100 dark:bg-yellow-900/30'
+                                                        : 'bg-red-100 dark:bg-red-900/30'
+                                            }`}>
+                                                <span className={`text-3xl font-bold ${
+                                                    quizResult.score >= 80 
+                                                        ? 'text-green-600' 
+                                                        : quizResult.score >= 50 
+                                                            ? 'text-yellow-600'
+                                                            : 'text-red-600'
+                                                }`}>
+                                                    {quizResult.score}%
+                                                </span>
+                                            </div>
+                                            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
+                                                {quizResult.score >= 80 
+                                                    ? 'Xuất sắc!' 
+                                                    : quizResult.score >= 50 
+                                                        ? 'Tốt lắm!'
+                                                        : 'Cần cố gắng thêm'}
+                                            </h2>
+                                            <p className="text-slate-600 dark:text-slate-400 mb-6">
+                                                Bạn đã trả lời đúng {quizResult.correctCount}/{quizResult.totalQuestions} câu hỏi
+                                            </p>
+                                            <div className="flex gap-4 justify-center">
+                                                <Button
+                                                    variant="outline"
+                                                    onClick={retryQuiz}
+                                                >
+                                                    Làm lại
+                                                </Button>
+                                                <Button
+                                                    onClick={handleNext}
+                                                    disabled={!getNextContent()}
+                                                    className="bg-gradient-to-r from-blue-600 to-purple-600"
+                                                >
+                                                    Bài tiếp theo
+                                                </Button>
+                                            </div>
+                                        </Card>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -334,25 +891,34 @@ export default function CoursePlayer() {
                                         {module.title}
                                     </div>
                                     <div className="space-y-1">
-                                        {module.contents.map((content) => (
-                                            <button
-                                                key={content.contentId}
-                                                onClick={() => handleContentSelect(module.moduleId, content.contentId)}
-                                                className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 transition-colors ${
-                                                    currentContentId === content.contentId
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'text-slate-300 hover:bg-slate-700'
-                                                }`}
-                                            >
-                                                <div className="text-slate-400">
-                                                    {getContentIcon(content.contentType)}
-                                                </div>
-                                                <span className="flex-1 text-sm">{content.title}</span>
-                                                {currentContentId === content.contentId && (
-                                                    <PlayCircle className="h-4 w-4" />
-                                                )}
-                                            </button>
-                                        ))}
+                                        {module.contents.map((content) => {
+                                            const isCompleted = completedContentIds.includes(content.contentId);
+                                            return (
+                                                <button
+                                                    key={content.contentId}
+                                                    onClick={() => handleContentSelect(module.moduleId, content.contentId)}
+                                                    className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 transition-colors ${
+                                                        currentContentId === content.contentId
+                                                            ? 'bg-blue-600 text-white'
+                                                            : isCompleted
+                                                            ? 'text-green-400 hover:bg-slate-700'
+                                                            : 'text-slate-300 hover:bg-slate-700'
+                                                    }`}
+                                                >
+                                                    <div className={isCompleted ? 'text-green-400' : 'text-slate-400'}>
+                                                        {isCompleted ? (
+                                                            <CheckCircle className="h-4 w-4" />
+                                                        ) : (
+                                                            getContentIcon(content.contentType)
+                                                        )}
+                                                    </div>
+                                                    <span className="flex-1 text-sm">{content.title}</span>
+                                                    {currentContentId === content.contentId && (
+                                                        <PlayCircle className="h-4 w-4" />
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ))}

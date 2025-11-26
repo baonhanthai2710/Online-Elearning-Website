@@ -17,7 +17,7 @@ export async function uploadFileController(req: Request, res: Response): Promise
 
         const secureUrl = await uploadFileToCloudinary(file);
 
-        return res.status(201).json({ secure_url: secureUrl });
+        return res.status(201).json({ url: secureUrl, secure_url: secureUrl });
     } catch (error) {
         return res.status(500).json({
             error: 'Failed to upload file',

@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Clock, Users, Star, BookOpen, Award, Play, ShoppingCart, CheckCircle } from 'lucide-react';
+import { Clock, Users, Star, BookOpen, Award, Play, ShoppingCart, CheckCircle, Tag, X } from 'lucide-react';
 import { apiClient } from '../lib/api';
 import { useAuthStore } from '../stores/useAuthStore';
 import { ModuleAccordion } from '../components/ModuleAccordion';
+import { ReviewSection } from '../components/ReviewSection';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
+import { Input } from '../components/ui/input';
 import { showErrorAlert, showSuccessAlert, showLoadingAlert } from '../lib/sweetalert';
 import Swal from 'sweetalert2';
 
@@ -56,6 +59,13 @@ export default function CourseDetail() {
     const navigate = useNavigate();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const user = useAuthStore((state) => state.user);
+    const [promotionCode, setPromotionCode] = useState('');
+    const [appliedPromotion, setAppliedPromotion] = useState<{
+        code: string;
+        discountAmount: number;
+        discountedPrice: number;
+    } | null>(null);
+    const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
     const {
         data: course,
@@ -84,19 +94,71 @@ export default function CourseDetail() {
         enabled: isAuthenticated && user?.role === 'STUDENT' && !!id,
     });
 
+    // Validate promotion code
+    const validatePromotion = async (code: string, price: number) => {
+        if (!code.trim()) {
+            return null;
+        }
+
+        try {
+            setIsValidatingPromo(true);
+            const { data } = await apiClient.post('/promotions/validate', { code: code.toUpperCase(), price });
+            return data;
+        } catch (error: any) {
+            showErrorAlert('Lỗi!', error.response?.data?.error || 'Mã khuyến mãi không hợp lệ.');
+            return null;
+        } finally {
+            setIsValidatingPromo(false);
+        }
+    };
+
+    const handleApplyPromotion = async () => {
+        if (!promotionCode.trim()) {
+            showErrorAlert('Lỗi!', 'Vui lòng nhập mã khuyến mãi.');
+            return;
+        }
+
+        if (!course) {
+            return;
+        }
+
+        const result = await validatePromotion(promotionCode, course.price);
+        if (result) {
+            setAppliedPromotion({
+                code: result.promotion.code,
+                discountAmount: result.discountAmount,
+                discountedPrice: result.discountedPrice,
+            });
+            showSuccessAlert('Thành công!', `Áp dụng mã khuyến mãi "${result.promotion.code}" thành công.`);
+        }
+    };
+
+    const handleRemovePromotion = () => {
+        setAppliedPromotion(null);
+        setPromotionCode('');
+    };
+
     const enrollMutation = useMutation({
         mutationFn: async (courseId: number) => {
-            const { data } = await apiClient.post(`/enroll/checkout/${courseId}`);
+            const { data } = await apiClient.post(`/enroll/checkout/${courseId}`, {
+                promotionCode: appliedPromotion?.code || undefined,
+            });
             return data;
         },
         onSuccess: async (data) => {
             Swal.close();
-            // Backend returns { url }, not { stripeUrl }
             if (data.url) {
-                // Redirect to Stripe checkout
-                window.location.href = data.url;
+                // Check if it's a local URL (free course) or Stripe URL
+                if (data.url.includes('localhost') || data.url.includes('payment-success')) {
+                    // Free course - navigate to success page
+                    await showSuccessAlert('Đăng ký thành công!', 'Bạn đã đăng ký khóa học miễn phí thành công.');
+                    navigate('/my-courses');
+                } else {
+                    // Paid course - redirect to Stripe checkout
+                    window.location.href = data.url;
+                }
             } else {
-                // Free course - refresh to show enrollment
+                // Fallback - refresh to show enrollment
                 await showSuccessAlert('Đăng ký thành công!', 'Bạn đã đăng ký khóa học thành công.');
                 window.location.reload();
             }
@@ -206,21 +268,24 @@ export default function CourseDetail() {
                                 </h1>
 
                                 {/* Description */}
-                                <p className="text-blue-100 text-lg">
+                                <p className="text-blue-100 text-lg break-all">
                                     {course.description}
                                 </p>
 
                                 {/* Teacher & Stats */}
                                 <div className="flex flex-wrap items-center gap-4 text-sm">
-                                    <div className="flex items-center gap-2">
+                                    <Link 
+                                        to={`/teachers/${course.teacher.id || course.teacher.userId}`}
+                                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                                    >
                                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-blue-600 font-semibold">
                                             {teacherName.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
                                             <p className="text-blue-100 text-xs">Giảng viên</p>
-                                            <p className="font-semibold">{teacherName}</p>
+                                            <p className="font-semibold hover:underline">{teacherName}</p>
                                         </div>
-                                    </div>
+                                    </Link>
 
                                     {course.averageRating !== undefined && course.averageRating > 0 && (
                                         <div className="flex items-center gap-1">
@@ -238,10 +303,80 @@ export default function CourseDetail() {
                                 </div>
 
                                 {/* Price & CTA */}
-                                <div className="flex items-center gap-4">
-                                    <div className="text-4xl font-bold">
-                                        {course.price === 0 ? 'Miễn phí' : formattedPrice}
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-4">
+                                        {appliedPromotion ? (
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                                <div className="text-xl sm:text-2xl line-through text-gray-400">
+                                                    {formattedPrice}
+                                                </div>
+                                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
+                                                    {new Intl.NumberFormat('vi-VN', {
+                                                        style: 'currency',
+                                                        currency: 'VND',
+                                                    }).format(appliedPromotion.discountedPrice)}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                                                {course.price === 0 ? 'Miễn phí' : formattedPrice}
+                                            </div>
+                                        )}
                                     </div>
+
+                                    {/* Promotion Code */}
+                                    {course.price > 0 && (
+                                        <div className="space-y-2">
+                                            {appliedPromotion ? (
+                                                <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg">
+                                                    <Tag className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                                    <div className="flex-1">
+                                                        <div className="text-sm font-medium text-green-900 dark:text-green-100">
+                                                            Mã: {appliedPromotion.code}
+                                                        </div>
+                                                        <div className="text-xs text-green-700 dark:text-green-300">
+                                                            Giảm {new Intl.NumberFormat('vi-VN', {
+                                                                style: 'currency',
+                                                                currency: 'VND',
+                                                            }).format(appliedPromotion.discountAmount)}
+                                                        </div>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={handleRemovePromotion}
+                                                        className="text-green-600 hover:text-green-700 dark:text-green-400"
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex gap-2">
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Nhập mã khuyến mãi"
+                                                        value={promotionCode}
+                                                        onChange={(e) => setPromotionCode(e.target.value.toUpperCase())}
+                                                        className="flex-1 uppercase"
+                                                        onKeyPress={(e) => {
+                                                            if (e.key === 'Enter') {
+                                                                handleApplyPromotion();
+                                                            }
+                                                        }}
+                                                    />
+                                                    <Button
+                                                        onClick={handleApplyPromotion}
+                                                        disabled={isValidatingPromo || !promotionCode.trim()}
+                                                        variant="outline"
+                                                        className="gap-2"
+                                                    >
+                                                        <Tag className="w-4 h-4" />
+                                                        {isValidatingPromo ? 'Đang kiểm tra...' : 'Áp dụng'}
+                                                    </Button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -338,6 +473,14 @@ export default function CourseDetail() {
                                         isEnrolled={isEnrolled}
                                     />
                                 </Card>
+
+                                {/* Reviews Section */}
+                                <div className="mt-8">
+                                    <ReviewSection 
+                                        courseId={parseInt(id!)} 
+                                        isEnrolled={isEnrolled}
+                                    />
+                                </div>
                             </div>
 
                             {/* Sidebar */}

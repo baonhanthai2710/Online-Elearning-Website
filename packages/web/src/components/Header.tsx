@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, LayoutDashboard, User, Menu, X } from 'lucide-react';
+import { LogOut, LayoutDashboard, User, Menu, X, BookOpen, Trophy, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useAuthStore } from '../stores/useAuthStore';
 import { ThemeToggle } from './ThemeToggle';
@@ -59,7 +59,7 @@ export function Header() {
                                 className="relative h-12 w-12 object-contain rounded-xl"
                             />
                         </div>
-                        <span className="text-2xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
+                        <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
                             E-Learning
                         </span>
                     </Link>
@@ -129,6 +129,42 @@ export function Header() {
                                         </Button>
                                     </Link>
                                 )}
+                                {user?.role === 'STUDENT' && (
+                                    <>
+                                        <Link to="/my-courses">
+                                            <Button 
+                                                variant="outline" 
+                                                size="sm" 
+                                                className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
+                                            >
+                                                <BookOpen className="h-4 w-4" />
+                                                Khóa học của tôi
+                                            </Button>
+                                        </Link>
+                                        <Link to="/quiz-history">
+                                            <Button 
+                                                variant="outline" 
+                                                size="sm" 
+                                                className="gap-2 border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-500 dark:text-yellow-400"
+                                            >
+                                                <Trophy className="h-4 w-4" />
+                                                Lịch sử Quiz
+                                            </Button>
+                                        </Link>
+                                    </>
+                                )}
+
+                                {/* Profile Button */}
+                                <Link to="/profile">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    >
+                                        <Settings className="h-4 w-4" />
+                                        Hồ sơ
+                                    </Button>
+                                </Link>
 
                                 {/* Logout Button */}
                                 <Button
@@ -222,6 +258,29 @@ export function Header() {
                                             </button>
                                         </Link>
                                     )}
+                                    {user?.role === 'STUDENT' && (
+                                        <>
+                                            <Link to="/my-courses" onClick={() => setMobileMenuOpen(false)}>
+                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center gap-2 justify-center">
+                                                    <BookOpen className="h-4 w-4" />
+                                                    Khóa học của tôi
+                                                </button>
+                                            </Link>
+                                            <Link to="/quiz-history" onClick={() => setMobileMenuOpen(false)}>
+                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-yellow-600 text-white hover:bg-yellow-700 transition-colors flex items-center gap-2 justify-center">
+                                                    <Trophy className="h-4 w-4" />
+                                                    Lịch sử Quiz
+                                                </button>
+                                            </Link>
+                                        </>
+                                    )}
+
+                                    <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors flex items-center gap-2 justify-center">
+                                            <Settings className="h-4 w-4" />
+                                            Hồ sơ
+                                        </button>
+                                    </Link>
 
                                     <button
                                         onClick={() => {

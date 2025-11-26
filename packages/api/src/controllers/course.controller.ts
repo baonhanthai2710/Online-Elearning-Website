@@ -81,7 +81,7 @@ export async function createCourseController(req: Request, res: Response): Promi
             return res.status(403).json({ error: 'Forbidden' });
         }
 
-        const { title, description, price, categoryId } = authReq.body ?? {};
+        const { title, description, price, categoryId, thumbnailUrl } = authReq.body ?? {};
 
         if (!title || !description || price === undefined || categoryId === undefined) {
             return res.status(400).json({
@@ -106,6 +106,7 @@ export async function createCourseController(req: Request, res: Response): Promi
             price: numericPrice,
             categoryId: numericCategoryId,
             teacherId,
+            thumbnailUrl,
         });
 
         if (!course) {
@@ -136,13 +137,14 @@ export async function updateCourseController(req: Request, res: Response): Promi
             return res.status(400).json({ error: 'Course id must be a number' });
         }
 
-        const { title, description, price, categoryId } = authReq.body ?? {};
+        const { title, description, price, categoryId, thumbnailUrl } = authReq.body ?? {};
 
         if (
             title === undefined &&
             description === undefined &&
             price === undefined &&
-            categoryId === undefined
+            categoryId === undefined &&
+            thumbnailUrl === undefined
         ) {
             return res.status(400).json({ error: 'No fields provided for update' });
         }
@@ -168,6 +170,7 @@ export async function updateCourseController(req: Request, res: Response): Promi
                 description,
                 price: numericPrice,
                 categoryId: numericCategoryId,
+                thumbnailUrl,
                 userRole: authReq.user?.role,
             });
 

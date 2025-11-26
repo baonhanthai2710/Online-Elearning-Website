@@ -23,7 +23,10 @@ export type Course = {
         name: string;
     };
     averageRating?: number;
-    totalEnrollments?: number;
+    totalEnrollments?: number; // Legacy field, use _count.enrollments instead
+    _count?: {
+        enrollments: number;
+    };
     createdAt: string;
 };
 
@@ -69,22 +72,26 @@ export function CourseCard({ course }: CourseCardProps) {
                 {/* Content */}
                 <div className="p-5 space-y-3">
                     {/* Title */}
-                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 break-all group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                         {course.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 break-all">
                         {course.description}
                     </p>
 
                     {/* Teacher */}
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <Link 
+                        to={`/teachers/${course.teacher.id || course.teacher.userId}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                    >
                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white text-xs font-medium shadow-md shadow-red-500/30">
                             {teacherName.charAt(0).toUpperCase()}
                         </div>
-                        <span>{teacherName}</span>
-                    </div>
+                        <span className="hover:underline">{teacherName}</span>
+                    </Link>
 
                     {/* Stats */}
                     <div className="flex items-center gap-4 pt-2 border-t border-gray-200 dark:border-gray-800">
@@ -96,10 +103,10 @@ export function CourseCard({ course }: CourseCardProps) {
                                 </span>
                             </div>
                         )}
-                        {course.totalEnrollments !== undefined && (
+                        {(course.totalEnrollments !== undefined || course._count?.enrollments !== undefined) && (
                             <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
                                 <Users className="h-4 w-4" />
-                                <span>{course.totalEnrollments} học viên</span>
+                                <span>{course._count?.enrollments ?? course.totalEnrollments ?? 0} học viên</span>
                             </div>
                         )}
                     </div>
