@@ -213,9 +213,9 @@ export default function CourseDetail() {
             <div className="container mx-auto px-4 py-20">
                 <div className="max-w-6xl mx-auto space-y-6">
                     <div className="animate-pulse space-y-4">
-                        <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
-                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
-                        <div className="aspect-video bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+                        <div className="h-8 bg-zinc-200 dark:bg-zinc-700 rounded w-2/3"></div>
+                        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-1/2"></div>
+                        <div className="aspect-video bg-zinc-200 dark:bg-zinc-700 rounded-lg"></div>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@ export default function CourseDetail() {
     if (isError || !course) {
         return (
             <div className="container mx-auto px-4 py-20 text-center">
-                <p className="text-red-600 dark:text-red-400">Không tìm thấy khóa học</p>
+                <p className="text-violet-600 dark:text-violet-400">Không tìm thấy khóa học</p>
                 <Link to="/">
                     <Button className="mt-4">Về trang chủ</Button>
                 </Link>
@@ -243,16 +243,16 @@ export default function CourseDetail() {
     }).format(course.price);
 
     const totalLessons = course.modules.reduce((acc, module) => acc + module.contents.length, 0);
-    const totalDuration = course.modules.reduce((acc, module) => 
+    const totalDuration = course.modules.reduce((acc, module) =>
         acc + module.contents.reduce((sum, content) => sum + (content.durationInSeconds || 0), 0), 0
     );
 
     const isEnrolled = !!enrollment;
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white">
+            <section className="bg-violet-600 dark:bg-violet-700 text-white">
                 <div className="container mx-auto px-4 py-12">
                     <div className="max-w-6xl mx-auto">
                         <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -274,7 +274,7 @@ export default function CourseDetail() {
 
                                 {/* Teacher & Stats */}
                                 <div className="flex flex-wrap items-center gap-4 text-sm">
-                                    <Link 
+                                    <Link
                                         to={`/teachers/${course.teacher.id || course.teacher.userId}`}
                                         className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                                     >
@@ -307,7 +307,7 @@ export default function CourseDetail() {
                                     <div className="flex items-center gap-4">
                                         {appliedPromotion ? (
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                                                <div className="text-xl sm:text-2xl line-through text-gray-400">
+                                                <div className="text-xl sm:text-2xl line-through text-zinc-400">
                                                     {formattedPrice}
                                                 </div>
                                                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
@@ -328,13 +328,13 @@ export default function CourseDetail() {
                                     {course.price > 0 && (
                                         <div className="space-y-2">
                                             {appliedPromotion ? (
-                                                <div className="flex items-center gap-2 p-3 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg">
-                                                    <Tag className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                                <div className="flex items-center gap-2 p-3 bg-violet-50 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800 rounded-lg">
+                                                    <Tag className="w-5 h-5 text-violet-600 dark:text-violet-400" />
                                                     <div className="flex-1">
-                                                        <div className="text-sm font-medium text-green-900 dark:text-green-100">
+                                                        <div className="text-sm font-medium text-violet-900 dark:text-violet-100">
                                                             Mã: {appliedPromotion.code}
                                                         </div>
-                                                        <div className="text-xs text-green-700 dark:text-green-300">
+                                                        <div className="text-xs text-violet-700 dark:text-violet-300">
                                                             Giảm {new Intl.NumberFormat('vi-VN', {
                                                                 style: 'currency',
                                                                 currency: 'VND',
@@ -345,7 +345,7 @@ export default function CourseDetail() {
                                                         variant="ghost"
                                                         size="sm"
                                                         onClick={handleRemovePromotion}
-                                                        className="text-green-600 hover:text-green-700 dark:text-green-400"
+                                                        className="text-violet-600 hover:text-violet-700 dark:text-violet-400"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </Button>
@@ -390,8 +390,8 @@ export default function CourseDetail() {
                                             className="w-full aspect-video object-cover"
                                         />
                                     ) : (
-                                        <div className="w-full aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center">
-                                            <BookOpen className="h-24 w-24 text-slate-300 dark:text-slate-600" />
+                                        <div className="w-full aspect-video bg-violet-100 dark:bg-zinc-800 flex items-center justify-center">
+                                            <BookOpen className="h-24 w-24 text-zinc-300 dark:text-zinc-600" />
                                         </div>
                                     )}
                                 </Card>
@@ -439,8 +439,8 @@ export default function CourseDetail() {
                             {/* Main Content */}
                             <div className="md:col-span-2 space-y-8">
                                 {/* What you'll learn */}
-                                <Card className="p-6 border-slate-200 dark:border-slate-800">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                                <Card className="p-6 border-zinc-200 dark:border-zinc-800">
+                                    <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
                                         Bạn sẽ học được gì?
                                     </h2>
                                     <div className="grid md:grid-cols-2 gap-3">
@@ -451,19 +451,19 @@ export default function CourseDetail() {
                                             'Nhận chứng chỉ hoàn thành'
                                         ].map((item, index) => (
                                             <div key={index} className="flex items-start gap-2">
-                                                <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                                                <span className="text-slate-700 dark:text-slate-300">{item}</span>
+                                                <CheckCircle className="h-5 w-5 text-violet-500 mt-0.5 flex-shrink-0" />
+                                                <span className="text-zinc-700 dark:text-zinc-300">{item}</span>
                                             </div>
                                         ))}
                                     </div>
                                 </Card>
 
                                 {/* Course Content */}
-                                <Card className="p-6 border-slate-200 dark:border-slate-800">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                                <Card className="p-6 border-zinc-200 dark:border-zinc-800">
+                                    <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
                                         Nội dung khóa học
                                     </h2>
-                                    <p className="text-slate-600 dark:text-slate-400 mb-6">
+                                    <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                                         {course.modules.length} chương • {totalLessons} bài học
                                         {totalDuration > 0 && ` • ${Math.floor(totalDuration / 3600)}h ${Math.floor((totalDuration % 3600) / 60)}m`}
                                     </p>
@@ -476,8 +476,8 @@ export default function CourseDetail() {
 
                                 {/* Reviews Section */}
                                 <div className="mt-8">
-                                    <ReviewSection 
-                                        courseId={parseInt(id!)} 
+                                    <ReviewSection
+                                        courseId={parseInt(id!)}
                                         isEnrolled={isEnrolled}
                                     />
                                 </div>
@@ -486,25 +486,25 @@ export default function CourseDetail() {
                             {/* Sidebar */}
                             <div className="space-y-6">
                                 {/* Course includes */}
-                                <Card className="p-6 border-slate-200 dark:border-slate-800">
-                                    <h3 className="font-semibold text-slate-900 dark:text-white mb-4">
+                                <Card className="p-6 border-zinc-200 dark:border-zinc-800">
+                                    <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">
                                         Khóa học bao gồm
                                     </h3>
                                     <ul className="space-y-3">
-                                        <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                            <Clock className="h-5 w-5 text-slate-400" />
+                                        <li className="flex items-center gap-3 text-sm text-zinc-700 dark:text-zinc-300">
+                                            <Clock className="h-5 w-5 text-zinc-400" />
                                             <span>Truy cập trọn đời</span>
                                         </li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                            <BookOpen className="h-5 w-5 text-slate-400" />
+                                        <li className="flex items-center gap-3 text-sm text-zinc-700 dark:text-zinc-300">
+                                            <BookOpen className="h-5 w-5 text-zinc-400" />
                                             <span>{totalLessons} bài học</span>
                                         </li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                            <Award className="h-5 w-5 text-slate-400" />
+                                        <li className="flex items-center gap-3 text-sm text-zinc-700 dark:text-zinc-300">
+                                            <Award className="h-5 w-5 text-zinc-400" />
                                             <span>Chứng chỉ hoàn thành</span>
                                         </li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
-                                            <Users className="h-5 w-5 text-slate-400" />
+                                        <li className="flex items-center gap-3 text-sm text-zinc-700 dark:text-zinc-300">
+                                            <Users className="h-5 w-5 text-zinc-400" />
                                             <span>Cộng đồng học tập</span>
                                         </li>
                                     </ul>

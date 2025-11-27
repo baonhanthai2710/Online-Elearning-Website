@@ -46,24 +46,24 @@ export function CourseCard({ course }: CourseCardProps) {
     }).format(course.price);
 
     return (
-        <Card className="group overflow-hidden hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300 border-gray-200 dark:border-gray-800">
+        <Card className="group overflow-hidden hover:shadow-lg transition-all duration-200 border-zinc-200 dark:border-zinc-800">
             <Link to={`/courses/${courseId}`}>
                 {/* Thumbnail */}
-                <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-red-50 to-gray-100 dark:from-gray-900 dark:to-black">
+                <div className="relative aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                     {course.thumbnailUrl ? (
                         <img
                             src={course.thumbnailUrl}
                             alt={course.title}
-                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-200"
                         />
                     ) : (
                         <div className="flex h-full items-center justify-center">
-                            <BookOpen className="h-16 w-16 text-red-200 dark:text-gray-700" />
+                            <BookOpen className="h-12 w-12 text-zinc-300 dark:text-zinc-700" />
                         </div>
                     )}
                     {/* Category Badge */}
                     <div className="absolute top-3 left-3">
-                        <span className="px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-red-600 to-red-800 text-white backdrop-blur-sm shadow-lg shadow-red-500/30">
+                        <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-violet-600 text-white">
                             {course.category.name}
                         </span>
                     </div>
@@ -72,39 +72,39 @@ export function CourseCard({ course }: CourseCardProps) {
                 {/* Content */}
                 <div className="p-5 space-y-3">
                     {/* Title */}
-                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 break-all group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                    <h3 className="font-semibold text-base text-zinc-900 dark:text-white line-clamp-2 break-all group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                         {course.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 break-all">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 break-all">
                         {course.description}
                     </p>
 
                     {/* Teacher */}
-                    <Link 
+                    <Link
                         to={`/teachers/${course.teacher.id || course.teacher.userId}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                        className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                     >
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white text-xs font-medium shadow-md shadow-red-500/30">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-violet-600 text-white text-xs font-medium">
                             {teacherName.charAt(0).toUpperCase()}
                         </div>
                         <span className="hover:underline">{teacherName}</span>
                     </Link>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-4 pt-2 border-t border-gray-200 dark:border-gray-800">
+                    <div className="flex items-center gap-4 pt-2 border-t border-zinc-200 dark:border-zinc-800">
                         {course.averageRating !== undefined && course.averageRating > 0 && (
                             <div className="flex items-center gap-1 text-sm">
-                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                <span className="font-medium text-gray-900 dark:text-white">
+                                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                                <span className="font-medium text-zinc-900 dark:text-white">
                                     {course.averageRating.toFixed(1)}
                                 </span>
                             </div>
                         )}
                         {(course.totalEnrollments !== undefined || course._count?.enrollments !== undefined) && (
-                            <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400">
                                 <Users className="h-4 w-4" />
                                 <span>{course._count?.enrollments ?? course.totalEnrollments ?? 0} học viên</span>
                             </div>
@@ -113,12 +113,12 @@ export function CourseCard({ course }: CourseCardProps) {
 
                     {/* Price & Button */}
                     <div className="flex items-center justify-between pt-3">
-                        <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                        <div className="text-xl font-bold text-violet-600 dark:text-violet-400">
                             {course.price === 0 ? 'Miễn phí' : formattedPrice}
                         </div>
                         <Button
                             size="sm"
-                            className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white shadow-lg shadow-red-500/30"
+                            className="bg-violet-600 hover:bg-violet-700 text-white"
                         >
                             Xem chi tiết
                         </Button>

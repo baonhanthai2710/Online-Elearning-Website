@@ -13,7 +13,7 @@ export default function PaymentSuccess() {
 
     useEffect(() => {
         const courseId = searchParams.get('courseId');
-        
+
         const confirmEnrollment = async () => {
             if (courseId) {
                 try {
@@ -42,10 +42,10 @@ export default function PaymentSuccess() {
 
     if (confirming) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-4">
                 <Card className="max-w-md w-full p-8 text-center shadow-2xl">
                     <Loader2 className="w-12 h-12 text-green-600 animate-spin mx-auto mb-4" />
-                    <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+                    <h1 className="text-xl font-bold text-zinc-900 dark:text-white">
                         Đang xác nhận đăng ký...
                     </h1>
                 </Card>
@@ -54,23 +54,23 @@ export default function PaymentSuccess() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-4">
             <Card className="max-w-md w-full p-8 text-center shadow-2xl">
                 <div className="mb-6">
                     <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
                         <CheckCircle className="w-12 h-12 text-green-600 dark:text-green-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Thanh toán thành công!
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         {error || 'Chúc mừng bạn đã đăng ký khóa học thành công. Bạn có thể bắt đầu học ngay bây giờ.'}
                     </p>
                 </div>
 
                 <div className="space-y-3">
                     <Link to="/my-courses" className="block">
-                        <Button className="w-full gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                        <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
                             <BookOpen className="w-4 h-4" />
                             Đi đến khóa học của tôi
                         </Button>
@@ -83,7 +83,7 @@ export default function PaymentSuccess() {
                     </Link>
                 </div>
 
-                <p className="text-xs text-slate-500 dark:text-slate-500 mt-6">
+                <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-6">
                     Tự động chuyển hướng sau 10 giây...
                 </p>
             </Card>

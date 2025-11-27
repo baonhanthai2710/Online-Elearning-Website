@@ -55,7 +55,7 @@ export default function ResetPassword() {
             await apiClient.post('/password/reset', { token, password });
             setStatus('success');
             showSuccessAlert('Thành công!', 'Mật khẩu đã được đặt lại. Bạn có thể đăng nhập ngay.');
-            
+
             // Redirect to login after 3 seconds
             setTimeout(() => {
                 navigate('/login');
@@ -80,23 +80,23 @@ export default function ResetPassword() {
 
     if (status === 'success') {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
-                <Card className="max-w-md w-full p-8 text-center shadow-2xl">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-4">
+                <Card className="max-w-md w-full p-8 text-center">
                     <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                         <CheckCircle className="w-12 h-12 text-green-600 dark:text-green-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Đặt lại mật khẩu thành công! 🎉
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                    <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                         Mật khẩu của bạn đã được đặt lại. Bạn có thể đăng nhập ngay bây giờ.
                     </p>
                     <Link to="/login">
-                        <Button className="w-full gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                        <Button className="w-full gap-2 bg-green-600 hover:bg-green-700">
                             Đi đến trang đăng nhập
                         </Button>
                     </Link>
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-4">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-4">
                         Tự động chuyển hướng sau 3 giây...
                     </p>
                 </Card>
@@ -106,20 +106,20 @@ export default function ResetPassword() {
 
     if (status === 'error') {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
-                <Card className="max-w-md w-full p-8 text-center shadow-2xl">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-4">
+                <Card className="max-w-md w-full p-8 text-center">
                     <div className="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
                         <XCircle className="w-12 h-12 text-red-600 dark:text-red-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Lỗi
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                    <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                         {errorMessage}
                     </p>
                     <div className="space-y-3">
                         <Link to="/forgot-password">
-                            <Button className="w-full gap-2 bg-gradient-to-r from-red-600 to-rose-600">
+                            <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
                                 Yêu cầu link mới
                             </Button>
                         </Link>
@@ -136,23 +136,23 @@ export default function ResetPassword() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
-            <Card className="max-w-md w-full p-8 shadow-2xl">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-4">
+            <Card className="max-w-md w-full p-8">
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Lock className="w-8 h-8 text-red-600 dark:text-red-400" />
+                    <div className="w-16 h-16 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Lock className="w-8 h-8 text-violet-600 dark:text-violet-400" />
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Đặt lại mật khẩu
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         Nhập mật khẩu mới cho tài khoản của bạn
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             <Lock className="w-4 h-4 inline mr-1" />
                             Mật khẩu mới
                         </label>
@@ -170,7 +170,7 @@ export default function ResetPassword() {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                             >
                                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             </button>
@@ -178,7 +178,7 @@ export default function ResetPassword() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             Xác nhận mật khẩu mới
                         </label>
                         <div className="relative">
@@ -194,7 +194,7 @@ export default function ResetPassword() {
                             <button
                                 type="button"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                             >
                                 {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             </button>
@@ -204,7 +204,7 @@ export default function ResetPassword() {
                     <Button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full h-12 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700"
+                        className="w-full h-12 bg-violet-600 hover:bg-violet-700"
                     >
                         {isLoading ? (
                             <div className="flex items-center gap-2">
@@ -221,9 +221,9 @@ export default function ResetPassword() {
                 </form>
 
                 <div className="mt-6 text-center">
-                    <Link 
-                        to="/login" 
-                        className="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 flex items-center justify-center gap-2"
+                    <Link
+                        to="/login"
+                        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center gap-2"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Quay lại đăng nhập

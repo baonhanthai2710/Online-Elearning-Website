@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { 
-    User, 
-    Mail, 
-    Lock, 
-    Save, 
-    Eye, 
+import {
+    User,
+    Mail,
+    Lock,
+    Save,
+    Eye,
     EyeOff,
     Calendar,
     Award,
@@ -44,7 +44,7 @@ export default function Profile() {
     const user = useAuthStore((state) => state.user);
     const setUser = useAuthStore((state) => state.setUser);
     const queryClient = useQueryClient();
-    
+
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -110,7 +110,7 @@ export default function Profile() {
             setUser(data.user);
             queryClient.invalidateQueries({ queryKey: ['user-profile'] });
             showSuccessAlert('Thành công!', 'Thông tin đã được cập nhật.');
-            
+
             // Clear password fields
             setFormData(prev => ({
                 ...prev,
@@ -148,10 +148,10 @@ export default function Profile() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">Đang tải thông tin...</p>
+                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải thông tin...</p>
                 </div>
             </div>
         );
@@ -159,9 +159,9 @@ export default function Profile() {
 
     if (!profile) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
                 <div className="text-center">
-                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
                         Không tìm thấy thông tin
                     </h1>
                     <Button onClick={() => navigate('/')} variant="outline">
@@ -173,9 +173,9 @@ export default function Profile() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 py-8">
             <div className="container mx-auto px-4 max-w-4xl">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+                <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-8">
                     Hồ sơ của tôi
                 </h1>
 
@@ -184,14 +184,14 @@ export default function Profile() {
                     <div className="space-y-6">
                         {/* Avatar Card */}
                         <Card className="p-6 text-center">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
+                            <div className="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
                                 {profile.fullName.charAt(0).toUpperCase()}
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                            <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-1">
                                 {profile.fullName}
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400 mb-2">@{profile.username}</p>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium">
+                            <p className="text-zinc-600 dark:text-zinc-400 mb-2">@{profile.username}</p>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 text-sm font-medium">
                                 <Award className="w-4 h-4" />
                                 {getRoleName(profile.role)}
                             </div>
@@ -204,25 +204,25 @@ export default function Profile() {
 
                         {/* Stats */}
                         <Card className="p-6">
-                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Thống kê</h3>
+                            <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Thống kê</h3>
                             <div className="space-y-4">
                                 {profile.role === 'STUDENT' && (
                                     <>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
                                                 <BookOpen className="w-5 h-5" />
                                                 <span>Khóa học đã đăng ký</span>
                                             </div>
-                                            <span className="font-bold text-gray-900 dark:text-white">
+                                            <span className="font-bold text-zinc-900 dark:text-white">
                                                 {profile._count.enrollments}
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
                                                 <Trophy className="w-5 h-5" />
                                                 <span>Quiz đã làm</span>
                                             </div>
-                                            <span className="font-bold text-gray-900 dark:text-white">
+                                            <span className="font-bold text-zinc-900 dark:text-white">
                                                 {profile._count.quizAttempts}
                                             </span>
                                         </div>
@@ -231,31 +231,31 @@ export default function Profile() {
                                 {profile.role === 'TEACHER' && (
                                     <>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
                                                 <GraduationCap className="w-5 h-5" />
                                                 <span>Khóa học đã tạo</span>
                                             </div>
-                                            <span className="font-bold text-gray-900 dark:text-white">
+                                            <span className="font-bold text-zinc-900 dark:text-white">
                                                 {profile._count.coursesAsTeacher}
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                            <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
                                                 <BookOpen className="w-5 h-5" />
                                                 <span>Tổng học viên</span>
                                             </div>
-                                            <span className="font-bold text-gray-900 dark:text-white">
+                                            <span className="font-bold text-zinc-900 dark:text-white">
                                                 {profile.totalStudents || 0}
                                             </span>
                                         </div>
                                     </>
                                 )}
-                                <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-800">
-                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                <div className="flex items-center justify-between pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
                                         <Calendar className="w-5 h-5" />
                                         <span>Tham gia</span>
                                     </div>
-                                    <span className="text-sm text-gray-500 dark:text-gray-500">
+                                    <span className="text-sm text-zinc-500 dark:text-zinc-500">
                                         {formatDate(profile.createdAt)}
                                     </span>
                                 </div>
@@ -266,7 +266,7 @@ export default function Profile() {
                     {/* Main Form */}
                     <div className="lg:col-span-2">
                         <Card className="p-6">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+                            <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">
                                 Thông tin cá nhân
                             </h2>
 
@@ -280,7 +280,7 @@ export default function Profile() {
                                 {/* Name Fields */}
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                             Họ
                                         </label>
                                         <Input
@@ -291,7 +291,7 @@ export default function Profile() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                             Tên
                                         </label>
                                         <Input
@@ -305,7 +305,7 @@ export default function Profile() {
 
                                 {/* Email */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                         <Mail className="w-4 h-4 inline mr-1" />
                                         Email
                                     </label>
@@ -324,7 +324,7 @@ export default function Profile() {
 
                                 {/* Username - Read only */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                         <User className="w-4 h-4 inline mr-1" />
                                         Tên đăng nhập
                                     </label>
@@ -332,22 +332,22 @@ export default function Profile() {
                                         type="text"
                                         value={formData.username}
                                         disabled
-                                        className="bg-gray-100 dark:bg-gray-800 cursor-not-allowed"
+                                        className="bg-zinc-100 dark:bg-zinc-800 cursor-not-allowed"
                                     />
-                                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                                    <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
                                         Tên đăng nhập không thể thay đổi
                                     </p>
                                 </div>
 
                                 {/* Password Section */}
-                                <div className="pt-6 border-t border-gray-200 dark:border-gray-800">
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800">
+                                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
                                         Đổi mật khẩu (tùy chọn)
                                     </h3>
 
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                                 <Lock className="w-4 h-4 inline mr-1" />
                                                 Mật khẩu hiện tại
                                             </label>
@@ -361,7 +361,7 @@ export default function Profile() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                                                 >
                                                     {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                                 </button>
@@ -369,7 +369,7 @@ export default function Profile() {
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                                 Mật khẩu mới
                                             </label>
                                             <div className="relative">
@@ -383,7 +383,7 @@ export default function Profile() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowNewPassword(!showNewPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                                                 >
                                                     {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                                 </button>
@@ -391,7 +391,7 @@ export default function Profile() {
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                                 Xác nhận mật khẩu mới
                                             </label>
                                             <div className="relative">
@@ -404,7 +404,7 @@ export default function Profile() {
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                                                 >
                                                     {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                                 </button>
@@ -418,7 +418,7 @@ export default function Profile() {
                                     <Button
                                         type="submit"
                                         disabled={updateProfileMutation.isPending}
-                                        className="gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                                        className="gap-2 bg-violet-600 hover:bg-violet-700"
                                     >
                                         <Save className="w-4 h-4" />
                                         {updateProfileMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}

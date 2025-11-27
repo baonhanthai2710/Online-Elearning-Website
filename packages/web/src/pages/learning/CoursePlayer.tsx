@@ -281,7 +281,7 @@ export default function CoursePlayer() {
     // Quiz functions
     const startQuiz = async () => {
         if (!currentContentId) return;
-        
+
         setQuizLoading(true);
         try {
             const { data } = await apiClient.get<QuizData>(`/quiz/${currentContentId}`);
@@ -345,7 +345,7 @@ export default function CoursePlayer() {
         if (!course || !currentModule || !currentContent) return null;
 
         const currentIndex = currentModule.contents.findIndex(c => c.contentId === currentContentId);
-        
+
         // Next content in same module
         if (currentIndex < currentModule.contents.length - 1) {
             return {
@@ -373,7 +373,7 @@ export default function CoursePlayer() {
         if (!course || !currentModule || !currentContent) return null;
 
         const currentIndex = currentModule.contents.findIndex(c => c.contentId === currentContentId);
-        
+
         // Previous content in same module
         if (currentIndex > 0) {
             return {
@@ -426,8 +426,8 @@ export default function CoursePlayer() {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-slate-600 dark:text-slate-400">Đang tải khóa học...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải khóa học...</p>
                 </div>
             </div>
         );
@@ -436,9 +436,9 @@ export default function CoursePlayer() {
     if (courseError || !course || !enrollment) {
         const isNotEnrolled = (courseError as any)?.response?.status === 403;
         return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-900">
+            <div className="flex items-center justify-center min-h-screen bg-zinc-900">
                 <div className="text-center">
-                    <p className="text-red-400 mb-4">
+                    <p className="text-violet-400 mb-4">
                         {isNotEnrolled
                             ? 'Bạn chưa đăng ký khóa học này'
                             : 'Không tìm thấy khóa học hoặc có lỗi xảy ra'}
@@ -452,18 +452,18 @@ export default function CoursePlayer() {
     }
 
     return (
-        <div className="flex h-screen bg-slate-900">
+        <div className="flex h-screen bg-zinc-900">
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col">
                 {/* Top Bar */}
-                <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+                <div className="bg-zinc-800 border-b border-zinc-700 px-6 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => setShowSidebar(!showSidebar)}
-                                className="text-slate-300 hover:text-white"
+                                className="text-zinc-300 hover:text-white"
                             >
                                 <Menu className="h-5 w-5" />
                             </Button>
@@ -471,18 +471,18 @@ export default function CoursePlayer() {
                                 <h1 className="text-lg font-semibold text-white">
                                     {course.title}
                                 </h1>
-                                <p className="text-sm text-slate-400">
+                                <p className="text-sm text-zinc-400">
                                     {currentModule?.title}
                                 </p>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-slate-400">
+                            <span className="text-sm text-zinc-400">
                                 Tiến độ: {currentProgress}%
                             </span>
-                            <div className="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
+                            <div className="w-32 h-2 bg-zinc-700 rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all"
+                                    className="h-full bg-violet-500 transition-all"
                                     style={{ width: `${currentProgress}%` }}
                                 />
                             </div>
@@ -508,14 +508,14 @@ export default function CoursePlayer() {
                                         </video>
                                     </div>
                                     {/* Video action bar */}
-                                    <div className="bg-slate-800 px-4 py-3 flex items-center justify-between">
-                                        <span className="text-slate-300 text-sm">{currentContent.title}</span>
+                                    <div className="bg-zinc-800 px-4 py-3 flex items-center justify-between">
+                                        <span className="text-zinc-300 text-sm">{currentContent.title}</span>
                                         <Button
                                             size="sm"
                                             onClick={markCurrentContentComplete}
                                             disabled={completedContentIds.includes(currentContent.contentId) || markCompleteMutation.isPending}
-                                            className={completedContentIds.includes(currentContent.contentId) 
-                                                ? 'bg-green-600 hover:bg-green-600 cursor-default' 
+                                            className={completedContentIds.includes(currentContent.contentId)
+                                                ? 'bg-green-600 hover:bg-green-600 cursor-default'
                                                 : 'bg-blue-600 hover:bg-blue-700'}
                                         >
                                             {completedContentIds.includes(currentContent.contentId) ? (
@@ -537,18 +537,18 @@ export default function CoursePlayer() {
                             {currentContent.contentType === 'DOCUMENT' && currentContent.documentUrl && (() => {
                                 const docUrl = currentContent.documentUrl;
                                 const isPdf = docUrl.toLowerCase().endsWith('.pdf');
-                                
+
                                 return (
-                                    <div className="w-full h-full flex flex-col bg-slate-100 dark:bg-slate-900">
+                                    <div className="w-full h-full flex flex-col bg-zinc-100 dark:bg-zinc-900">
                                         {/* Document Header */}
-                                        <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-3 flex items-center justify-between">
-                                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                                        <div className="bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 px-6 py-3 flex items-center justify-between">
+                                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
                                                 {currentContent.title}
                                             </h2>
                                             <div className="flex gap-2 items-center">
                                                 {/* Auto-complete countdown */}
                                                 {!completedContentIds.includes(currentContent.contentId) && documentReadTime < 20 && (
-                                                    <span className="text-sm text-slate-500 dark:text-slate-400">
+                                                    <span className="text-sm text-zinc-500 dark:text-zinc-400">
                                                         Tự động hoàn thành sau {20 - documentReadTime}s
                                                     </span>
                                                 )}
@@ -556,9 +556,9 @@ export default function CoursePlayer() {
                                                     size="sm"
                                                     onClick={markCurrentContentComplete}
                                                     disabled={completedContentIds.includes(currentContent.contentId) || markCompleteMutation.isPending}
-                                                    className={completedContentIds.includes(currentContent.contentId) 
-                                                        ? 'bg-green-600 hover:bg-green-600 cursor-default' 
-                                                        : 'bg-emerald-600 hover:bg-emerald-700'}
+                                                    className={completedContentIds.includes(currentContent.contentId)
+                                                        ? 'bg-green-600 hover:bg-green-600 cursor-default'
+                                                        : 'bg-violet-600 hover:bg-violet-700'}
                                                 >
                                                     {completedContentIds.includes(currentContent.contentId) ? (
                                                         <>
@@ -576,14 +576,14 @@ export default function CoursePlayer() {
                                                     href={docUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                                                    className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors text-sm"
                                                 >
                                                     Mở trong tab mới
                                                 </a>
                                                 <a
                                                     href={getDownloadUrl(docUrl)}
                                                     download
-                                                    className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm"
+                                                    className="px-4 py-2 bg-zinc-600 text-white rounded-lg hover:bg-zinc-700 transition-colors text-sm"
                                                 >
                                                     Tải xuống
                                                 </a>
@@ -595,16 +595,16 @@ export default function CoursePlayer() {
                                                 <object
                                                     data={docUrl}
                                                     type="application/pdf"
-                                                    className="w-full h-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white"
+                                                    className="w-full h-full rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white"
                                                 >
                                                     {/* Fallback if browser can't display PDF inline */}
                                                     <div className="w-full h-full flex items-center justify-center">
-                                                        <Card className="p-8 bg-white dark:bg-slate-800 text-center">
-                                                            <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-                                                            <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+                                                        <Card className="p-8 bg-white dark:bg-zinc-800 text-center">
+                                                            <FileText className="w-16 h-16 mx-auto mb-4 text-zinc-400" />
+                                                            <h3 className="text-lg font-medium text-zinc-900 dark:text-white mb-2">
                                                                 {currentContent.title}
                                                             </h3>
-                                                            <p className="text-slate-500 mb-4">
+                                                            <p className="text-zinc-500 mb-4">
                                                                 Không thể hiển thị PDF trực tiếp. Vui lòng mở trong tab mới hoặc tải xuống.
                                                             </p>
                                                             <div className="flex gap-2 justify-center">
@@ -612,7 +612,7 @@ export default function CoursePlayer() {
                                                                     href={docUrl}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
                                                                 >
                                                                     <FileText className="w-4 h-4" />
                                                                     Mở trong tab mới
@@ -620,7 +620,7 @@ export default function CoursePlayer() {
                                                                 <a
                                                                     href={getDownloadUrl(docUrl)}
                                                                     download
-                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors"
+                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-600 text-white rounded-lg hover:bg-zinc-700 transition-colors"
                                                                 >
                                                                     <FileText className="w-4 h-4" />
                                                                     Tải xuống
@@ -631,18 +631,18 @@ export default function CoursePlayer() {
                                                 </object>
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <Card className="p-8 bg-white dark:bg-slate-800 text-center">
-                                                        <FileText className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-                                                        <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
+                                                    <Card className="p-8 bg-white dark:bg-zinc-800 text-center">
+                                                        <FileText className="w-16 h-16 mx-auto mb-4 text-zinc-400" />
+                                                        <h3 className="text-lg font-medium text-zinc-900 dark:text-white mb-2">
                                                             {currentContent.title}
                                                         </h3>
-                                                        <p className="text-slate-500 mb-4">
+                                                        <p className="text-zinc-500 mb-4">
                                                             Loại tài liệu này cần tải xuống để xem
                                                         </p>
                                                         <a
                                                             href={getDownloadUrl(docUrl)}
                                                             download
-                                                            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                            className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
                                                         >
                                                             <FileText className="w-4 h-4" />
                                                             Tải xuống tài liệu
@@ -659,18 +659,18 @@ export default function CoursePlayer() {
                                 <div className="w-full h-full flex items-center justify-center p-8 overflow-y-auto">
                                     {/* Quiz Start Screen */}
                                     {!isQuizStarted && !quizResult && (
-                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-slate-800">
-                                            <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
+                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-zinc-800">
+                                            <h2 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-white">
                                                 Bài kiểm tra: {currentContent.title}
                                             </h2>
-                                            <p className="text-slate-600 dark:text-slate-400 mb-6">
+                                            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                                                 Nhấn nút bên dưới để bắt đầu làm bài kiểm tra
                                             </p>
 
                                             {/* Previous Attempts */}
                                             {quizAttempts.length > 0 && (
-                                                <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
-                                                    <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                                                <div className="mb-6 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg">
+                                                    <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-3 flex items-center gap-2">
                                                         <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                         </svg>
@@ -678,37 +678,36 @@ export default function CoursePlayer() {
                                                     </h3>
                                                     <div className="space-y-2 max-h-48 overflow-y-auto">
                                                         {quizAttempts.slice(0, 5).map((attempt, index) => (
-                                                            <div 
+                                                            <div
                                                                 key={attempt.attemptId}
-                                                                className="flex items-center justify-between p-2 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700"
+                                                                className="flex items-center justify-between p-2 bg-white dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700"
                                                             >
-                                                                <span className="text-sm text-slate-600 dark:text-slate-400">
+                                                                <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                                                     Lần {quizAttempts.length - index} - {new Date(attempt.endTime).toLocaleDateString('vi-VN', {
                                                                         day: '2-digit',
-                                                                        month: '2-digit', 
+                                                                        month: '2-digit',
                                                                         hour: '2-digit',
                                                                         minute: '2-digit'
                                                                     })}
                                                                 </span>
-                                                                <span className={`text-sm font-bold ${
-                                                                    attempt.score >= 80 ? 'text-green-500' :
-                                                                    attempt.score >= 60 ? 'text-yellow-500' : 'text-red-500'
-                                                                }`}>
+                                                                <span className={`text-sm font-bold ${attempt.score >= 80 ? 'text-green-500' :
+                                                                        attempt.score >= 60 ? 'text-yellow-500' : 'text-violet-500'
+                                                                    }`}>
                                                                     {attempt.score}%
                                                                 </span>
                                                             </div>
                                                         ))}
                                                     </div>
-                                                    <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                                                    <div className="mt-3 pt-3 border-t border-zinc-200 dark:border-zinc-700">
                                                         <div className="flex justify-between text-sm">
-                                                            <span className="text-slate-600 dark:text-slate-400">Điểm cao nhất:</span>
+                                                            <span className="text-zinc-600 dark:text-zinc-400">Điểm cao nhất:</span>
                                                             <span className="font-bold text-green-500">
                                                                 {Math.max(...quizAttempts.map(a => a.score))}%
                                                             </span>
                                                         </div>
                                                         <div className="flex justify-between text-sm mt-1">
-                                                            <span className="text-slate-600 dark:text-slate-400">Điểm trung bình:</span>
-                                                            <span className="font-semibold text-blue-500">
+                                                            <span className="text-zinc-600 dark:text-zinc-400">Điểm trung bình:</span>
+                                                            <span className="font-semibold text-violet-500">
                                                                 {(quizAttempts.reduce((sum, a) => sum + a.score, 0) / quizAttempts.length).toFixed(1)}%
                                                             </span>
                                                         </div>
@@ -716,10 +715,10 @@ export default function CoursePlayer() {
                                                 </div>
                                             )}
 
-                                            <Button 
-                                                onClick={startQuiz} 
+                                            <Button
+                                                onClick={startQuiz}
                                                 disabled={quizLoading}
-                                                className="bg-gradient-to-r from-blue-600 to-purple-600"
+                                                className="bg-violet-600 hover:bg-violet-700"
                                             >
                                                 {quizLoading ? 'Đang tải...' : quizAttempts.length > 0 ? 'Làm lại bài kiểm tra' : 'Bắt đầu làm bài'}
                                             </Button>
@@ -728,8 +727,8 @@ export default function CoursePlayer() {
 
                                     {/* Quiz Questions */}
                                     {isQuizStarted && quizData && !quizResult && (
-                                        <Card className="w-full max-w-3xl p-8 bg-white dark:bg-slate-800 max-h-full overflow-y-auto">
-                                            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
+                                        <Card className="w-full max-w-3xl p-8 bg-white dark:bg-zinc-800 max-h-full overflow-y-auto">
+                                            <h2 className="text-2xl font-bold mb-2 text-zinc-900 dark:text-white">
                                                 {quizData.title}
                                             </h2>
                                             {quizData.timeLimitInMinutes && (
@@ -737,25 +736,24 @@ export default function CoursePlayer() {
                                                     Thời gian: {quizData.timeLimitInMinutes} phút
                                                 </p>
                                             )}
-                                            <p className="text-slate-500 mb-6">
+                                            <p className="text-zinc-500 mb-6">
                                                 {quizData.questions.length} câu hỏi
                                             </p>
 
                                             <div className="space-y-6">
                                                 {quizData.questions.map((question, qIndex) => (
-                                                    <div key={question.id} className="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0">
-                                                        <h3 className="font-medium text-slate-900 dark:text-white mb-4">
+                                                    <div key={question.id} className="border-b border-zinc-200 dark:border-zinc-700 pb-6 last:border-0">
+                                                        <h3 className="font-medium text-zinc-900 dark:text-white mb-4">
                                                             Câu {qIndex + 1}: {question.questionText}
                                                         </h3>
                                                         <div className="space-y-2">
                                                             {question.options.map((option) => (
                                                                 <label
                                                                     key={option.id}
-                                                                    className={`flex items-center p-3 rounded-lg border cursor-pointer transition-colors ${
-                                                                        selectedAnswers[question.id] === option.id
-                                                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
-                                                                            : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50'
-                                                                    }`}
+                                                                    className={`flex items-center p-3 rounded-lg border cursor-pointer transition-colors ${selectedAnswers[question.id] === option.id
+                                                                            ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/30'
+                                                                            : 'border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700/50'
+                                                                        }`}
                                                                 >
                                                                     <input
                                                                         type="radio"
@@ -765,7 +763,7 @@ export default function CoursePlayer() {
                                                                         onChange={() => handleSelectAnswer(question.id, option.id)}
                                                                         className="mr-3"
                                                                     />
-                                                                    <span className="text-slate-700 dark:text-slate-300">
+                                                                    <span className="text-zinc-700 dark:text-zinc-300">
                                                                         {option.optionText}
                                                                     </span>
                                                                 </label>
@@ -785,7 +783,7 @@ export default function CoursePlayer() {
                                                 <Button
                                                     onClick={submitQuiz}
                                                     disabled={quizLoading || Object.keys(selectedAnswers).length === 0}
-                                                    className="bg-gradient-to-r from-green-600 to-emerald-600"
+                                                    className="bg-green-600 hover:bg-green-700"
                                                 >
                                                     {quizLoading ? 'Đang nộp...' : 'Nộp bài'}
                                                 </Button>
@@ -795,32 +793,30 @@ export default function CoursePlayer() {
 
                                     {/* Quiz Result */}
                                     {quizResult && (
-                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-slate-800 text-center">
-                                            <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center ${
-                                                quizResult.score >= 80 
-                                                    ? 'bg-green-100 dark:bg-green-900/30' 
-                                                    : quizResult.score >= 50 
+                                        <Card className="w-full max-w-2xl p-8 bg-white dark:bg-zinc-800 text-center">
+                                            <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center ${quizResult.score >= 80
+                                                    ? 'bg-green-100 dark:bg-green-900/30'
+                                                    : quizResult.score >= 50
                                                         ? 'bg-yellow-100 dark:bg-yellow-900/30'
-                                                        : 'bg-red-100 dark:bg-red-900/30'
-                                            }`}>
-                                                <span className={`text-3xl font-bold ${
-                                                    quizResult.score >= 80 
-                                                        ? 'text-green-600' 
-                                                        : quizResult.score >= 50 
-                                                            ? 'text-yellow-600'
-                                                            : 'text-red-600'
+                                                        : 'bg-violet-100 dark:bg-violet-900/30'
                                                 }`}>
+                                                <span className={`text-3xl font-bold ${quizResult.score >= 80
+                                                        ? 'text-green-600'
+                                                        : quizResult.score >= 50
+                                                            ? 'text-yellow-600'
+                                                            : 'text-violet-600'
+                                                    }`}>
                                                     {quizResult.score}%
                                                 </span>
                                             </div>
-                                            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">
-                                                {quizResult.score >= 80 
-                                                    ? 'Xuất sắc!' 
-                                                    : quizResult.score >= 50 
+                                            <h2 className="text-2xl font-bold mb-2 text-zinc-900 dark:text-white">
+                                                {quizResult.score >= 80
+                                                    ? 'Xuất sắc!'
+                                                    : quizResult.score >= 50
                                                         ? 'Tốt lắm!'
                                                         : 'Cần cố gắng thêm'}
                                             </h2>
-                                            <p className="text-slate-600 dark:text-slate-400 mb-6">
+                                            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                                                 Bạn đã trả lời đúng {quizResult.correctCount}/{quizResult.totalQuestions} câu hỏi
                                             </p>
                                             <div className="flex gap-4 justify-center">
@@ -833,7 +829,7 @@ export default function CoursePlayer() {
                                                 <Button
                                                     onClick={handleNext}
                                                     disabled={!getNextContent()}
-                                                    className="bg-gradient-to-r from-blue-600 to-purple-600"
+                                                    className="bg-violet-600 hover:bg-violet-700"
                                                 >
                                                     Bài tiếp theo
                                                 </Button>
@@ -847,7 +843,7 @@ export default function CoursePlayer() {
                 </div>
 
                 {/* Navigation Bar */}
-                <div className="bg-slate-800 border-t border-slate-700 px-6 py-4">
+                <div className="bg-zinc-800 border-t border-zinc-700 px-6 py-4">
                     <div className="flex items-center justify-between">
                         <Button
                             variant="outline"
@@ -861,13 +857,13 @@ export default function CoursePlayer() {
 
                         <div className="text-center">
                             <h3 className="text-white font-medium">{currentContent?.title}</h3>
-                            <p className="text-sm text-slate-400">{currentContent?.contentType}</p>
+                            <p className="text-sm text-zinc-400">{currentContent?.contentType}</p>
                         </div>
 
                         <Button
                             onClick={handleNext}
                             disabled={!getNextContent()}
-                            className="gap-2 bg-gradient-to-r from-blue-600 to-purple-600"
+                            className="gap-2 bg-violet-600 hover:bg-violet-700"
                         >
                             Bài tiếp
                             <ChevronRight className="h-4 w-4" />
@@ -878,7 +874,7 @@ export default function CoursePlayer() {
 
             {/* Sidebar - Course Content */}
             {showSidebar && (
-                <div className="w-96 bg-slate-800 border-l border-slate-700 overflow-y-auto">
+                <div className="w-96 bg-zinc-800 border-l border-zinc-700 overflow-y-auto">
                     <div className="p-6">
                         <h2 className="text-lg font-semibold text-white mb-4">
                             Nội dung khóa học
@@ -887,7 +883,7 @@ export default function CoursePlayer() {
                         <div className="space-y-2">
                             {course.modules.map((module) => (
                                 <div key={module.moduleId}>
-                                    <div className="px-4 py-2 bg-slate-700 rounded-lg text-white font-medium mb-2">
+                                    <div className="px-4 py-2 bg-zinc-700 rounded-lg text-white font-medium mb-2">
                                         {module.title}
                                     </div>
                                     <div className="space-y-1">
@@ -897,15 +893,14 @@ export default function CoursePlayer() {
                                                 <button
                                                     key={content.contentId}
                                                     onClick={() => handleContentSelect(module.moduleId, content.contentId)}
-                                                    className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 transition-colors ${
-                                                        currentContentId === content.contentId
-                                                            ? 'bg-blue-600 text-white'
+                                                    className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 transition-colors ${currentContentId === content.contentId
+                                                            ? 'bg-violet-600 text-white'
                                                             : isCompleted
-                                                            ? 'text-green-400 hover:bg-slate-700'
-                                                            : 'text-slate-300 hover:bg-slate-700'
-                                                    }`}
+                                                                ? 'text-green-400 hover:bg-zinc-700'
+                                                                : 'text-zinc-300 hover:bg-zinc-700'
+                                                        }`}
                                                 >
-                                                    <div className={isCompleted ? 'text-green-400' : 'text-slate-400'}>
+                                                    <div className={isCompleted ? 'text-green-400' : 'text-zinc-400'}>
                                                         {isCompleted ? (
                                                             <CheckCircle className="h-4 w-4" />
                                                         ) : (

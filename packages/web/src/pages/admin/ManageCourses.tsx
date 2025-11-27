@@ -9,7 +9,7 @@ import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../../lib/sw
 export default function ManageCourses() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    
+
     const { data: courses = [] } = useQuery({
         queryKey: ['admin-courses'],
         queryFn: async () => {
@@ -42,17 +42,17 @@ export default function ManageCourses() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-8">
             <div className="container mx-auto max-w-6xl">
                 <Button variant="ghost" onClick={() => navigate('/admin')} className="mb-4">
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Quay lại
                 </Button>
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Quản lý Khóa học</h1>
+                    <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Quản lý Khóa học</h1>
                     <Button
                         onClick={() => navigate('/admin/courses/create')}
-                        className="bg-red-600 hover:bg-red-700 text-white"
+                        className="bg-violet-600 hover:bg-violet-700 text-white"
                     >
                         <Plus className="mr-2 h-4 w-4" />
                         Tạo khóa học mới
@@ -64,15 +64,15 @@ export default function ManageCourses() {
                             <div className="flex justify-between items-start">
                                 <div className="flex-1">
                                     <h3 className="font-bold text-lg">{course.title}</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        Giảng viên: {course.teacher?.firstName} {course.teacher?.lastName} | 
-                                        Danh mục: {course.category?.name} | 
+                                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                                        Giảng viên: {course.teacher?.firstName} {course.teacher?.lastName} |
+                                        Danh mục: {course.category?.name} |
                                         Enrollments: {course._count?.enrollments}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="text-right mr-4">
-                                        <p className="font-bold text-red-600">
+                                        <p className="font-bold text-violet-600">
                                             {course.price === 0 ? 'Miễn phí' : `${course.price.toLocaleString()} VND`}
                                         </p>
                                     </div>
