@@ -216,7 +216,7 @@ export default function AdminEditCourse() {
                                     <button
                                         type="button"
                                         onClick={removeThumbnail}
-                                        className="absolute top-2 right-2 p-1 bg-violet-600 text-white rounded-full hover:bg-violet-700"
+                                        className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700"
                                     >
                                         <X className="w-4 h-4" />
                                     </button>
@@ -225,12 +225,12 @@ export default function AdminEditCourse() {
                                 <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                         {uploading ? (
-                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
+                                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
                                         ) : (
                                             <>
                                                 <Image className="w-10 h-10 text-zinc-400 mb-3" />
                                                 <p className="text-sm text-zinc-500">
-                                                    <span className="font-semibold text-violet-600">Nhấn để upload</span> hoặc kéo thả
+                                                    <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
                                                 </p>
                                                 <p className="text-xs text-zinc-400 mt-1">PNG, JPG (tối đa 5MB)</p>
                                             </>
@@ -251,7 +251,7 @@ export default function AdminEditCourse() {
                             <Button
                                 type="submit"
                                 disabled={updateMutation.isPending}
-                                className="bg-violet-600 hover:bg-violet-700 text-white"
+                                className="bg-red-600 hover:bg-red-700 text-white"
                             >
                                 {updateMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
                             </Button>
@@ -269,4 +269,5 @@ export default function AdminEditCourse() {
         </div>
     );
 }
+
 

@@ -150,7 +150,7 @@ export default function Profile() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải thông tin...</p>
                 </div>
             </div>
@@ -184,14 +184,14 @@ export default function Profile() {
                     <div className="space-y-6">
                         {/* Avatar Card */}
                         <Card className="p-6 text-center">
-                            <div className="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
+                            <div className="w-24 h-24 rounded-full bg-red-600 flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
                                 {profile.fullName.charAt(0).toUpperCase()}
                             </div>
                             <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-1">
                                 {profile.fullName}
                             </h2>
                             <p className="text-zinc-600 dark:text-zinc-400 mb-2">@{profile.username}</p>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 text-sm font-medium">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium">
                                 <Award className="w-4 h-4" />
                                 {getRoleName(profile.role)}
                             </div>
@@ -418,7 +418,7 @@ export default function Profile() {
                                     <Button
                                         type="submit"
                                         disabled={updateProfileMutation.isPending}
-                                        className="gap-2 bg-violet-600 hover:bg-violet-700"
+                                        className="gap-2 bg-red-600 hover:bg-red-700"
                                     >
                                         <Save className="w-4 h-4" />
                                         {updateProfileMutation.isPending ? 'Đang lưu...' : 'Lưu thay đổi'}
@@ -432,4 +432,5 @@ export default function Profile() {
         </div>
     );
 }
+
 

@@ -64,11 +64,11 @@ export default function Contact() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             {/* Hero */}
-            <section className="py-16 bg-violet-600">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <MessageSquare className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Liên hệ với chúng tôi</h1>
-                    <p className="text-xl text-violet-100 max-w-2xl mx-auto">
+                    <p className="text-xl text-red-100 max-w-2xl mx-auto">
                         Bạn có câu hỏi hoặc cần hỗ trợ? Đội ngũ của chúng tôi luôn sẵn sàng giúp đỡ bạn.
                     </p>
                 </div>
@@ -80,11 +80,11 @@ export default function Contact() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
                         {contactInfo.map((info) => (
                             <Card key={info.title} className="p-6 text-center bg-white dark:bg-zinc-900 shadow-lg hover:shadow-xl transition-shadow">
-                                <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
-                                    <info.icon className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                                <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                                    <info.icon className="h-6 w-6 text-red-600 dark:text-red-400" />
                                 </div>
                                 <h3 className="font-semibold text-zinc-900 dark:text-white mb-1">{info.title}</h3>
-                                <p className="text-violet-600 dark:text-violet-400 font-medium">{info.content}</p>
+                                <p className="text-red-600 dark:text-red-400 font-medium">{info.content}</p>
                                 <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">{info.description}</p>
                             </Card>
                         ))}
@@ -150,13 +150,13 @@ export default function Contact() {
                                         placeholder="Mô tả chi tiết vấn đề của bạn..."
                                         rows={5}
                                         required
-                                        className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
+                                        className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
                                     />
                                 </div>
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full h-12 bg-violet-600 hover:bg-violet-700"
+                                    className="w-full h-12 bg-red-600 hover:bg-red-700"
                                 >
                                     {isSubmitting ? (
                                         <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export default function Contact() {
                                     title="Vị trí văn phòng"
                                 />
                             </Card>
-                            <Card className="p-6 bg-violet-50 dark:bg-violet-900/30 border-violet-200 dark:border-violet-800">
+                            <Card className="p-6 bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800">
                                 <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
                                     Cần hỗ trợ gấp?
                                 </h3>
@@ -195,7 +195,7 @@ export default function Contact() {
                                     Gọi ngay hotline để được hỗ trợ nhanh nhất
                                 </p>
                                 <a href="tel:19001234">
-                                    <Button className="bg-violet-600 hover:bg-violet-700">
+                                    <Button className="bg-red-600 hover:bg-red-700">
                                         <Phone className="h-4 w-4 mr-2" />
                                         1900 1234
                                     </Button>
@@ -208,3 +208,4 @@ export default function Contact() {
         </div>
     );
 }
+

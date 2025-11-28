@@ -154,11 +154,11 @@ export default function FAQ() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-violet-600">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <HelpCircle className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Câu hỏi thường gặp</h1>
-                    <p className="text-xl text-violet-100 max-w-2xl mx-auto mb-8">
+                    <p className="text-xl text-red-100 max-w-2xl mx-auto mb-8">
                         Tìm câu trả lời cho các thắc mắc phổ biến về E-Learning
                     </p>
 
@@ -190,7 +190,7 @@ export default function FAQ() {
                                             key={cat.id}
                                             onClick={() => setActiveCategory(cat.id)}
                                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeCategory === cat.id
-                                                    ? 'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400'
+                                                    ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400'
                                                     : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                                                 }`}
                                         >
@@ -253,4 +253,5 @@ export default function FAQ() {
         </div>
     );
 }
+
 

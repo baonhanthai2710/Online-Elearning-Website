@@ -94,7 +94,7 @@ export default function Login() {
         <section className="relative min-h-screen w-full overflow-hidden bg-zinc-50 dark:bg-zinc-950">
             {/* Subtle background gradient */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-600/10"></div>
+                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
                 <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-zinc-300/20 blur-3xl dark:bg-zinc-700/20"></div>
             </div>
 
@@ -107,8 +107,10 @@ export default function Login() {
                 <div className="w-full max-w-md">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-violet-600 shadow-lg">
-                            <img src={logo} alt="E-Learning Logo" className="h-10 w-10 object-contain" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_10px_30px_rgba(239,68,68,0.35)] ring-2 ring-white/10 dark:ring-red-500/30">
+                            <div className="rounded-xl bg-black/60 p-2.5">
+                                <img src={logo} alt="E-Learning Logo" className="h-10 w-10 object-contain drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+                            </div>
                         </div>
                         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
                             E-Learning Platform
@@ -170,7 +172,7 @@ export default function Login() {
                                                         placeholder="email@example.com hoặc username"
                                                         autoComplete="username"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -184,7 +186,7 @@ export default function Login() {
                                 <div className="text-right">
                                     <Link
                                         to="/forgot-password"
-                                        className="text-sm text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 hover:underline"
+                                        className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline"
                                     >
                                         Quên mật khẩu?
                                     </Link>
@@ -211,7 +213,7 @@ export default function Login() {
                                                         placeholder="••••••••"
                                                         autoComplete="current-password"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
@@ -234,7 +236,7 @@ export default function Login() {
 
                                 <Button
                                     type="submit"
-                                    className="w-full h-12 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-lg transition-all duration-200"
+                                    className="w-full h-12 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200"
                                     disabled={loginMutation.isPending}
                                 >
                                     {loginMutation.isPending ? (
@@ -321,11 +323,11 @@ export default function Login() {
                     {/* Additional Info */}
                     <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
                         Bằng cách đăng nhập, bạn đồng ý với{' '}
-                        <a href="#" className="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
                         </a>{' '}
                         và{' '}
-                        <a href="#" className="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Chính sách bảo mật
                         </a>
                     </p>
@@ -334,3 +336,4 @@ export default function Login() {
         </section>
     );
 }
+

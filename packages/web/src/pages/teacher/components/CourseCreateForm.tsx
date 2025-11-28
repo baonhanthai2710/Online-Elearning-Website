@@ -100,7 +100,7 @@ export function CourseCreateForm() {
             </header>
 
             {formError && (
-                <div className="rounded-md border border-violet-200 bg-violet-50 px-3 py-2 text-sm text-violet-600">
+                <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
                     {formError}
                 </div>
             )}
@@ -203,7 +203,7 @@ export function CourseCreateForm() {
                                     </select>
                                 </FormControl>
                                 {categoriesQuery.isError && (
-                                    <p className="text-xs text-violet-500">
+                                    <p className="text-xs text-red-500">
                                         Không thể tải danh mục. Hãy thử làm mới trang.
                                     </p>
                                 )}
@@ -243,3 +243,4 @@ export function CourseCreateForm() {
         </section>
     );
 }
+

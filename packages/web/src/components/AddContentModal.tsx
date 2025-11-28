@@ -138,12 +138,12 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                     {/* Content Type */}
                     <div>
                         <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                            Loại nội dung <span className="text-violet-500">*</span>
+                            Loại nội dung <span className="text-red-500">*</span>
                         </label>
                         <select
                             value={contentType}
                             onChange={(e) => setContentType(e.target.value as ContentType)}
-                            className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-500"
+                            className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                         >
                             <option value="VIDEO">Video</option>
                             <option value="DOCUMENT">Tài liệu</option>
@@ -154,7 +154,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                     {/* Title */}
                     <div>
                         <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                            Tiêu đề <span className="text-violet-500">*</span>
+                            Tiêu đề <span className="text-red-500">*</span>
                         </label>
                         <Input
                             value={title}
@@ -169,7 +169,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                         <>
                             <div>
                                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                                    Video <span className="text-violet-500">*</span>
+                                    Video <span className="text-red-500">*</span>
                                 </label>
 
                                 {/* File Upload Button */}
@@ -255,7 +255,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                         <>
                             <div>
                                 <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
-                                    Tài liệu <span className="text-violet-500">*</span>
+                                    Tài liệu <span className="text-red-500">*</span>
                                 </label>
 
                                 {/* File Upload Button */}
@@ -331,7 +331,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                                 <select
                                     value={fileType}
                                     onChange={(e) => setFileType(e.target.value)}
-                                    className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-500"
+                                    className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                                 >
                                     <option value="application/pdf">PDF</option>
                                     <option value="application/vnd.openxmlformats-officedocument.wordprocessingml.document">Word (DOCX)</option>
@@ -382,7 +382,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                         <Button
                             type="submit"
                             disabled={createContentMutation.isPending || isUploading}
-                            className="flex-1 h-12 bg-violet-600 hover:bg-violet-700"
+                            className="flex-1 h-12 bg-red-600 hover:bg-red-700"
                         >
                             {createContentMutation.isPending ? (
                                 <>
@@ -402,4 +402,5 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
         </div>
     );
 }
+
 

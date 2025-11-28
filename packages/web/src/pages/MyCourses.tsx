@@ -43,7 +43,7 @@ export default function MyCourses() {
         return (
             <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải khóa học...</p>
                 </div>
             </div>
@@ -104,7 +104,7 @@ export default function MyCourses() {
                             Bạn chưa đăng ký khóa học nào. Hãy khám phá và bắt đầu học ngay!
                         </p>
                         <Link to="/courses">
-                            <Button className="bg-violet-600 hover:bg-violet-700">
+                            <Button className="bg-red-600 hover:bg-red-700">
                                 Khám phá khóa học
                             </Button>
                         </Link>
@@ -175,7 +175,7 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
                     </div>
                 )}
                 <div className="absolute top-2 left-2">
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-violet-600 text-white">
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-600 text-white">
                         {course.category.name}
                     </span>
                 </div>
@@ -198,7 +198,7 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
                         <div
                             className={`h-full rounded-full transition-all ${completed
                                     ? 'bg-green-500'
-                                    : 'bg-violet-600'
+                                    : 'bg-red-600'
                                 }`}
                             style={{ width: `${enrollment.progress}%` }}
                         />
@@ -206,7 +206,7 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
                 </div>
 
                 <Link to={`/learning/${courseId}`}>
-                    <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                    <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                         <Play className="w-4 h-4" />
                         {completed ? 'Xem lại' : 'Tiếp tục học'}
                     </Button>
@@ -215,4 +215,5 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
         </Card>
     );
 }
+
 

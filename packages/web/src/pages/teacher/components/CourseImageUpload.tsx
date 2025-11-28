@@ -117,7 +117,8 @@ export function CourseImageUpload({ value, onChange }: CourseImageUploadProps) {
                 <p className="text-xs text-zinc-500">Đang tải tệp lên Cloudinary...</p>
             )}
 
-            {uploadError && <p className="text-xs text-violet-500">{uploadError}</p>}
+            {uploadError && <p className="text-xs text-red-500">{uploadError}</p>}
         </div>
     );
 }
+

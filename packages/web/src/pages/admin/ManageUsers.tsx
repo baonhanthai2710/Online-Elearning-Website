@@ -99,7 +99,7 @@ export default function ManageUsers() {
                                                 onChange={(e) => updateRoleMutation.mutate({ userId: user.id, role: e.target.value })}
                                                 disabled={user.role === 'ADMIN' || updateRoleMutation.isPending}
                                                 className={`px-3 py-1 text-xs rounded-full border-2 ${user.role === 'ADMIN'
-                                                        ? 'bg-violet-100 text-violet-800 border-violet-300 cursor-not-allowed'
+                                                        ? 'bg-red-100 text-red-800 border-red-300 cursor-not-allowed'
                                                         : user.role === 'TEACHER'
                                                             ? 'bg-green-100 text-green-800 border-green-300 cursor-pointer hover:border-green-500'
                                                             : 'bg-blue-100 text-blue-800 border-blue-300 cursor-pointer hover:border-blue-500'
@@ -133,3 +133,4 @@ export default function ManageUsers() {
         </div>
     );
 }
+

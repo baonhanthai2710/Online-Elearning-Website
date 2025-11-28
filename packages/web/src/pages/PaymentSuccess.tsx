@@ -70,7 +70,7 @@ export default function PaymentSuccess() {
 
                 <div className="space-y-3">
                     <Link to="/my-courses" className="block">
-                        <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                        <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                             <BookOpen className="w-4 h-4" />
                             Đi đến khóa học của tôi
                         </Button>
@@ -90,4 +90,5 @@ export default function PaymentSuccess() {
         </div>
     );
 }
+
 

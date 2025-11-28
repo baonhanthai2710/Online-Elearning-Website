@@ -102,7 +102,7 @@ export default function ManagePromotions() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải...</p>
                 </div>
             </div>
@@ -127,7 +127,7 @@ export default function ManagePromotions() {
                             setEditingPromotion(null);
                             setIsAddModalOpen(true);
                         }}
-                        className="gap-2 bg-violet-600 hover:bg-violet-700"
+                        className="gap-2 bg-red-600 hover:bg-red-700"
                     >
                         <Plus className="w-4 h-4" />
                         Tạo mã khuyến mãi
@@ -168,7 +168,7 @@ export default function ManagePromotions() {
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <Tag className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                                            <Tag className="w-5 h-5 text-red-600 dark:text-red-400" />
                                             <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
                                                 {promotion.code}
                                             </h3>
@@ -253,7 +253,7 @@ export default function ManagePromotions() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="gap-2 text-violet-600 hover:bg-violet-50 hover:border-violet-300 dark:hover:bg-violet-950/30 dark:text-violet-400"
+                                        className="gap-2 text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-950/30 dark:text-red-400"
                                         onClick={() => handleDelete(promotion)}
                                         disabled={deleteMutation.isPending}
                                     >
@@ -284,4 +284,5 @@ export default function ManagePromotions() {
         </div>
     );
 }
+
 

@@ -59,11 +59,11 @@ export default function Home() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-violet-600 dark:bg-violet-900">
+            <section className="relative overflow-hidden bg-gradient-to-br from-[#2b0000] via-[#5a0000] to-[#050505]">
                 {/* Subtle Background */}
                 <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-500/20"></div>
-                    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-violet-800/30 blur-3xl dark:bg-violet-950/50"></div>
+                    <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-500/20 blur-3xl"></div>
+                    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-red-900/40 blur-3xl"></div>
                 </div>
 
                 <div className="relative container mx-auto px-4 py-20 md:py-28">
@@ -77,13 +77,13 @@ export default function Home() {
                         {/* Heading */}
                         <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
                             Khám phá tri thức
-                            <span className="block text-violet-200">
+                            <span className="block text-red-100">
                                 không giới hạn
                             </span>
                         </h1>
 
                         {/* Description */}
-                        <p className="text-lg md:text-xl text-violet-100 max-w-2xl mx-auto">
+                        <p className="text-lg md:text-xl text-red-100 max-w-2xl mx-auto">
                             Hàng ngàn khóa học chất lượng cao từ các chuyên gia hàng đầu.
                             Học bất cứ lúc nào, bất cứ nơi đâu với E-Learning Platform.
                         </p>
@@ -98,11 +98,11 @@ export default function Home() {
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={handleKeyPress}
-                                    className="pl-12 pr-28 h-14 text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-violet-200 shadow-lg"
+                                    className="pl-12 pr-28 h-14 text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-red-100/70 shadow-lg"
                                 />
                                 <Button
                                     onClick={handleSearch}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-violet-600 hover:bg-violet-50"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-red-700 hover:bg-red-50"
                                 >
                                     Tìm kiếm
                                 </Button>
@@ -115,7 +115,7 @@ export default function Home() {
                                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     {courses.length}+
                                 </div>
-                                <div className="text-xs sm:text-sm md:text-base text-violet-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Khóa học
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ export default function Home() {
                                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     50K+
                                 </div>
-                                <div className="text-xs sm:text-sm md:text-base text-violet-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Học viên
                                 </div>
                             </div>
@@ -131,7 +131,7 @@ export default function Home() {
                                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                                     4.8/5
                                 </div>
-                                <div className="text-xs sm:text-sm md:text-base text-violet-100 mt-1">
+                                <div className="text-xs sm:text-sm md:text-base text-red-100 mt-1">
                                     Đánh giá
                                 </div>
                             </div>
@@ -162,10 +162,10 @@ export default function Home() {
                                     <Card
                                         className="p-6 text-center hover:shadow-lg transition-all duration-200 cursor-pointer group border-zinc-200 dark:border-zinc-800 h-full"
                                     >
-                                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-600 group-hover:scale-105 transition-transform">
+                                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 group-hover:scale-105 transition-transform">
                                             <BookOpen className="h-6 w-6 text-white" />
                                         </div>
-                                        <h3 className="font-semibold text-zinc-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                                        <h3 className="font-semibold text-zinc-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                             {category.name}
                                         </h3>
                                     </Card>
@@ -189,7 +189,7 @@ export default function Home() {
                             </p>
                         </div>
                         <Link to="/courses">
-                            <Button variant="outline" className="gap-2 hidden md:flex border-violet-600 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/30">
+                            <Button variant="outline" className="gap-2 hidden md:flex border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20">
                                 Xem tất cả
                                 <ArrowRight className="h-4 w-4" />
                             </Button>
@@ -239,7 +239,7 @@ export default function Home() {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <Card className="p-8 text-center hover:shadow-lg transition-all duration-200 border-zinc-200 dark:border-zinc-800 group">
-                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-violet-600 group-hover:scale-105 transition-transform">
+                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-red-600 group-hover:scale-105 transition-transform">
                                 <Target className="h-7 w-7 text-white" />
                             </div>
                             <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
@@ -251,7 +251,7 @@ export default function Home() {
                         </Card>
 
                         <Card className="p-8 text-center hover:shadow-lg transition-all duration-200 border-zinc-200 dark:border-zinc-800 group">
-                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-violet-600 group-hover:scale-105 transition-transform">
+                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-red-600 group-hover:scale-105 transition-transform">
                                 <Zap className="h-7 w-7 text-white" />
                             </div>
                             <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
@@ -263,7 +263,7 @@ export default function Home() {
                         </Card>
 
                         <Card className="p-8 text-center hover:shadow-lg transition-all duration-200 border-zinc-200 dark:border-zinc-800 group">
-                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-violet-600 group-hover:scale-105 transition-transform">
+                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-red-600 group-hover:scale-105 transition-transform">
                                 <Award className="h-7 w-7 text-white" />
                             </div>
                             <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
@@ -278,17 +278,20 @@ export default function Home() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 bg-violet-600 dark:bg-violet-900">
+            <section className="py-20 bg-gradient-to-br from-[#2b0000] via-[#6d0202] to-[#060606]">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                         Bắt đầu hành trình học tập ngay hôm nay
                     </h2>
-                    <p className="text-violet-100 text-lg mb-8 max-w-2xl mx-auto">
+                    <p className="text-red-100 text-lg mb-8 max-w-2xl mx-auto">
                         Tham gia cùng hàng ngàn học viên đang học tập và phát triển kỹ năng mỗi ngày
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link to="/register">
-                            <Button size="lg" className="bg-white text-violet-600 hover:bg-violet-50">
+                            <Button
+                                size="lg"
+                                className="bg-white text-red-700 hover:bg-red-100 shadow-lg shadow-red-900/30 border border-red-200 dark:border-red-500/40 dark:bg-white dark:text-red-700 dark:hover:bg-red-100"
+                            >
                                 Đăng ký ngay
                             </Button>
                         </Link>

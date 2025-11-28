@@ -21,7 +21,7 @@ export default function PaymentCancel() {
 
                 <div className="space-y-3">
                     <Link to="/courses" className="block">
-                        <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                        <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                             <ArrowLeft className="w-4 h-4" />
                             Quay lại danh sách khóa học
                         </Button>
@@ -41,4 +41,5 @@ export default function PaymentCancel() {
         </div>
     );
 }
+
 

@@ -83,13 +83,13 @@ export default function Courses() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             {/* Header */}
-            <div className="bg-violet-600 dark:bg-violet-900 py-16">
+            <div className="bg-red-600 dark:bg-red-900 py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
                             Khám phá khóa học
                         </h1>
-                        <p className="text-violet-100 text-lg mb-8">
+                        <p className="text-red-100 text-lg mb-8">
                             Tìm kiếm và đăng ký khóa học phù hợp với bạn
                         </p>
 
@@ -116,7 +116,7 @@ export default function Courses() {
                         <Card className="p-6 sticky top-4 border-zinc-200 dark:border-zinc-800 rounded-lg">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center gap-2">
-                                    <Filter className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+                                    <Filter className="h-5 w-5 text-red-600 dark:text-red-400" />
                                     <h3 className="font-semibold text-zinc-900 dark:text-white">
                                         Bộ lọc
                                     </h3>
@@ -146,7 +146,7 @@ export default function Courses() {
                                             name="price"
                                             checked={priceFilter === 'all'}
                                             onChange={() => setPriceFilter('all')}
-                                            className="text-violet-600 focus:ring-violet-500"
+                                            className="text-red-600 focus:ring-red-500"
                                         />
                                         <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Tất cả
@@ -158,7 +158,7 @@ export default function Courses() {
                                             name="price"
                                             checked={priceFilter === 'free'}
                                             onChange={() => setPriceFilter('free')}
-                                            className="text-violet-600 focus:ring-violet-500"
+                                            className="text-red-600 focus:ring-red-500"
                                         />
                                         <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Miễn phí
@@ -170,7 +170,7 @@ export default function Courses() {
                                             name="price"
                                             checked={priceFilter === 'paid'}
                                             onChange={() => setPriceFilter('paid')}
-                                            className="text-violet-600 focus:ring-violet-500"
+                                            className="text-red-600 focus:ring-red-500"
                                         />
                                         <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Có phí
@@ -188,7 +188,7 @@ export default function Courses() {
                                     <button
                                         onClick={() => setSelectedCategory(null)}
                                         className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === null
-                                                ? 'bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 font-medium'
+                                                ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-medium'
                                                 : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                                             }`}
                                     >
@@ -201,7 +201,7 @@ export default function Courses() {
                                                 key={catId}
                                                 onClick={() => setSelectedCategory(catId!)}
                                                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === catId
-                                                        ? 'bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 font-medium'
+                                                        ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-medium'
                                                         : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                                                     }`}
                                             >
@@ -255,7 +255,7 @@ export default function Courses() {
                                         <Button
                                             onClick={clearFilters}
                                             variant="outline"
-                                            className="border-violet-600 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                                            className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                         >
                                             Xóa bộ lọc
                                         </Button>
@@ -278,4 +278,5 @@ export default function Courses() {
         </div>
     );
 }
+
 

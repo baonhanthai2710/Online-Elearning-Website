@@ -52,14 +52,14 @@ export function Header() {
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-3 group">
                         <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-violet-800 rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             <img
                                 src={logo}
                                 alt="Logo"
                                 className="relative h-10 w-10 object-contain rounded-xl"
                             />
                         </div>
-                        <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-violet-600 to-zinc-900 dark:from-violet-400 dark:to-zinc-100 bg-clip-text text-transparent">
+                        <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-zinc-900 dark:from-red-400 dark:to-zinc-100 bg-clip-text text-transparent">
                             E-Learning
                         </span>
                     </Link>
@@ -71,12 +71,12 @@ export function Header() {
                                 key={link.path}
                                 to={link.path}
                                 className={`text-sm font-medium transition-colors relative group ${isActive(link.path)
-                                        ? 'text-violet-600 dark:text-violet-400'
-                                        : 'text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400'
+                                        ? 'text-red-600 dark:text-red-400'
+                                        : 'text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400'
                                     }`}
                             >
                                 {link.label}
-                                <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-violet-600 dark:bg-violet-400 transition-transform ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 transition-transform ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                                     }`}></span>
                             </Link>
                         ))}
@@ -90,14 +90,14 @@ export function Header() {
                             <div className="hidden md:flex items-center gap-3">
                                 {/* User Info */}
                                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-violet-700 text-white font-semibold text-sm">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold text-sm">
                                         {displayName?.charAt(0).toUpperCase()}
                                     </div>
                                     <div className="flex flex-col">
                                         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                                             {displayName}
                                         </span>
-                                        <span className="text-xs text-violet-600 dark:text-violet-400 font-medium">
+                                        <span className="text-xs text-red-600 dark:text-red-400 font-medium">
                                             {user?.role === 'ADMIN' ? 'Quản trị viên' : user?.role === 'TEACHER' ? 'Giảng viên' : 'Học viên'}
                                         </span>
                                     </div>
@@ -108,7 +108,7 @@ export function Header() {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            className="gap-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white dark:border-violet-500 dark:text-violet-400"
+                                            className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                         >
                                             <LayoutDashboard className="h-4 w-4" />
                                             Admin Panel
@@ -120,7 +120,7 @@ export function Header() {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            className="gap-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white dark:border-violet-500 dark:text-violet-400"
+                                            className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                         >
                                             <LayoutDashboard className="h-4 w-4" />
                                             Dashboard
@@ -133,7 +133,7 @@ export function Header() {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="gap-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white dark:border-violet-500 dark:text-violet-400"
+                                                className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                             >
                                                 <BookOpen className="h-4 w-4" />
                                                 Khóa học của tôi
@@ -177,12 +177,12 @@ export function Header() {
                         ) : (
                             <div className="hidden md:flex items-center gap-2">
                                 <Link to="/login">
-                                    <Button variant="ghost" size="sm" className="hover:text-violet-600">
+                                    <Button variant="ghost" size="sm" className="hover:text-red-600">
                                         Đăng nhập
                                     </Button>
                                 </Link>
                                 <Link to="/register">
-                                    <Button size="sm" className="bg-violet-600 hover:bg-violet-700 text-white">
+                                    <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white">
                                         Đăng ký
                                     </Button>
                                 </Link>
@@ -213,7 +213,7 @@ export function Header() {
                                     to={link.path}
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(link.path)
-                                            ? 'bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400'
+                                            ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400'
                                             : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                                         }`}
                                 >
@@ -225,14 +225,14 @@ export function Header() {
                                 <>
                                     <div className="px-4 py-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
                                         <div className="flex items-center gap-2">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-violet-700 text-white font-semibold">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold">
                                                 {displayName?.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
                                                 <div className="text-sm font-semibold text-zinc-900 dark:text-white">
                                                     {displayName}
                                                 </div>
-                                                <div className="text-xs text-violet-600 dark:text-violet-400">
+                                                <div className="text-xs text-red-600 dark:text-red-400">
                                                     {user?.role === 'ADMIN' ? 'Quản trị viên' : user?.role === 'TEACHER' ? 'Giảng viên' : 'Học viên'}
                                                 </div>
                                             </div>
@@ -241,7 +241,7 @@ export function Header() {
 
                                     {user?.role === 'ADMIN' && (
                                         <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
-                                            <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-violet-600 text-white hover:bg-violet-700 transition-colors flex items-center gap-2 justify-center">
+                                            <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center gap-2 justify-center">
                                                 <LayoutDashboard className="h-4 w-4" />
                                                 Admin Panel
                                             </button>
@@ -249,7 +249,7 @@ export function Header() {
                                     )}
                                     {user?.role === 'TEACHER' && (
                                         <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                                            <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-violet-600 text-white hover:bg-violet-700 transition-colors flex items-center gap-2 justify-center">
+                                            <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center gap-2 justify-center">
                                                 <LayoutDashboard className="h-4 w-4" />
                                                 Dashboard
                                             </button>
@@ -258,7 +258,7 @@ export function Header() {
                                     {user?.role === 'STUDENT' && (
                                         <>
                                             <Link to="/my-courses" onClick={() => setMobileMenuOpen(false)}>
-                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-violet-600 text-white hover:bg-violet-700 transition-colors flex items-center gap-2 justify-center">
+                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center gap-2 justify-center">
                                                     <BookOpen className="h-4 w-4" />
                                                     Khóa học của tôi
                                                 </button>
@@ -298,7 +298,7 @@ export function Header() {
                                         </button>
                                     </Link>
                                     <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
-                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-violet-600 text-white hover:bg-violet-700 transition-colors">
+                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors">
                                             Đăng ký
                                         </button>
                                     </Link>
@@ -311,3 +311,4 @@ export function Header() {
         </header>
     );
 }
+

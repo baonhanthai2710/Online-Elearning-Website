@@ -176,7 +176,7 @@ export default function Dashboard() {
                     </div>
                     <div className="flex gap-3 mt-4">
                         <Link to="/courses/create">
-                            <Button className="gap-2 bg-violet-600 hover:bg-violet-700">
+                            <Button className="gap-2 bg-red-600 hover:bg-red-700">
                                 <Plus className="h-4 w-4" />
                                 Tạo khóa học mới
                             </Button>
@@ -207,7 +207,7 @@ export default function Dashboard() {
                             Bắt đầu tạo khóa học đầu tiên của bạn để chia sẻ kiến thức với học viên
                         </p>
                         <Link to="/courses/create">
-                            <Button className="gap-2 bg-violet-600 hover:bg-violet-700">
+                            <Button className="gap-2 bg-red-600 hover:bg-red-700">
                                 <Plus className="h-4 w-4" />
                                 Tạo khóa học đầu tiên
                             </Button>
@@ -262,7 +262,7 @@ export default function Dashboard() {
                                                 {/* Actions */}
                                                 <div className="flex gap-2">
                                                     <Link to={`/courses/${course.courseId || course.id}/manage`}>
-                                                        <Button variant="default" size="sm" className="bg-violet-600 hover:bg-violet-700">
+                                                        <Button variant="default" size="sm" className="bg-red-600 hover:bg-red-700">
                                                             Quản lý
                                                         </Button>
                                                     </Link>
@@ -285,7 +285,7 @@ export default function Dashboard() {
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
-                                                        className="gap-2 text-violet-600 hover:bg-violet-50 hover:border-violet-300 dark:hover:bg-violet-900/30 dark:text-violet-400"
+                                                        className="gap-2 text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-900/30 dark:text-red-400"
                                                         onClick={() => handleDeleteCourse(course.courseId || course.id || 0, course.title)}
                                                         disabled={deleteMutation.isPending}
                                                     >
@@ -304,3 +304,4 @@ export default function Dashboard() {
         </div>
     );
 }
+

@@ -120,7 +120,7 @@ export default function Register() {
 
                             <div className="space-y-3">
                                 <Link to="/login">
-                                    <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                                    <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                                         Đi đến trang đăng nhập
                                         <ArrowRight className="w-4 h-4" />
                                     </Button>
@@ -144,8 +144,8 @@ export default function Register() {
         <section className="relative min-h-screen w-full overflow-hidden bg-zinc-50 dark:bg-zinc-900">
             {/* Background elements */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-600/10"></div>
-                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-violet-400/10 blur-3xl dark:bg-violet-600/10"></div>
+                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
+                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -157,10 +157,12 @@ export default function Register() {
                 <div className="w-full max-w-2xl">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-violet-600">
-                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_10px_30px_rgba(239,68,68,0.35)] ring-2 ring-white/10 dark:ring-red-500/30">
+                            <div className="rounded-xl bg-black/60 p-3">
+                                <img src={logo} alt="E-Learning Logo" className="h-10 w-10 object-contain drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+                            </div>
                         </div>
-                        <h2 className="text-3xl font-bold text-violet-600 dark:text-violet-400">
+                        <h2 className="text-3xl font-bold text-red-600 dark:text-red-400">
                             E-Learning Platform
                         </h2>
                         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -204,7 +206,7 @@ export default function Register() {
                                                         placeholder="username123"
                                                         autoComplete="username"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -236,7 +238,7 @@ export default function Register() {
                                                         placeholder="example@email.com"
                                                         autoComplete="email"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -260,7 +262,7 @@ export default function Register() {
                                                         placeholder="Duy"
                                                         autoComplete="given-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -281,7 +283,7 @@ export default function Register() {
                                                         placeholder="Nguyễn"
                                                         autoComplete="family-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -313,7 +315,7 @@ export default function Register() {
                                                         placeholder="••••••••"
                                                         autoComplete="new-password"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
@@ -353,7 +355,7 @@ export default function Register() {
                                                         placeholder="••••••••"
                                                         autoComplete="new-password"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-violet-500 dark:focus:border-violet-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
@@ -376,7 +378,7 @@ export default function Register() {
 
                                 <Button
                                     type="submit"
-                                    className="w-full h-12 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                                    className="w-full h-12 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-200"
                                     disabled={registerMutation.isPending}
                                 >
                                     {registerMutation.isPending ? (
@@ -463,11 +465,11 @@ export default function Register() {
                     {/* Additional Info */}
                     <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
                         Bằng cách đăng ký, bạn đồng ý với{' '}
-                        <a href="#" className="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
                         </a>{' '}
                         và{' '}
-                        <a href="#" className="font-medium text-violet-600 hover:text-violet-500 dark:text-violet-400">
+                        <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Chính sách bảo mật
                         </a>
                     </p>
@@ -476,3 +478,4 @@ export default function Register() {
         </section>
     );
 }
+

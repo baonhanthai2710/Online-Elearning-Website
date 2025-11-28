@@ -55,7 +55,7 @@ export default function ResendVerification() {
                     <p className="text-zinc-600 dark:text-zinc-400 mb-2">
                         Chúng tôi đã gửi email xác thực đến:
                     </p>
-                    <p className="text-violet-600 dark:text-violet-400 font-semibold mb-6">
+                    <p className="text-red-600 dark:text-red-400 font-semibold mb-6">
                         {email}
                     </p>
                     <p className="text-sm text-zinc-500 dark:text-zinc-500 mb-6">
@@ -85,8 +85,8 @@ export default function ResendVerification() {
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-4">
             <Card className="max-w-md w-full p-8 shadow-2xl">
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Mail className="w-8 h-8 text-violet-600 dark:text-violet-400" />
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Mail className="w-8 h-8 text-red-600 dark:text-red-400" />
                     </div>
                     <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Gửi lại email xác thực
@@ -115,7 +115,7 @@ export default function ResendVerification() {
                     <Button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full h-12 bg-violet-600 hover:bg-violet-700"
+                        className="w-full h-12 bg-red-600 hover:bg-red-700"
                     >
                         {isLoading ? (
                             <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export default function ResendVerification() {
                 <div className="mt-6 text-center">
                     <Link
                         to="/login"
-                        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center gap-2"
+                        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 flex items-center justify-center gap-2"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Quay lại đăng nhập
@@ -144,4 +144,5 @@ export default function ResendVerification() {
         </div>
     );
 }
+
 

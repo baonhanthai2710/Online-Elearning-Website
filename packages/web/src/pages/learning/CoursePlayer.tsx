@@ -426,7 +426,7 @@ export default function CoursePlayer() {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải khóa học...</p>
                 </div>
             </div>
@@ -438,7 +438,7 @@ export default function CoursePlayer() {
         return (
             <div className="flex items-center justify-center min-h-screen bg-zinc-900">
                 <div className="text-center">
-                    <p className="text-violet-400 mb-4">
+                    <p className="text-red-400 mb-4">
                         {isNotEnrolled
                             ? 'Bạn chưa đăng ký khóa học này'
                             : 'Không tìm thấy khóa học hoặc có lỗi xảy ra'}
@@ -482,7 +482,7 @@ export default function CoursePlayer() {
                             </span>
                             <div className="w-32 h-2 bg-zinc-700 rounded-full overflow-hidden">
                                 <div
-                                    className="h-full bg-violet-500 transition-all"
+                                    className="h-full bg-red-500 transition-all"
                                     style={{ width: `${currentProgress}%` }}
                                 />
                             </div>
@@ -558,7 +558,7 @@ export default function CoursePlayer() {
                                                     disabled={completedContentIds.includes(currentContent.contentId) || markCompleteMutation.isPending}
                                                     className={completedContentIds.includes(currentContent.contentId)
                                                         ? 'bg-green-600 hover:bg-green-600 cursor-default'
-                                                        : 'bg-violet-600 hover:bg-violet-700'}
+                                                        : 'bg-red-600 hover:bg-red-700'}
                                                 >
                                                     {completedContentIds.includes(currentContent.contentId) ? (
                                                         <>
@@ -576,7 +576,7 @@ export default function CoursePlayer() {
                                                     href={docUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors text-sm"
+                                                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
                                                 >
                                                     Mở trong tab mới
                                                 </a>
@@ -612,7 +612,7 @@ export default function CoursePlayer() {
                                                                     href={docUrl}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
+                                                                    className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                                                                 >
                                                                     <FileText className="w-4 h-4" />
                                                                     Mở trong tab mới
@@ -642,7 +642,7 @@ export default function CoursePlayer() {
                                                         <a
                                                             href={getDownloadUrl(docUrl)}
                                                             download
-                                                            className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
+                                                            className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                                                         >
                                                             <FileText className="w-4 h-4" />
                                                             Tải xuống tài liệu
@@ -691,7 +691,7 @@ export default function CoursePlayer() {
                                                                     })}
                                                                 </span>
                                                                 <span className={`text-sm font-bold ${attempt.score >= 80 ? 'text-green-500' :
-                                                                        attempt.score >= 60 ? 'text-yellow-500' : 'text-violet-500'
+                                                                        attempt.score >= 60 ? 'text-yellow-500' : 'text-red-500'
                                                                     }`}>
                                                                     {attempt.score}%
                                                                 </span>
@@ -707,7 +707,7 @@ export default function CoursePlayer() {
                                                         </div>
                                                         <div className="flex justify-between text-sm mt-1">
                                                             <span className="text-zinc-600 dark:text-zinc-400">Điểm trung bình:</span>
-                                                            <span className="font-semibold text-violet-500">
+                                                            <span className="font-semibold text-red-500">
                                                                 {(quizAttempts.reduce((sum, a) => sum + a.score, 0) / quizAttempts.length).toFixed(1)}%
                                                             </span>
                                                         </div>
@@ -718,7 +718,7 @@ export default function CoursePlayer() {
                                             <Button
                                                 onClick={startQuiz}
                                                 disabled={quizLoading}
-                                                className="bg-violet-600 hover:bg-violet-700"
+                                                className="bg-red-600 hover:bg-red-700"
                                             >
                                                 {quizLoading ? 'Đang tải...' : quizAttempts.length > 0 ? 'Làm lại bài kiểm tra' : 'Bắt đầu làm bài'}
                                             </Button>
@@ -751,7 +751,7 @@ export default function CoursePlayer() {
                                                                 <label
                                                                     key={option.id}
                                                                     className={`flex items-center p-3 rounded-lg border cursor-pointer transition-colors ${selectedAnswers[question.id] === option.id
-                                                                            ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/30'
+                                                                            ? 'border-red-500 bg-red-50 dark:bg-red-900/30'
                                                                             : 'border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700/50'
                                                                         }`}
                                                                 >
@@ -798,13 +798,13 @@ export default function CoursePlayer() {
                                                     ? 'bg-green-100 dark:bg-green-900/30'
                                                     : quizResult.score >= 50
                                                         ? 'bg-yellow-100 dark:bg-yellow-900/30'
-                                                        : 'bg-violet-100 dark:bg-violet-900/30'
+                                                        : 'bg-red-100 dark:bg-red-900/30'
                                                 }`}>
                                                 <span className={`text-3xl font-bold ${quizResult.score >= 80
                                                         ? 'text-green-600'
                                                         : quizResult.score >= 50
                                                             ? 'text-yellow-600'
-                                                            : 'text-violet-600'
+                                                            : 'text-red-600'
                                                     }`}>
                                                     {quizResult.score}%
                                                 </span>
@@ -829,7 +829,7 @@ export default function CoursePlayer() {
                                                 <Button
                                                     onClick={handleNext}
                                                     disabled={!getNextContent()}
-                                                    className="bg-violet-600 hover:bg-violet-700"
+                                                    className="bg-red-600 hover:bg-red-700"
                                                 >
                                                     Bài tiếp theo
                                                 </Button>
@@ -863,7 +863,7 @@ export default function CoursePlayer() {
                         <Button
                             onClick={handleNext}
                             disabled={!getNextContent()}
-                            className="gap-2 bg-violet-600 hover:bg-violet-700"
+                            className="gap-2 bg-red-600 hover:bg-red-700"
                         >
                             Bài tiếp
                             <ChevronRight className="h-4 w-4" />
@@ -894,7 +894,7 @@ export default function CoursePlayer() {
                                                     key={content.contentId}
                                                     onClick={() => handleContentSelect(module.moduleId, content.contentId)}
                                                     className={`w-full text-left px-4 py-2 rounded-lg flex items-center gap-3 transition-colors ${currentContentId === content.contentId
-                                                            ? 'bg-violet-600 text-white'
+                                                            ? 'bg-red-600 text-white'
                                                             : isCompleted
                                                                 ? 'text-green-400 hover:bg-zinc-700'
                                                                 : 'text-zinc-300 hover:bg-zinc-700'
@@ -924,3 +924,4 @@ export default function CoursePlayer() {
         </div>
     );
 }
+

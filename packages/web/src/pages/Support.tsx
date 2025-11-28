@@ -45,7 +45,7 @@ export default function Support() {
             availability: '1900 1234',
             action: 'Gọi ngay',
             href: 'tel:19001234',
-            color: 'from-violet-500 to-violet-600',
+            color: 'from-red-500 to-red-600',
         },
     ];
 
@@ -82,11 +82,11 @@ export default function Support() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-violet-600">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <Headphones className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Trung tâm hỗ trợ</h1>
-                    <p className="text-xl text-violet-100 max-w-2xl mx-auto mb-8">
+                    <p className="text-xl text-red-100 max-w-2xl mx-auto mb-8">
                         Chúng tôi luôn sẵn sàng giúp đỡ bạn. Chọn cách liên hệ phù hợp nhất với bạn.
                     </p>
 
@@ -119,7 +119,7 @@ export default function Support() {
                                 <p className="text-zinc-600 dark:text-zinc-400 mb-3">
                                     {channel.description}
                                 </p>
-                                <p className="text-sm text-violet-600 dark:text-violet-400 font-medium mb-4">
+                                <p className="text-sm text-red-600 dark:text-red-400 font-medium mb-4">
                                     {channel.availability}
                                 </p>
                                 {channel.href ? (
@@ -151,20 +151,20 @@ export default function Support() {
                             <div className="space-y-4">
                                 {quickLinks.map((item) => (
                                     <Link key={item.title} to={item.link}>
-                                        <Card className="p-5 hover:shadow-lg transition-all group cursor-pointer border-l-4 border-l-violet-500">
+                                        <Card className="p-5 hover:shadow-lg transition-all group cursor-pointer border-l-4 border-l-red-500">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center group-hover:bg-violet-200 dark:group-hover:bg-violet-900/50 transition-colors">
-                                                    <item.icon className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                                                <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors">
+                                                    <item.icon className="h-6 w-6 text-red-600 dark:text-red-400" />
                                                 </div>
                                                 <div className="flex-1">
-                                                    <h3 className="font-semibold text-zinc-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                                                    <h3 className="font-semibold text-zinc-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                                         {item.title}
                                                     </h3>
                                                     <p className="text-sm text-zinc-600 dark:text-zinc-400">
                                                         {item.description}
                                                     </p>
                                                 </div>
-                                                <ArrowRight className="h-5 w-5 text-zinc-400 group-hover:text-violet-600 group-hover:translate-x-1 transition-all" />
+                                                <ArrowRight className="h-5 w-5 text-zinc-400 group-hover:text-red-600 group-hover:translate-x-1 transition-all" />
                                             </div>
                                         </Card>
                                     </Link>
@@ -186,7 +186,7 @@ export default function Support() {
                                     >
                                         <div className="flex items-center gap-3">
                                             <CheckCircle className="h-5 w-5 text-green-500" />
-                                            <span className="text-zinc-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                                            <span className="text-zinc-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                                 {issue.title}
                                             </span>
                                         </div>
@@ -205,7 +205,7 @@ export default function Support() {
             <section className="py-16 bg-white dark:bg-zinc-900">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
-                        <Clock className="h-12 w-12 mx-auto mb-4 text-violet-600" />
+                        <Clock className="h-12 w-12 mx-auto mb-4 text-red-600" />
                         <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
                             Thời gian phản hồi
                         </h2>
@@ -221,8 +221,8 @@ export default function Support() {
                                 <div className="text-3xl font-bold text-blue-600 mb-2">&lt; 24 giờ</div>
                                 <div className="text-sm text-zinc-600 dark:text-zinc-400">Email</div>
                             </Card>
-                            <Card className="p-6 border-2 border-violet-200 dark:border-violet-800">
-                                <div className="text-3xl font-bold text-violet-600 mb-2">Ngay lập tức</div>
+                            <Card className="p-6 border-2 border-red-200 dark:border-red-800">
+                                <div className="text-3xl font-bold text-red-600 mb-2">Ngay lập tức</div>
                                 <div className="text-sm text-zinc-600 dark:text-zinc-400">Hotline</div>
                             </Card>
                         </div>
@@ -233,14 +233,14 @@ export default function Support() {
             {/* CTA */}
             <section className="py-16">
                 <div className="container mx-auto px-4">
-                    <Card className="max-w-4xl mx-auto p-8 bg-violet-600 text-white text-center">
+                    <Card className="max-w-4xl mx-auto p-8 bg-red-600 text-white text-center">
                         <h2 className="text-2xl font-bold mb-4">Vẫn cần hỗ trợ?</h2>
-                        <p className="text-violet-100 mb-6">
+                        <p className="text-red-100 mb-6">
                             Nếu bạn không tìm thấy câu trả lời, hãy liên hệ trực tiếp với chúng tôi
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <Link to="/contact">
-                                <Button size="lg" className="bg-white text-violet-600 hover:bg-violet-50">
+                                <Button size="lg" className="bg-white text-red-600 hover:bg-red-50">
                                     <Mail className="h-5 w-5 mr-2" />
                                     Gửi yêu cầu hỗ trợ
                                 </Button>
@@ -258,4 +258,5 @@ export default function Support() {
         </div>
     );
 }
+
 

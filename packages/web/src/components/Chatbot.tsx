@@ -95,7 +95,7 @@ export function Chatbot() {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-xl bg-violet-600 text-white shadow-lg hover:bg-violet-700 transition-all hover:scale-105"
+                    className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-xl bg-red-600 text-white shadow-lg hover:bg-red-700 transition-all hover:scale-105"
                 >
                     <MessageCircle className="h-6 w-6" />
                 </button>
@@ -105,14 +105,14 @@ export function Chatbot() {
             {isOpen && (
                 <Card className="fixed bottom-6 right-6 z-50 flex flex-col w-96 h-[600px] shadow-xl border-zinc-200 dark:border-zinc-800 overflow-hidden">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-4 bg-violet-600 text-white">
+                    <div className="flex items-center justify-between p-4 bg-red-600 text-white">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
                                 <Bot className="h-6 w-6" />
                             </div>
                             <div>
                                 <h3 className="font-semibold">AI Assistant</h3>
-                                <p className="text-xs text-violet-100">Trợ lý E-Learning</p>
+                                <p className="text-xs text-red-100">Trợ lý E-Learning</p>
                             </div>
                         </div>
                         <button
@@ -134,7 +134,7 @@ export function Chatbot() {
                                 {/* Avatar */}
                                 <div
                                     className={`flex h-8 w-8 items-center justify-center rounded-lg flex-shrink-0 ${message.role === 'user'
-                                            ? 'bg-violet-600 text-white'
+                                            ? 'bg-red-600 text-white'
                                             : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
                                         }`}
                                 >
@@ -152,7 +152,7 @@ export function Chatbot() {
                                 >
                                     <div
                                         className={`px-4 py-2 rounded-xl ${message.role === 'user'
-                                                ? 'bg-violet-600 text-white'
+                                                ? 'bg-red-600 text-white'
                                                 : 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800'
                                             }`}
                                     >
@@ -177,7 +177,7 @@ export function Chatbot() {
                                     <Bot className="h-4 w-4" />
                                 </div>
                                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                                    <Loader2 className="h-4 w-4 animate-spin text-violet-600" />
+                                    <Loader2 className="h-4 w-4 animate-spin text-red-600" />
                                     <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                         Đang suy nghĩ...
                                     </span>
@@ -203,7 +203,7 @@ export function Chatbot() {
                             <Button
                                 onClick={handleSendMessage}
                                 disabled={!input.trim() || isLoading}
-                                className="bg-violet-600 hover:bg-violet-700 text-white"
+                                className="bg-red-600 hover:bg-red-700 text-white"
                             >
                                 <Send className="h-4 w-4" />
                             </Button>
@@ -217,4 +217,5 @@ export function Chatbot() {
         </>
     );
 }
+
 

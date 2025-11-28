@@ -145,8 +145,8 @@ export default function AdminDashboard() {
 
                     <Card className="p-6 border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center gap-4">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-900/30">
-                                <TrendingUp className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
+                                <TrendingUp className="h-6 w-6 text-red-600 dark:text-red-400" />
                             </div>
                             <div>
                                 <p className="text-sm text-zinc-600 dark:text-zinc-400">Quản trị viên</p>
@@ -182,7 +182,7 @@ export default function AdminDashboard() {
                     </Link>
 
                     <Link to="/admin/promotions">
-                        <Button className="w-full h-20 bg-violet-600 hover:bg-violet-700 text-white">
+                        <Button className="w-full h-20 bg-red-600 hover:bg-red-700 text-white">
                             <Tag className="mr-2 h-5 w-5" />
                             Mã khuyến mãi
                         </Button>
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
                                         <td className="py-3 px-4">
                                             <span
                                                 className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'ADMIN'
-                                                        ? 'bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-400'
+                                                        ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                                                         : user.role === 'TEACHER'
                                                             ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                                                             : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
@@ -249,4 +249,5 @@ export default function AdminDashboard() {
         </div>
     );
 }
+
 

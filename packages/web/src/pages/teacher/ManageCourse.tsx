@@ -214,7 +214,7 @@ export default function ManageCourse() {
         return (
             <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="h-12 w-12 animate-spin text-violet-600 mx-auto mb-4" />
+                    <Loader2 className="h-12 w-12 animate-spin text-red-600 mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải...</p>
                 </div>
             </div>
@@ -240,7 +240,7 @@ export default function ManageCourse() {
                     <Button
                         variant="ghost"
                         onClick={() => navigate(dashboardPath)}
-                        className="mb-4 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại {isAdmin ? 'Admin' : 'Dashboard'}
@@ -284,14 +284,14 @@ export default function ManageCourse() {
                             <Button
                                 onClick={() => setIsAddingModule(true)}
                                 variant="ghost"
-                                className="w-full gap-2 text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                                className="w-full gap-2 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400"
                             >
                                 <Plus className="h-5 w-5" />
                                 Thêm chương mới
                             </Button>
                         </Card>
                     ) : (
-                        <Card className="p-4 border-2 border-violet-500">
+                        <Card className="p-4 border-2 border-red-500">
                             <div className="flex gap-2">
                                 <Input
                                     placeholder="Tên chương (VD: Chương 1: Giới thiệu)"
@@ -310,7 +310,7 @@ export default function ManageCourse() {
                                 <Button
                                     onClick={handleAddModule}
                                     disabled={!newModuleTitle.trim() || createModuleMutation.isPending}
-                                    className="bg-violet-600 hover:bg-violet-700"
+                                    className="bg-red-600 hover:bg-red-700"
                                 >
                                     {createModuleMutation.isPending ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -367,7 +367,7 @@ export default function ManageCourse() {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="gap-2 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 dark:text-violet-400"
+                                            className="gap-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:text-red-400"
                                             onClick={() => handleDeleteModule(module.id, module.title)}
                                         >
                                             <Trash2 className="h-4 w-4" />
@@ -427,7 +427,7 @@ export default function ManageCourse() {
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            className="text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30 dark:text-violet-400"
+                                                            className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:text-red-400"
                                                             onClick={() => handleDeleteContent(content.id, content.title)}
                                                         >
                                                             <Trash2 className="h-4 w-4" />
@@ -455,4 +455,5 @@ export default function ManageCourse() {
         </div>
     );
 }
+
 

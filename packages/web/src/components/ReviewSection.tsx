@@ -131,7 +131,7 @@ export function ReviewSection({ courseId, isEnrolled }: ReviewSectionProps) {
     if (isLoading) {
         return (
             <div className="text-center py-8">
-                <div className="w-8 h-8 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                 <p className="text-zinc-600 dark:text-zinc-400">Đang tải đánh giá...</p>
             </div>
         );
@@ -250,7 +250,7 @@ export function ReviewSection({ courseId, isEnrolled }: ReviewSectionProps) {
                                                 deleteReviewMutation.mutate(userReview.id);
                                             }
                                         }}
-                                        className="text-violet-600 hover:text-violet-700"
+                                        className="text-red-600 hover:text-red-700"
                                         disabled={deleteReviewMutation.isPending}
                                     >
                                         <Trash2 className="w-4 h-4 mr-1" />
@@ -365,7 +365,7 @@ export function ReviewSection({ courseId, isEnrolled }: ReviewSectionProps) {
                         <Card key={review.id} className="p-6">
                             <div className="flex items-start justify-between mb-3">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-semibold">
+                                    <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-semibold">
                                         {review.student.fullName.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
@@ -401,4 +401,5 @@ export function ReviewSection({ courseId, isEnrolled }: ReviewSectionProps) {
         </div>
     );
 }
+
 

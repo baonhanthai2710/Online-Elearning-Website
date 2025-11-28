@@ -55,7 +55,7 @@ export default function VerifyEmail() {
                 return (
                     <>
                         <div className="w-20 h-20 mx-auto mb-6">
-                            <Loader2 className="w-20 h-20 text-violet-600 animate-spin" />
+                            <Loader2 className="w-20 h-20 text-red-600 animate-spin" />
                         </div>
                         <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                             Đang xác thực email...
@@ -144,7 +144,7 @@ export default function VerifyEmail() {
                         </p>
                         <div className="space-y-3">
                             <Link to="/resend-verification">
-                                <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                                <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                                     <Mail className="w-4 h-4" />
                                     Gửi lại email xác thực
                                 </Button>
@@ -168,4 +168,5 @@ export default function VerifyEmail() {
         </div>
     );
 }
+
 

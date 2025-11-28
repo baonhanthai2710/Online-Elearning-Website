@@ -91,14 +91,14 @@ export default function EnrolledStudents() {
     const getProgressColor = (progress: number) => {
         if (progress >= 80) return 'text-green-600 dark:text-green-400';
         if (progress >= 50) return 'text-yellow-600 dark:text-yellow-400';
-        return 'text-violet-600 dark:text-violet-400';
+        return 'text-red-600 dark:text-red-400';
     };
 
     if (isLoadingStudents || isLoadingStats) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải danh sách học viên...</p>
                 </div>
             </div>
@@ -238,7 +238,7 @@ export default function EnrolledStudents() {
                                         <tr key={enrollment.enrollmentId} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-semibold">
+                                                    <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-semibold">
                                                         {enrollment.student.fullName.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div>
@@ -271,7 +271,7 @@ export default function EnrolledStudents() {
                                                                     ? 'bg-green-500'
                                                                     : enrollment.progress >= 50
                                                                         ? 'bg-yellow-500'
-                                                                        : 'bg-violet-500'
+                                                                        : 'bg-red-500'
                                                                 }`}
                                                             style={{ width: `${enrollment.progress}%` }}
                                                         />
@@ -330,4 +330,5 @@ export default function EnrolledStudents() {
         </div>
     );
 }
+
 

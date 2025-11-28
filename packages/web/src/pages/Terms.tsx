@@ -92,11 +92,11 @@ Nếu bạn có câu hỏi về các điều khoản này, vui lòng liên hệ:
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-violet-600">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <FileText className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Điều khoản dịch vụ</h1>
-                    <p className="text-xl text-violet-100 max-w-2xl mx-auto">
+                    <p className="text-xl text-red-100 max-w-2xl mx-auto">
                         Vui lòng đọc kỹ các điều khoản trước khi sử dụng dịch vụ
                     </p>
                 </div>
@@ -133,4 +133,5 @@ Nếu bạn có câu hỏi về các điều khoản này, vui lòng liên hệ:
         </div>
     );
 }
+
 

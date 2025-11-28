@@ -76,7 +76,7 @@ export default function TeacherProfile() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải thông tin giảng viên...</p>
                 </div>
             </div>
@@ -87,8 +87,8 @@ export default function TeacherProfile() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
                 <div className="text-center">
-                    <div className="w-16 h-16 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <User className="w-8 h-8 text-violet-600" />
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <User className="w-8 h-8 text-red-600" />
                     </div>
                     <h1 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
                         Không tìm thấy giảng viên
@@ -110,11 +110,11 @@ export default function TeacherProfile() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero Section */}
-            <section className="relative py-16 bg-violet-600 overflow-hidden">
+            <section className="relative py-16 bg-red-600 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')]"></div>
 
                 <div className="container mx-auto px-4 relative z-10">
-                    <Link to="/courses" className="inline-flex items-center gap-2 text-violet-200 hover:text-white mb-6 transition-colors">
+                    <Link to="/courses" className="inline-flex items-center gap-2 text-red-200 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                         Quay lại khóa học
                     </Link>
@@ -131,15 +131,15 @@ export default function TeacherProfile() {
                         <div className="text-center md:text-left text-white flex-1">
                             <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
                                 <Award className="w-5 h-5 text-yellow-400" />
-                                <span className="text-violet-200 text-sm font-medium">Giảng viên</span>
+                                <span className="text-red-200 text-sm font-medium">Giảng viên</span>
                             </div>
                             <h1 className="text-3xl md:text-4xl font-bold mb-2">{teacher.fullName}</h1>
-                            <p className="text-violet-200 mb-4">@{teacher.username}</p>
+                            <p className="text-red-200 mb-4">@{teacher.username}</p>
 
                             <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
                                 <div className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4 text-violet-300" />
-                                    <span className="text-violet-100">
+                                    <Calendar className="w-4 h-4 text-red-300" />
+                                    <span className="text-red-100">
                                         Tham gia: {formatDate(teacher.joinedAt)}
                                     </span>
                                 </div>
@@ -154,7 +154,7 @@ export default function TeacherProfile() {
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
                         <Card className="p-6 text-center bg-white dark:bg-zinc-900 shadow-xl">
-                            <BookOpen className="w-8 h-8 mx-auto mb-2 text-violet-600" />
+                            <BookOpen className="w-8 h-8 mx-auto mb-2 text-red-600" />
                             <div className="text-3xl font-bold text-zinc-900 dark:text-white">
                                 {teacher.stats.totalCourses}
                             </div>
@@ -201,7 +201,7 @@ export default function TeacherProfile() {
                                 <Link key={course.id} to={`/courses/${course.id}`}>
                                     <Card className="overflow-hidden hover:shadow-xl transition-all group h-full">
                                         {/* Thumbnail */}
-                                        <div className="aspect-video bg-violet-600 relative overflow-hidden">
+                                        <div className="aspect-video bg-red-600 relative overflow-hidden">
                                             {course.thumbnailUrl ? (
                                                 <img
                                                     src={course.thumbnailUrl}
@@ -222,7 +222,7 @@ export default function TeacherProfile() {
 
                                         {/* Content */}
                                         <div className="p-5">
-                                            <h3 className="font-bold text-zinc-900 dark:text-white mb-2 line-clamp-2 group-hover:text-violet-600 transition-colors">
+                                            <h3 className="font-bold text-zinc-900 dark:text-white mb-2 line-clamp-2 group-hover:text-red-600 transition-colors">
                                                 {course.title}
                                             </h3>
                                             <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 mb-4">
@@ -241,10 +241,10 @@ export default function TeacherProfile() {
                                             </div>
 
                                             <div className="flex items-center justify-between">
-                                                <span className={`font-bold ${course.price === 0 ? 'text-green-600' : 'text-violet-600'}`}>
+                                                <span className={`font-bold ${course.price === 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                     {formatPrice(course.price)}
                                                 </span>
-                                                <Button size="sm" variant="outline" className="group-hover:bg-violet-600 group-hover:text-white group-hover:border-violet-600 transition-colors">
+                                                <Button size="sm" variant="outline" className="group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600 transition-colors">
                                                     Xem chi tiết
                                                 </Button>
                                             </div>
@@ -259,4 +259,5 @@ export default function TeacherProfile() {
         </div>
     );
 }
+
 

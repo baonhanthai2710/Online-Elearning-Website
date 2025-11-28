@@ -225,7 +225,7 @@ export default function CourseDetail() {
     if (isError || !course) {
         return (
             <div className="container mx-auto px-4 py-20 text-center">
-                <p className="text-violet-600 dark:text-violet-400">Không tìm thấy khóa học</p>
+                <p className="text-red-600 dark:text-red-400">Không tìm thấy khóa học</p>
                 <Link to="/">
                     <Button className="mt-4">Về trang chủ</Button>
                 </Link>
@@ -252,7 +252,7 @@ export default function CourseDetail() {
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             {/* Hero Section */}
-            <section className="bg-violet-600 dark:bg-violet-700 text-white">
+            <section className="bg-red-600 dark:bg-red-700 text-white">
                 <div className="container mx-auto px-4 py-12">
                     <div className="max-w-6xl mx-auto">
                         <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -328,13 +328,13 @@ export default function CourseDetail() {
                                     {course.price > 0 && (
                                         <div className="space-y-2">
                                             {appliedPromotion ? (
-                                                <div className="flex items-center gap-2 p-3 bg-violet-50 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800 rounded-lg">
-                                                    <Tag className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                                                <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+                                                    <Tag className="w-5 h-5 text-red-600 dark:text-red-400" />
                                                     <div className="flex-1">
-                                                        <div className="text-sm font-medium text-violet-900 dark:text-violet-100">
+                                                        <div className="text-sm font-medium text-red-900 dark:text-red-100">
                                                             Mã: {appliedPromotion.code}
                                                         </div>
-                                                        <div className="text-xs text-violet-700 dark:text-violet-300">
+                                                        <div className="text-xs text-red-700 dark:text-red-300">
                                                             Giảm {new Intl.NumberFormat('vi-VN', {
                                                                 style: 'currency',
                                                                 currency: 'VND',
@@ -345,7 +345,7 @@ export default function CourseDetail() {
                                                         variant="ghost"
                                                         size="sm"
                                                         onClick={handleRemovePromotion}
-                                                        className="text-violet-600 hover:text-violet-700 dark:text-violet-400"
+                                                        className="text-red-600 hover:text-red-700 dark:text-red-400"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </Button>
@@ -390,7 +390,7 @@ export default function CourseDetail() {
                                             className="w-full aspect-video object-cover"
                                         />
                                     ) : (
-                                        <div className="w-full aspect-video bg-violet-100 dark:bg-zinc-800 flex items-center justify-center">
+                                        <div className="w-full aspect-video bg-red-100 dark:bg-zinc-800 flex items-center justify-center">
                                             <BookOpen className="h-24 w-24 text-zinc-300 dark:text-zinc-600" />
                                         </div>
                                     )}
@@ -451,7 +451,7 @@ export default function CourseDetail() {
                                             'Nhận chứng chỉ hoàn thành'
                                         ].map((item, index) => (
                                             <div key={index} className="flex items-start gap-2">
-                                                <CheckCircle className="h-5 w-5 text-violet-500 mt-0.5 flex-shrink-0" />
+                                                <CheckCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-zinc-700 dark:text-zinc-300">{item}</span>
                                             </div>
                                         ))}
@@ -517,3 +517,4 @@ export default function CourseDetail() {
         </div>
     );
 }
+

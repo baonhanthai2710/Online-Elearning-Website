@@ -195,7 +195,7 @@ export default function ManageQuiz() {
         return (
             <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="h-12 w-12 animate-spin text-violet-600 mx-auto mb-4" />
+                    <Loader2 className="h-12 w-12 animate-spin text-red-600 mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải...</p>
                 </div>
             </div>
@@ -223,7 +223,7 @@ export default function ManageQuiz() {
                     <Button
                         variant="ghost"
                         onClick={() => navigate(-1)}
-                        className="mb-4 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại
@@ -255,7 +255,7 @@ export default function ManageQuiz() {
                             </Button>
                         </Card>
                     ) : (
-                        <Card className="p-4 border-2 border-violet-500">
+                        <Card className="p-4 border-2 border-red-500">
                             <div className="flex gap-2">
                                 <Input
                                     placeholder="Nhập câu hỏi..."
@@ -277,7 +277,7 @@ export default function ManageQuiz() {
                                         !newQuestionText.trim() ||
                                         createQuestionMutation.isPending
                                     }
-                                    className="bg-violet-600 hover:bg-violet-700"
+                                    className="bg-red-600 hover:bg-red-700"
                                 >
                                     {createQuestionMutation.isPending ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -321,7 +321,7 @@ export default function ManageQuiz() {
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                                        className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                         onClick={() =>
                                             handleDeleteQuestion(question.id, question.questionText)
                                         }
@@ -351,7 +351,7 @@ export default function ManageQuiz() {
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                className="text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                                                className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                                 onClick={() => handleDeleteOption(option.id)}
                                             >
                                                 <Trash2 className="h-4 w-4" />
@@ -383,7 +383,7 @@ export default function ManageQuiz() {
                                                 id={`correct-${question.id}`}
                                                 checked={newOptionIsCorrect}
                                                 onChange={(e) => setNewOptionIsCorrect(e.target.checked)}
-                                                className="h-4 w-4 rounded border-zinc-300 text-violet-600 focus:ring-violet-600"
+                                                className="h-4 w-4 rounded border-zinc-300 text-red-600 focus:ring-red-600"
                                             />
                                             <label
                                                 htmlFor={`correct-${question.id}`}
@@ -444,4 +444,5 @@ export default function ManageQuiz() {
         </div>
     );
 }
+
 

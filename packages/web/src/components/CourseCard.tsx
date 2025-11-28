@@ -63,7 +63,7 @@ export function CourseCard({ course }: CourseCardProps) {
                     )}
                     {/* Category Badge */}
                     <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-violet-600 text-white">
+                        <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-red-600 text-white">
                             {course.category.name}
                         </span>
                     </div>
@@ -72,7 +72,7 @@ export function CourseCard({ course }: CourseCardProps) {
                 {/* Content */}
                 <div className="p-5 space-y-3">
                     {/* Title */}
-                    <h3 className="font-semibold text-base text-zinc-900 dark:text-white line-clamp-2 break-all group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                    <h3 className="font-semibold text-base text-zinc-900 dark:text-white line-clamp-2 break-all group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                         {course.title}
                     </h3>
 
@@ -85,9 +85,9 @@ export function CourseCard({ course }: CourseCardProps) {
                     <Link
                         to={`/teachers/${course.teacher.id || course.teacher.userId}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                     >
-                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-violet-600 text-white text-xs font-medium">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-red-600 text-white text-xs font-medium">
                             {teacherName.charAt(0).toUpperCase()}
                         </div>
                         <span className="hover:underline">{teacherName}</span>
@@ -113,12 +113,12 @@ export function CourseCard({ course }: CourseCardProps) {
 
                     {/* Price & Button */}
                     <div className="flex items-center justify-between pt-3">
-                        <div className="text-xl font-bold text-violet-600 dark:text-violet-400">
+                        <div className="text-xl font-bold text-red-600 dark:text-red-400">
                             {course.price === 0 ? 'Miễn phí' : formattedPrice}
                         </div>
                         <Button
                             size="sm"
-                            className="bg-violet-600 hover:bg-violet-700 text-white"
+                            className="bg-red-600 hover:bg-red-700 text-white"
                         >
                             Xem chi tiết
                         </Button>
@@ -128,4 +128,5 @@ export function CourseCard({ course }: CourseCardProps) {
         </Card>
     );
 }
+
 

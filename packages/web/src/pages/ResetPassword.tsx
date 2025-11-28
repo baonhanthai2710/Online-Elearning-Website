@@ -119,7 +119,7 @@ export default function ResetPassword() {
                     </p>
                     <div className="space-y-3">
                         <Link to="/forgot-password">
-                            <Button className="w-full gap-2 bg-violet-600 hover:bg-violet-700">
+                            <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                                 Yêu cầu link mới
                             </Button>
                         </Link>
@@ -139,8 +139,8 @@ export default function ResetPassword() {
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-4">
             <Card className="max-w-md w-full p-8">
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Lock className="w-8 h-8 text-violet-600 dark:text-violet-400" />
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Lock className="w-8 h-8 text-red-600 dark:text-red-400" />
                     </div>
                     <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                         Đặt lại mật khẩu
@@ -204,7 +204,7 @@ export default function ResetPassword() {
                     <Button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full h-12 bg-violet-600 hover:bg-violet-700"
+                        className="w-full h-12 bg-red-600 hover:bg-red-700"
                     >
                         {isLoading ? (
                             <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export default function ResetPassword() {
                 <div className="mt-6 text-center">
                     <Link
                         to="/login"
-                        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center gap-2"
+                        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 flex items-center justify-center gap-2"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Quay lại đăng nhập
@@ -233,4 +233,5 @@ export default function ResetPassword() {
         </div>
     );
 }
+
 

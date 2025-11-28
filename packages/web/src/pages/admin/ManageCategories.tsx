@@ -129,7 +129,7 @@ export default function ManageCategories() {
                             <Button
                                 onClick={() => createMutation.mutate(newName)}
                                 disabled={!newName.trim() || createMutation.isPending}
-                                className="bg-violet-600"
+                                className="bg-red-600"
                             >
                                 {createMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                             </Button>
@@ -192,7 +192,7 @@ export default function ManageCategories() {
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                className="text-violet-600"
+                                                className="text-red-600"
                                                 onClick={() => handleDelete(cat.id, cat.name)}
                                             >
                                                 <Trash2 className="h-4 w-4" />
@@ -208,4 +208,5 @@ export default function ManageCategories() {
         </div>
     );
 }
+
 

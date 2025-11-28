@@ -103,14 +103,14 @@ export default function StudentPerformance() {
     const getScoreColor = (score: number) => {
         if (score >= 80) return 'text-green-600 dark:text-green-400';
         if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
-        return 'text-violet-600 dark:text-violet-400';
+        return 'text-red-600 dark:text-red-400';
     };
 
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải thông tin hiệu suất...</p>
                 </div>
             </div>
@@ -149,7 +149,7 @@ export default function StudentPerformance() {
                 {/* Student Info Card */}
                 <Card className="p-6 mb-8">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-2xl">
+                        <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-2xl">
                             {performance.student.fullName.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1">
@@ -359,4 +359,5 @@ export default function StudentPerformance() {
         </div>
     );
 }
+
 

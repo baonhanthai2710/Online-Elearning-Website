@@ -56,7 +56,7 @@ export default function QuizHistory() {
     if (isLoading) {
         return (
             <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
-                <div className="animate-spin h-12 w-12 border-4 border-violet-600 border-t-transparent rounded-full" />
+                <div className="animate-spin h-12 w-12 border-4 border-red-600 border-t-transparent rounded-full" />
             </div>
         );
     }
@@ -152,10 +152,10 @@ export default function QuizHistory() {
                             </div>
                         </Card>
 
-                        <Card className="p-4 bg-violet-500/10 border-violet-500/30">
+                        <Card className="p-4 bg-red-500/10 border-red-500/30">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-violet-500/20">
-                                    <BookOpen className="h-5 w-5 text-violet-500" />
+                                <div className="p-2 rounded-lg bg-red-500/20">
+                                    <BookOpen className="h-5 w-5 text-red-500" />
                                 </div>
                                 <div>
                                     <p className="text-sm text-zinc-600 dark:text-zinc-400">Số khóa học</p>
@@ -179,7 +179,7 @@ export default function QuizHistory() {
                             Bạn chưa làm bài quiz nào. Hãy bắt đầu học và làm quiz!
                         </p>
                         <Link to="/my-courses">
-                            <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+                            <Button className="bg-red-600 hover:bg-red-700 text-white">
                                 Đi đến khóa học của tôi
                             </Button>
                         </Link>
@@ -197,13 +197,13 @@ export default function QuizHistory() {
                                     className="w-16 h-16 rounded-lg object-cover"
                                 />
                             ) : (
-                                <div className="w-16 h-16 rounded-lg bg-violet-500/20 flex items-center justify-center">
-                                    <BookOpen className="h-8 w-8 text-violet-500" />
+                                <div className="w-16 h-16 rounded-lg bg-red-500/20 flex items-center justify-center">
+                                    <BookOpen className="h-8 w-8 text-red-500" />
                                 </div>
                             )}
                             <div>
                                 <Link to={`/learning/${course.id}`}>
-                                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition-colors">
+                                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors">
                                         {course.title}
                                     </h2>
                                 </Link>
@@ -245,7 +245,7 @@ export default function QuizHistory() {
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    className="border-violet-500/50 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-900/20"
+                                                    className="border-red-500/50 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                                                 >
                                                     Làm lại
                                                 </Button>
@@ -261,4 +261,5 @@ export default function QuizHistory() {
         </div>
     );
 }
+
 

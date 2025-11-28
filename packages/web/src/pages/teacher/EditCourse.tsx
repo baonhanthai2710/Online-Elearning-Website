@@ -144,7 +144,7 @@ export default function EditCourse() {
         return (
             <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="h-12 w-12 animate-spin text-violet-600 mx-auto mb-4" />
+                    <Loader2 className="h-12 w-12 animate-spin text-red-600 mx-auto mb-4" />
                     <p className="text-zinc-600 dark:text-zinc-400">Đang tải dữ liệu...</p>
                 </div>
             </div>
@@ -172,7 +172,7 @@ export default function EditCourse() {
                     <Button
                         variant="ghost"
                         onClick={() => navigate('/dashboard')}
-                        className="mb-4 hover:bg-violet-50 dark:hover:bg-violet-900/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại Dashboard
@@ -204,7 +204,7 @@ export default function EditCourse() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-zinc-700 dark:text-zinc-300">
-                                            Tên khóa học <span className="text-violet-500">*</span>
+                                            Tên khóa học <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -232,12 +232,12 @@ export default function EditCourse() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-zinc-700 dark:text-zinc-300">
-                                            Mô tả khóa học <span className="text-violet-500">*</span>
+                                            Mô tả khóa học <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <textarea
                                                 placeholder="Mô tả chi tiết về khóa học, nội dung, đối tượng phù hợp..."
-                                                className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-500 resize-none min-h-[120px]"
+                                                className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500 resize-none min-h-[120px]"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -257,11 +257,11 @@ export default function EditCourse() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-zinc-700 dark:text-zinc-300">
-                                            Danh mục <span className="text-violet-500">*</span>
+                                            Danh mục <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <select
-                                                className="w-full h-12 px-4 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-500"
+                                                className="w-full h-12 px-4 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                                                 {...field}
                                                 onChange={(e) => field.onChange(parseInt(e.target.value))}
                                             >
@@ -292,7 +292,7 @@ export default function EditCourse() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-zinc-700 dark:text-zinc-300">
-                                            Giá (VND) <span className="text-violet-500">*</span>
+                                            Giá (VND) <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -328,7 +328,7 @@ export default function EditCourse() {
                                         <button
                                             type="button"
                                             onClick={removeThumbnail}
-                                            className="absolute top-2 right-2 p-1 bg-violet-600 text-white rounded-full hover:bg-violet-700"
+                                            className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
@@ -337,12 +337,12 @@ export default function EditCourse() {
                                     <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                             {uploading ? (
-                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
                                             ) : (
                                                 <>
                                                     <Image className="w-10 h-10 text-zinc-400 mb-3" />
                                                     <p className="text-sm text-zinc-500">
-                                                        <span className="font-semibold text-violet-600">Nhấn để upload</span> hoặc kéo thả
+                                                        <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
                                                     </p>
                                                     <p className="text-xs text-zinc-400 mt-1">PNG, JPG (tối đa 5MB)</p>
                                                 </>
@@ -381,7 +381,7 @@ export default function EditCourse() {
                                 <Button
                                     type="submit"
                                     disabled={updateMutation.isPending}
-                                    className="flex-1 h-12 bg-violet-600 hover:bg-violet-700 text-white"
+                                    className="flex-1 h-12 bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     {updateMutation.isPending ? (
                                         <>
@@ -403,4 +403,5 @@ export default function EditCourse() {
         </div>
     );
 }
+
 

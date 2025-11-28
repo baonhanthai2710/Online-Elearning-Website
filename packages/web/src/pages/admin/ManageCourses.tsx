@@ -52,7 +52,7 @@ export default function ManageCourses() {
                     <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Quản lý Khóa học</h1>
                     <Button
                         onClick={() => navigate('/admin/courses/create')}
-                        className="bg-violet-600 hover:bg-violet-700 text-white"
+                        className="bg-red-600 hover:bg-red-700 text-white"
                     >
                         <Plus className="mr-2 h-4 w-4" />
                         Tạo khóa học mới
@@ -72,7 +72,7 @@ export default function ManageCourses() {
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="text-right mr-4">
-                                        <p className="font-bold text-violet-600">
+                                        <p className="font-bold text-red-600">
                                             {course.price === 0 ? 'Miễn phí' : `${course.price.toLocaleString()} VND`}
                                         </p>
                                     </div>
@@ -110,4 +110,5 @@ export default function ManageCourses() {
         </div>
     );
 }
+
 
