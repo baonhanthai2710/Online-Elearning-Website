@@ -1,4 +1,7 @@
-# Railway Nixpacks configuration for pnpm
+# Railway build configuration for pnpm
+# Railway will auto-detect pnpm if pnpm-lock.yaml exists at root
+# This file ensures pnpm is used instead of npm
+
 [phases.setup]
 nixPkgs = ["nodejs_20", "pnpm"]
 
