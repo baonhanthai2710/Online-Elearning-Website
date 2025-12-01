@@ -20,7 +20,6 @@ out
 .git
 .gitignore
 
-# Exclude documentation (optional)
+# Exclude documentation
 *.md
-!README.md
 
