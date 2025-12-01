@@ -55,12 +55,17 @@ Project này sử dụng **monorepo** với:
      - **Build Command**: 
        - **Nếu Root Directory = `packages/api`**: 
          ```bash
-         npm install -g pnpm && pnpm install --no-frozen-lockfile && pnpm prisma generate && pnpm prisma db push
+         pnpm install --frozen-lockfile && pnpm prisma generate
          ```
        - **Nếu Root Directory = trống (root)**:
          ```bash
-         npm install -g pnpm && pnpm install --frozen-lockfile && cd packages/api && pnpm prisma generate && pnpm prisma db push
+         pnpm install --frozen-lockfile && cd packages/api && pnpm prisma generate
          ```
+       
+       > ⚠️ **Lưu ý**: **KHÔNG** chạy `prisma db push` trong build command vì:
+       > - Database có thể chưa sẵn sàng trong build time
+       > - `DATABASE_URL` có thể chưa được set đúng
+       > - Chạy `prisma db push` thủ công sau khi deploy (xem bước 7)
      - **Start Command**: 
        - **Nếu Root Directory = `packages/api`**: `pnpm dev`
        - **Nếu Root Directory = trống**: `cd packages/api && pnpm dev`
@@ -130,10 +135,12 @@ PORT=3001
 NODE_ENV=production
 ```
 
-3. **Chạy Prisma Migrations**
+3. **Chạy Prisma Database Push** (QUAN TRỌNG - sau khi deploy thành công)
    - Vào Deployments → Click vào deployment mới nhất
    - Mở Terminal
-   - Chạy: `pnpm prisma db push` hoặc `pnpm prisma migrate deploy`
+   - Chạy: `cd packages/api && pnpm prisma db push`
+   - Hoặc nếu Root Directory = `packages/api`: `pnpm prisma db push`
+   - Điều này sẽ sync database schema với Prisma schema
 
 4. **Lấy Backend URL**
    - Railway sẽ tự động tạo domain: `https://your-backend.railway.app`
