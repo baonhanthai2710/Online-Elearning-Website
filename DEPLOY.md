@@ -51,9 +51,21 @@ Project này sử dụng **monorepo** với:
    - Chọn repository của bạn
    - **Settings**:
      - **Name**: `elearning-api` (hoặc tên bạn muốn)
-     - **Root Directory**: `packages/api`
-     - **Build Command**: `npm install -g pnpm && pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma db push`
-     - **Start Command**: `pnpm dev` (hoặc `ts-node src/index.ts`)
+     - **Root Directory**: `packages/api` ⚠️ **HOẶC** để trống (build từ root)
+     - **Build Command**: 
+       - **Nếu Root Directory = `packages/api`**: 
+         ```bash
+         npm install -g pnpm && pnpm install --no-frozen-lockfile && pnpm prisma generate && pnpm prisma db push
+         ```
+       - **Nếu Root Directory = trống (root)**:
+         ```bash
+         npm install -g pnpm && pnpm install --frozen-lockfile && cd packages/api && pnpm prisma generate && pnpm prisma db push
+         ```
+     - **Start Command**: 
+       - **Nếu Root Directory = `packages/api`**: `pnpm dev`
+       - **Nếu Root Directory = trống**: `cd packages/api && pnpm dev`
+   
+   > 💡 **Khuyến nghị**: Để Root Directory **trống** (build từ root) vì `pnpm-lock.yaml` ở root. Điều này đảm bảo pnpm detect được lockfile.
    
    > ⚠️ **QUAN TRỌNG**: Railway có thể tự động detect và dùng `npm` thay vì `pnpm`. Để đảm bảo dùng `pnpm`:
    > - Railway sẽ tự động detect `pnpm-lock.yaml` và dùng `pnpm` (nếu có ở root)
