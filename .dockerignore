@@ -1,7 +1,9 @@
-# Exclude node_modules from Docker build
-node_modules
-packages/*/node_modules
-**/node_modules
+# Exclude node_modules from Docker build (must be at top)
+node_modules/
+**/node_modules/
+packages/*/node_modules/
+packages/api/node_modules/
+packages/web/node_modules/
 
 # Exclude build artifacts
 dist
