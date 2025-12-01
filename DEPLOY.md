@@ -42,7 +42,13 @@ Project này sử dụng **monorepo** với:
 3. **Tạo PostgreSQL Database**
    - Trong project, click "New" → "Database" → "PostgreSQL"
    - Railway sẽ tự động tạo database và cung cấp `DATABASE_URL`
+   - **Lấy DATABASE_URL**:
+     - Vào PostgreSQL service → **Variables** (hoặc **Settings** → **Variables**)
+     - Tìm `DATABASE_URL` hoặc `POSTGRES_URL`
+     - Copy toàn bộ URL (có dạng: `postgresql://user:password@host:port/database`)
+     - Hoặc nếu chỉ thấy host:port (ví dụ: `tramway.proxy.rlwy.net:13960`), cần tạo đầy đủ URL
    - Copy `DATABASE_URL` để dùng cho backend service
+   - Xem chi tiết: `RAILWAY_DATABASE_URL_GUIDE.md`
 
 ### Bước 2: Deploy Backend Service
 
@@ -79,11 +85,11 @@ Project này sử dụng **monorepo** với:
    > - Sau khi tạo lại, Railway sẽ build từ đầu không có cache cũ
    > - **Lưu ý**: Backup tất cả Environment Variables trước khi xóa!
    
-   > ⚠️ **QUAN TRỌNG**: Railway có thể tự động detect và dùng `npm` thay vì `pnpm`. Để đảm bảo dùng `pnpm`:
+   > ⚠️ **QUAN TRỌNG**: 
    > - Railway sẽ tự động detect `pnpm-lock.yaml` và dùng `pnpm` (nếu có ở root)
-   > - Hoặc cấu hình trong Railway Settings → Variables:
-   >   - Thêm: `NIXPACKS_PKG_MANAGER=pnpm`
-   > - File `nixpacks.toml` đã được tạo trong `packages/api` để force dùng pnpm
+   > - **Build Command trong Railway Settings sẽ override `railpack.toml`**
+   > - Cần cập nhật Build Command trong Railway Settings → Build để bỏ `prisma db push`
+   > - Xem `RAILWAY_BUILD_COMMAND_FIX.md` để biết cách cập nhật
 
 2. **Cấu hình Environment Variables cho Backend**
    - Vào Settings → Variables của backend service
@@ -91,7 +97,9 @@ Project này sử dụng **monorepo** với:
 
 ```env
 # Database (Railway tự động tạo, copy từ PostgreSQL service)
-DATABASE_URL=postgresql://... 
+DATABASE_URL=postgresql://postgres:password@postgres-production-d144.up.railway.app:5432/railway
+# ⚠️ Lấy từ PostgreSQL service → Variables → DATABASE_URL hoặc POSTGRES_URL
+# Format: postgresql://user:password@host:port/database 
 
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
@@ -136,14 +144,79 @@ NODE_ENV=production
 ```
 
 3. **Chạy Prisma Database Push** (QUAN TRỌNG - sau khi deploy thành công)
-   - Vào Deployments → Click vào deployment mới nhất
+   
+   **Cách 1: Dùng Railway Terminal (Nếu có)**
+   - Vào backend service
+   - Tìm tab **Terminal** hoặc **Console** (có thể ở sidebar hoặc trong Deployments)
    - Mở Terminal
    - Chạy: `cd packages/api && pnpm prisma db push`
    - Hoặc nếu Root Directory = `packages/api`: `pnpm prisma db push`
-   - Điều này sẽ sync database schema với Prisma schema
+   
+   **Cách 2: Dùng Railway CLI**
+   - Cài Railway CLI: `npm i -g @railway/cli`
+   - Login: `railway login`
+   - **CD vào thư mục project** (quan trọng!):
+     ```powershell
+     cd "C:\HAIDUONG\4THYEARSEMESTER1\TLCN\New folder\Online-Elearning-Website"
+     ```
+   - Link project: `railway link` (chọn project và service backend)
+   - Chạy command:
+     - **Nếu Root Directory = `packages/api`**: `railway run pnpm prisma db push`
+     - **Nếu Root Directory = trống (root)**: `railway run pnpm --filter api prisma db push`
+     - Hoặc thử: `railway run bash -c "cd packages/api && pnpm prisma db push"`
+   
+   > ⚠️ **Lưu ý**: Phải chạy từ thư mục project, không phải từ `C:\Users\nguye`
+   > ⚠️ **Nếu Railway CLI không hoạt động**: Dùng Cách 3 (thêm vào Start Command) - Dễ nhất!
+   
+   **Cách 3: Chạy trong Start Script (Khuyến nghị - Dễ nhất!) ✅**
+   
+   Cách này đơn giản nhất và không cần Railway CLI:
+   
+   1. **Vào Railway Dashboard** → Backend service → **Settings** → **Build**
+   2. **Cập nhật Start Command**:
+      
+      **Nếu Root Directory = trống (root):**
+      ```bash
+      cd packages/api && pnpm prisma db push && pnpm dev
+      ```
+      
+      **Nếu Root Directory = `packages/api`:**
+      ```bash
+      pnpm prisma db push && pnpm dev
+      ```
+   
+   3. **Save và Redeploy**
+   4. **Xem logs** trong Deployments → tìm dòng:
+      ```
+      ✔ Your database is now in sync with your Prisma schema.
+      ```
+      hoặc
+      ```
+      Database schema is up to date.
+      ```
+   
+   5. **Sau khi thấy log thành công**, đổi lại Start Command về:
+      ```bash
+      cd packages/api && pnpm dev
+      ```
+      hoặc
+      ```bash
+      pnpm dev
+      ```
+   
+   6. **Redeploy** lại
+   
+   > ⚠️ **Lưu ý**: Cách này sẽ chạy `prisma db push` mỗi lần start. Sau khi chạy thành công, **nhớ đổi lại** Start Command.
+   
+   > ⚠️ **Lưu ý**: Điều này sẽ sync database schema với Prisma schema. Chỉ cần chạy **1 lần** sau khi deploy lần đầu.
 
 4. **Lấy Backend URL**
-   - Railway sẽ tự động tạo domain: `https://your-backend.railway.app`
+   - Railway sẽ tự động tạo domain sau khi deploy thành công
+   - **Cách tìm URL**:
+     - Xem trên dashboard chính của service (phần trên cùng)
+     - Hoặc **Settings** → **Networking** → tìm **Public Domain**
+     - Hoặc test endpoint: `https://your-service-name.up.railway.app/api/health`
+   - URL thường có dạng: `https://your-service-name.up.railway.app`
    - Copy URL này để dùng cho frontend
 
 ### Bước 3: Deploy Frontend Service

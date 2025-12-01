@@ -4,7 +4,6 @@ import { Plus, Edit, Trash2, Tag, Calendar, Percent, DollarSign, Users, CheckCir
 import { apiClient } from '../../lib/api';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
-import { Input } from '../../components/ui/input';
 import { showSuccessAlert, showErrorAlert } from '../../lib/sweetalert';
 import Swal from 'sweetalert2';
 import { AddPromotionModal } from '../../components/AddPromotionModal';

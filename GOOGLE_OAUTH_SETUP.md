@@ -17,19 +17,41 @@
    - Build Command: `pnpm install && pnpm prisma generate && pnpm prisma db push`
    - Start Command: `pnpm dev`
 
-2. **Lấy Backend URL**
+2. **Lấy Backend URL** (có nhiều cách)
+   
+   **Cách 1: Xem trên Dashboard chính**
    - Vào Railway Dashboard
    - Chọn backend service của bạn
-   - Vào tab **Settings** → **Domains**
+   - Xem ở phần trên cùng, có thể thấy URL dạng: `https://your-service-name.up.railway.app`
+   - Hoặc click vào service → xem ở phần **Networking** hoặc **Overview**
+   
+   **Cách 2: Settings → Networking**
+   - Vào backend service
+   - **Settings** → **Networking** (hoặc **General**)
+   - Tìm phần **Public Domain** hoặc **Custom Domain**
    - Railway tự động tạo domain, ví dụ:
      - `https://elearning-api-production.up.railway.app`
      - `https://elearning-api.railway.app`
+   
+   **Cách 3: Xem trong Deployments**
+   - Vào **Deployments** → Click deployment mới nhất
+   - Xem logs hoặc thông tin deployment, có thể thấy URL
+   
+   **Cách 4: Test endpoint**
+   - Sau khi deploy, thử truy cập: `https://your-service-name.up.railway.app/api/health`
+   - Nếu trả về `{"status":"ok"}` → đó chính là backend URL
+   
    - **Copy URL này** (không có `/api/auth/google/callback`)
 
 3. **Tạo Callback URL**
    - Thêm `/api/auth/google/callback` vào cuối URL
    - Ví dụ: `https://elearning-api-production.up.railway.app/api/auth/google/callback`
    - Đây chính là `GOOGLE_CALLBACK_URL`!
+   
+   > ⚠️ **LƯU Ý QUAN TRỌNG**: 
+   > - URL phải có **2 dấu `/`** sau `https:` → `https://` (KHÔNG phải `https:/`)
+   > - Đường dẫn đầy đủ: `/api/auth/google/callback` (KHÔNG phải `/api/auth/gc`)
+   > - URL phải **hoàn chỉnh** và **không có khoảng trắng**
 
 ---
 
