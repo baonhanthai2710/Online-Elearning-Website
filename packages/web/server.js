@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 5174;
 app.use(express.static(join(__dirname, 'dist')));
 
 // Handle React Router - serve index.html for all routes
-// Express 5 + path-to-regexp v6 không còn hỗ trợ '*' đơn lẻ -> dùng '/*'
-app.get('/*', (req, res) => {
+// Dùng middleware không có path để tránh lỗi path-to-regexp trên Express 5
+app.use((req, res) => {
   res.sendFile(join(__dirname, 'dist', 'index.html'));
 });
 
