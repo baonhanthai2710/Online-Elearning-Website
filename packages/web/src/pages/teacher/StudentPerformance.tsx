@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
-import { 
+import {
     ArrowLeft,
     User,
     Calendar,
@@ -108,10 +108,10 @@ export default function StudentPerformance() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">Đang tải thông tin hiệu suất...</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải thông tin hiệu suất...</p>
                 </div>
             </div>
         );
@@ -119,16 +119,16 @@ export default function StudentPerformance() {
 
     if (!performance) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 <div className="text-center">
-                    <p className="text-gray-600 dark:text-gray-400">Không tìm thấy thông tin hiệu suất</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">Không tìm thấy thông tin hiệu suất</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 py-8">
             <div className="container mx-auto px-4 max-w-7xl">
                 {/* Header */}
                 <div className="mb-8">
@@ -138,10 +138,10 @@ export default function StudentPerformance() {
                             Quay lại danh sách học viên
                         </Button>
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
                         Hiệu suất học viên
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         Chi tiết hiệu suất học tập của {performance.student.fullName}
                     </p>
                 </div>
@@ -149,23 +149,23 @@ export default function StudentPerformance() {
                 {/* Student Info Card */}
                 <Card className="p-6 mb-8">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white font-bold text-2xl">
+                        <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-2xl">
                             {performance.student.fullName.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">
                                 {performance.student.fullName}
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400 mb-1">
+                            <p className="text-zinc-600 dark:text-zinc-400 mb-1">
                                 @{performance.student.username}
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-500">
+                            <p className="text-sm text-zinc-500 dark:text-zinc-500">
                                 {performance.student.email}
                             </p>
                         </div>
                         <div className="text-right">
-                            <div className="text-sm text-gray-500 dark:text-gray-500 mb-1">Ngày đăng ký</div>
-                            <div className="text-gray-900 dark:text-white font-medium">
+                            <div className="text-sm text-zinc-500 dark:text-zinc-500 mb-1">Ngày đăng ký</div>
+                            <div className="text-zinc-900 dark:text-white font-medium">
                                 {formatDate(performance.enrollment.enrollmentDate)}
                             </div>
                         </div>
@@ -174,7 +174,7 @@ export default function StudentPerformance() {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <Card className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
+                    <Card className="p-6 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-12 h-12 rounded-lg bg-blue-600 dark:bg-blue-500 flex items-center justify-center">
                                 <TrendingUp className="w-6 h-6 text-white" />
@@ -194,7 +194,7 @@ export default function StudentPerformance() {
                         </div>
                     </Card>
 
-                    <Card className="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20 border-green-200 dark:border-green-800">
+                    <Card className="p-6 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-12 h-12 rounded-lg bg-green-600 dark:bg-green-500 flex items-center justify-center">
                                 <CheckCircle className="w-6 h-6 text-white" />
@@ -211,7 +211,7 @@ export default function StudentPerformance() {
                         </div>
                     </Card>
 
-                    <Card className="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/30 dark:to-purple-900/20 border-purple-200 dark:border-purple-800">
+                    <Card className="p-6 bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-12 h-12 rounded-lg bg-purple-600 dark:bg-purple-500 flex items-center justify-center">
                                 <ClipboardList className="w-6 h-6 text-white" />
@@ -232,8 +232,8 @@ export default function StudentPerformance() {
                 {/* Quiz Performance */}
                 {performance.quizStats.length > 0 && (
                     <Card className="mb-8">
-                        <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                        <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
+                            <h2 className="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                                 <BarChart3 className="w-5 h-5" />
                                 Kết quả Quiz
                             </h2>
@@ -243,30 +243,30 @@ export default function StudentPerformance() {
                                 {performance.quizStats.map((quiz) => (
                                     <div
                                         key={quiz.contentId}
-                                        className="p-4 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+                                        className="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors"
                                     >
                                         <div className="flex items-start justify-between mb-3">
                                             <div className="flex items-center gap-2">
                                                 <ClipboardList className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                                <h3 className="font-semibold text-gray-900 dark:text-white">
+                                                <h3 className="font-semibold text-zinc-900 dark:text-white">
                                                     {quiz.title}
                                                 </h3>
                                             </div>
-                                            <div className="text-sm text-gray-500 dark:text-gray-500">
+                                            <div className="text-sm text-zinc-500 dark:text-zinc-500">
                                                 {quiz.totalAttempts} lần làm
                                             </div>
                                         </div>
                                         {quiz.bestScore !== null && (
                                             <div className="grid grid-cols-2 gap-4 mt-3">
                                                 <div>
-                                                    <div className="text-xs text-gray-500 dark:text-gray-500 mb-1">Điểm cao nhất</div>
+                                                    <div className="text-xs text-zinc-500 dark:text-zinc-500 mb-1">Điểm cao nhất</div>
                                                     <div className={`text-2xl font-bold ${getScoreColor(quiz.bestScore)}`}>
                                                         {quiz.bestScore.toFixed(1)}%
                                                     </div>
                                                 </div>
                                                 {quiz.averageScore !== null && (
                                                     <div>
-                                                        <div className="text-xs text-gray-500 dark:text-gray-500 mb-1">Điểm trung bình</div>
+                                                        <div className="text-xs text-zinc-500 dark:text-zinc-500 mb-1">Điểm trung bình</div>
                                                         <div className={`text-2xl font-bold ${getScoreColor(quiz.averageScore)}`}>
                                                             {quiz.averageScore.toFixed(1)}%
                                                         </div>
@@ -275,8 +275,8 @@ export default function StudentPerformance() {
                                             </div>
                                         )}
                                         {quiz.attempts.length > 0 && (
-                                            <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
-                                                <div className="text-xs text-gray-500 dark:text-gray-500 mb-2">Lịch sử làm bài:</div>
+                                            <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                                                <div className="text-xs text-zinc-500 dark:text-zinc-500 mb-2">Lịch sử làm bài:</div>
                                                 <div className="space-y-2">
                                                     {quiz.attempts.slice(0, 5).map((attempt) => (
                                                         <div
@@ -284,8 +284,8 @@ export default function StudentPerformance() {
                                                             className="flex items-center justify-between text-sm"
                                                         >
                                                             <div className="flex items-center gap-2">
-                                                                <Clock className="w-4 h-4 text-gray-400" />
-                                                                <span className="text-gray-600 dark:text-gray-400">
+                                                                <Clock className="w-4 h-4 text-zinc-400" />
+                                                                <span className="text-zinc-600 dark:text-zinc-400">
                                                                     {formatDate(attempt.createdAt)}
                                                                 </span>
                                                             </div>
@@ -295,7 +295,7 @@ export default function StudentPerformance() {
                                                         </div>
                                                     ))}
                                                     {quiz.attempts.length > 5 && (
-                                                        <div className="text-xs text-gray-500 dark:text-gray-500 text-center">
+                                                        <div className="text-xs text-zinc-500 dark:text-zinc-500 text-center">
                                                             ... và {quiz.attempts.length - 5} lần làm khác
                                                         </div>
                                                     )}
@@ -311,8 +311,8 @@ export default function StudentPerformance() {
 
                 {/* Content Progress */}
                 <Card>
-                    <div className="p-6 border-b border-gray-200 dark:border-gray-800">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                    <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
+                        <h2 className="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                             <FileText className="w-5 h-5" />
                             Tiến độ nội dung
                         </h2>
@@ -320,34 +320,32 @@ export default function StudentPerformance() {
                     <div className="p-6">
                         <div className="space-y-6">
                             {performance.modules.map((module) => (
-                                <div key={module.id} className="border border-gray-200 dark:border-gray-800 rounded-lg p-4">
-                                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+                                <div key={module.id} className="border border-zinc-200 dark:border-zinc-800 rounded-lg p-4">
+                                    <h3 className="font-semibold text-zinc-900 dark:text-white mb-3">
                                         {module.title}
                                     </h3>
                                     <div className="space-y-2">
                                         {module.contents.map((content) => (
                                             <div
                                                 key={content.id}
-                                                className={`flex items-center gap-3 p-3 rounded-lg ${
-                                                    content.isCompleted
+                                                className={`flex items-center gap-3 p-3 rounded-lg ${content.isCompleted
                                                         ? 'bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800'
-                                                        : 'bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800'
-                                                }`}
+                                                        : 'bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800'
+                                                    }`}
                                             >
-                                                <div className={`flex-shrink-0 ${
-                                                    content.isCompleted
+                                                <div className={`flex-shrink-0 ${content.isCompleted
                                                         ? 'text-green-600 dark:text-green-400'
-                                                        : 'text-gray-400 dark:text-gray-600'
-                                                }`}>
+                                                        : 'text-zinc-400 dark:text-zinc-600'
+                                                    }`}>
                                                     {getContentIcon(content.contentType)}
                                                 </div>
-                                                <div className="flex-1 text-sm text-gray-900 dark:text-white">
+                                                <div className="flex-1 text-sm text-zinc-900 dark:text-white">
                                                     {content.title}
                                                 </div>
                                                 {content.isCompleted ? (
                                                     <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
                                                 ) : (
-                                                    <Clock className="w-5 h-5 text-gray-400 dark:text-gray-600" />
+                                                    <Clock className="w-5 h-5 text-zinc-400 dark:text-zinc-600" />
                                                 )}
                                             </div>
                                         ))}
@@ -361,4 +359,5 @@ export default function StudentPerformance() {
         </div>
     );
 }
+
 

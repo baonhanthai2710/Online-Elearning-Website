@@ -46,20 +46,20 @@ export function Header() {
     ];
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-red-900/10 dark:border-red-500/20 bg-white/95 dark:bg-black/95 backdrop-blur-xl shadow-lg shadow-red-500/5">
+        <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
             <nav className="container mx-auto px-4">
-                <div className="flex items-center justify-between h-20">
+                <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-3 group">
                         <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 rounded-xl blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                            <img 
-                                src={logo} 
-                                alt="Logo" 
-                                className="relative h-12 w-12 object-contain rounded-xl"
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-800 rounded-xl blur opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            <img
+                                src={logo}
+                                alt="Logo"
+                                className="relative h-10 w-10 object-contain rounded-xl"
                             />
                         </div>
-                        <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 bg-clip-text text-transparent">
+                        <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-zinc-900 dark:from-red-400 dark:to-zinc-100 bg-clip-text text-transparent">
                             E-Learning
                         </span>
                     </Link>
@@ -70,16 +70,14 @@ export function Header() {
                             <Link
                                 key={link.path}
                                 to={link.path}
-                                className={`text-sm font-medium transition-colors relative group ${
-                                    isActive(link.path)
-                                        ? 'text-red-600 dark:text-red-500'
-                                        : 'text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-500'
-                                }`}
+                                className={`text-sm font-medium transition-colors relative group ${isActive(link.path)
+                                        ? 'text-red-600 dark:text-red-400'
+                                        : 'text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400'
+                                    }`}
                             >
                                 {link.label}
-                                <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-red-600 to-black dark:from-red-500 dark:to-red-300 transition-transform ${
-                                    isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                }`}></span>
+                                <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 transition-transform ${isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                    }`}></span>
                             </Link>
                         ))}
                     </div>
@@ -91,12 +89,12 @@ export function Header() {
                         {isAuthenticated ? (
                             <div className="hidden md:flex items-center gap-3">
                                 {/* User Info */}
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-50 to-gray-50 dark:from-red-950/30 dark:to-black/30 border border-red-200 dark:border-red-900">
-                                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-800 text-white font-semibold text-sm shadow-lg">
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold text-sm">
                                         {displayName?.charAt(0).toUpperCase()}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                        <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                                             {displayName}
                                         </span>
                                         <span className="text-xs text-red-600 dark:text-red-400 font-medium">
@@ -107,9 +105,9 @@ export function Header() {
 
                                 {user?.role === 'ADMIN' && (
                                     <Link to="/admin">
-                                        <Button 
-                                            variant="outline" 
-                                            size="sm" 
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
                                             className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                         >
                                             <LayoutDashboard className="h-4 w-4" />
@@ -119,9 +117,9 @@ export function Header() {
                                 )}
                                 {user?.role === 'TEACHER' && (
                                     <Link to="/dashboard">
-                                        <Button 
-                                            variant="outline" 
-                                            size="sm" 
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
                                             className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                         >
                                             <LayoutDashboard className="h-4 w-4" />
@@ -132,9 +130,9 @@ export function Header() {
                                 {user?.role === 'STUDENT' && (
                                     <>
                                         <Link to="/my-courses">
-                                            <Button 
-                                                variant="outline" 
-                                                size="sm" 
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
                                                 className="gap-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white dark:border-red-500 dark:text-red-400"
                                             >
                                                 <BookOpen className="h-4 w-4" />
@@ -142,10 +140,10 @@ export function Header() {
                                             </Button>
                                         </Link>
                                         <Link to="/quiz-history">
-                                            <Button 
-                                                variant="outline" 
-                                                size="sm" 
-                                                className="gap-2 border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white dark:border-yellow-500 dark:text-yellow-400"
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="gap-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white dark:border-amber-500 dark:text-amber-400"
                                             >
                                                 <Trophy className="h-4 w-4" />
                                                 Lịch sử Quiz
@@ -159,7 +157,7 @@ export function Header() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="gap-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        className="gap-2"
                                     >
                                         <Settings className="h-4 w-4" />
                                         Hồ sơ
@@ -184,7 +182,7 @@ export function Header() {
                                     </Button>
                                 </Link>
                                 <Link to="/register">
-                                    <Button size="sm" className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white shadow-lg shadow-red-500/30">
+                                    <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white">
                                         Đăng ký
                                     </Button>
                                 </Link>
@@ -194,12 +192,12 @@ export function Header() {
                         {/* Mobile Menu Button */}
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="md:hidden p-2 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+                            className="md:hidden p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
                         >
                             {mobileMenuOpen ? (
-                                <X className="h-6 w-6 text-red-600" />
+                                <X className="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
                             ) : (
-                                <Menu className="h-6 w-6 text-red-600" />
+                                <Menu className="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
                             )}
                         </button>
                     </div>
@@ -207,18 +205,17 @@ export function Header() {
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden py-4 border-t border-red-900/10 dark:border-red-500/20">
+                    <div className="md:hidden py-4 border-t border-zinc-200 dark:border-zinc-800">
                         <div className="flex flex-col space-y-2">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.path}
                                     to={link.path}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                                        isActive(link.path)
+                                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(link.path)
                                             ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400'
-                                            : 'text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-950/30'
-                                    }`}
+                                            : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                        }`}
                                 >
                                     {link.label}
                                 </Link>
@@ -226,13 +223,13 @@ export function Header() {
 
                             {isAuthenticated ? (
                                 <>
-                                    <div className="px-4 py-3 bg-red-50 dark:bg-red-950/30 rounded-lg">
+                                    <div className="px-4 py-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
                                         <div className="flex items-center gap-2">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-800 text-white font-semibold">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-700 text-white font-semibold">
                                                 {displayName?.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
-                                                <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                <div className="text-sm font-semibold text-zinc-900 dark:text-white">
                                                     {displayName}
                                                 </div>
                                                 <div className="text-xs text-red-600 dark:text-red-400">
@@ -267,7 +264,7 @@ export function Header() {
                                                 </button>
                                             </Link>
                                             <Link to="/quiz-history" onClick={() => setMobileMenuOpen(false)}>
-                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-yellow-600 text-white hover:bg-yellow-700 transition-colors flex items-center gap-2 justify-center">
+                                                <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-amber-600 text-white hover:bg-amber-700 transition-colors flex items-center gap-2 justify-center">
                                                     <Trophy className="h-4 w-4" />
                                                     Lịch sử Quiz
                                                 </button>
@@ -276,7 +273,7 @@ export function Header() {
                                     )}
 
                                     <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
-                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors flex items-center gap-2 justify-center">
+                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-zinc-600 text-white hover:bg-zinc-700 transition-colors flex items-center gap-2 justify-center">
                                             <Settings className="h-4 w-4" />
                                             Hồ sơ
                                         </button>
@@ -296,12 +293,12 @@ export function Header() {
                             ) : (
                                 <div className="space-y-2 pt-2">
                                     <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors">
+                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
                                             Đăng nhập
                                         </button>
                                     </Link>
                                     <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
-                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-gradient-to-r from-red-600 to-red-800 text-white hover:from-red-700 hover:to-red-900 transition-colors">
+                                        <button className="w-full px-4 py-3 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors">
                                             Đăng ký
                                         </button>
                                     </Link>
@@ -314,3 +311,4 @@ export function Header() {
         </header>
     );
 }
+

@@ -49,7 +49,7 @@ export default function Register() {
         onSuccess: async (data, variables) => {
             setRegisteredEmail(variables.email);
             setRegistrationSuccess(true);
-            
+
             if (data.verificationSent) {
                 await showSuccessAlert(
                     'Đăng ký thành công!',
@@ -87,45 +87,45 @@ export default function Register() {
     // Show success message after registration
     if (registrationSuccess) {
         return (
-            <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <section className="relative min-h-screen w-full overflow-hidden bg-zinc-50 dark:bg-zinc-900">
                 <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-green-400/20 blur-3xl animate-pulse dark:bg-green-600/20"></div>
-                    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl animate-pulse delay-1000 dark:bg-emerald-600/20"></div>
+                    <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-green-400/10 blur-3xl dark:bg-green-600/10"></div>
+                    <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-emerald-400/10 blur-3xl dark:bg-emerald-600/10"></div>
                 </div>
 
                 <div className="relative z-10 container mx-auto flex min-h-screen items-center justify-center px-4 py-10">
                     <div className="w-full max-w-md">
-                        <div className="backdrop-blur-xl bg-white/70 dark:bg-slate-800/70 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 p-8 text-center">
-                            <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 p-8 text-center">
+                            <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <CheckCircle className="w-12 h-12 text-green-600 dark:text-green-400" />
                             </div>
-                            
-                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+
+                            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                                 Đăng ký thành công! 🎉
                             </h1>
-                            
-                            <p className="text-gray-600 dark:text-gray-400 mb-2">
+
+                            <p className="text-zinc-600 dark:text-zinc-400 mb-2">
                                 Chúng tôi đã gửi email xác thực đến:
                             </p>
-                            
+
                             <p className="text-lg font-semibold text-green-600 dark:text-green-400 mb-6">
                                 {registeredEmail}
                             </p>
-                            
+
                             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 mb-6">
                                 <p className="text-sm text-yellow-800 dark:text-yellow-200">
                                     <strong>Quan trọng:</strong> Vui lòng kiểm tra hộp thư (bao gồm cả thư rác) và click vào link xác thực để kích hoạt tài khoản.
                                 </p>
                             </div>
-                            
+
                             <div className="space-y-3">
                                 <Link to="/login">
-                                    <Button className="w-full gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                                    <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                                         Đi đến trang đăng nhập
                                         <ArrowRight className="w-4 h-4" />
                                     </Button>
                                 </Link>
-                                
+
                                 <Link to={`/resend-verification?email=${encodeURIComponent(registeredEmail)}`}>
                                     <Button variant="outline" className="w-full gap-2">
                                         <Mail className="w-4 h-4" />
@@ -141,12 +141,11 @@ export default function Register() {
     }
 
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-red-50 via-white to-black/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-            {/* Animated background elements */}
+        <section className="relative min-h-screen w-full overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+            {/* Background elements */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-red-400/20 blur-3xl animate-pulse dark:bg-red-600/20"></div>
-                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-black/20 blur-3xl animate-pulse delay-1000 dark:bg-black/30"></div>
-                <div className="absolute top-1/3 right-1/3 h-60 w-60 rounded-full bg-red-400/10 blur-3xl animate-pulse delay-500 dark:bg-red-600/10"></div>
+                <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
+                <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -158,22 +157,24 @@ export default function Register() {
                 <div className="w-full max-w-2xl">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-black shadow-lg">
-                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_10px_30px_rgba(239,68,68,0.35)] ring-2 ring-white/10 dark:ring-red-500/30">
+                            <div className="rounded-xl bg-black/60 p-3">
+                                <img src={logo} alt="E-Learning Logo" className="h-10 w-10 object-contain drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+                            </div>
                         </div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent dark:from-red-500 dark:to-red-300">
+                        <h2 className="text-3xl font-bold text-red-600 dark:text-red-400">
                             E-Learning Platform
                         </h2>
-                        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                             Bắt đầu hành trình học tập của bạn ngay hôm nay
                         </p>
                     </div>
 
                     {/* Register Card */}
-                    <div className="backdrop-blur-xl bg-white/70 dark:bg-slate-800/70 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 p-8 space-y-6">
+                    <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 p-8 space-y-6">
                         <header className="space-y-2 text-center">
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Tạo tài khoản</h1>
-                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Tạo tài khoản</h1>
+                            <p className="text-sm text-zinc-600 dark:text-zinc-400">
                                 Điền thông tin bên dưới để bắt đầu hành trình học tập
                             </p>
                         </header>
@@ -197,15 +198,15 @@ export default function Register() {
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'username'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Tên đăng nhập</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Tên đăng nhập</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         placeholder="username123"
                                                         autoComplete="username"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -228,16 +229,16 @@ export default function Register() {
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'email'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Email</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Email</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         type="email"
                                                         placeholder="example@email.com"
                                                         autoComplete="email"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -255,13 +256,13 @@ export default function Register() {
                                         rules={{ required: 'Vui lòng nhập tên' }}
                                         render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'firstName'> }) => (
                                             <FormItem>
-                                                <FormLabel className="text-slate-700 dark:text-slate-300">Tên</FormLabel>
+                                                <FormLabel className="text-zinc-700 dark:text-zinc-300">Tên</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Duy"
                                                         autoComplete="given-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -276,13 +277,13 @@ export default function Register() {
                                         rules={{ required: 'Vui lòng nhập họ' }}
                                         render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'lastName'> }) => (
                                             <FormItem>
-                                                <FormLabel className="text-slate-700 dark:text-slate-300">Họ</FormLabel>
+                                                <FormLabel className="text-zinc-700 dark:text-zinc-300">Họ</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Nguyễn"
                                                         autoComplete="family-name"
                                                         disabled={registerMutation.isPending}
-                                                        className="h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -305,22 +306,22 @@ export default function Register() {
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'password'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Mật khẩu</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Mật khẩu</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         type={showPassword ? 'text' : 'password'}
                                                         placeholder="••••••••"
                                                         autoComplete="new-password"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
                                                         type="button"
                                                         onClick={() => setShowPassword(!showPassword)}
-                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                                                     >
                                                         {showPassword ? (
                                                             <EyeOff className="h-5 w-5" />
@@ -345,22 +346,22 @@ export default function Register() {
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<RegisterFormValues, 'confirmPassword'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Xác nhận mật khẩu</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Xác nhận mật khẩu</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         type={showConfirmPassword ? 'text' : 'password'}
                                                         placeholder="••••••••"
                                                         autoComplete="new-password"
                                                         disabled={registerMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-purple-500 dark:focus:border-purple-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
                                                         type="button"
                                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                                                     >
                                                         {showConfirmPassword ? (
                                                             <EyeOff className="h-5 w-5" />
@@ -377,7 +378,7 @@ export default function Register() {
 
                                 <Button
                                     type="submit"
-                                    className="w-full h-12 bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-black text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+                                    className="w-full h-12 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-200"
                                     disabled={registerMutation.isPending}
                                 >
                                     {registerMutation.isPending ? (
@@ -398,10 +399,10 @@ export default function Register() {
                         {/* Divider */}
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
+                                <div className="w-full border-t border-zinc-300 dark:border-zinc-600"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400">
+                                <span className="px-4 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
                                     hoặc tiếp tục với
                                 </span>
                             </div>
@@ -409,10 +410,10 @@ export default function Register() {
 
                         {/* Google Signup Button */}
                         <a href="http://localhost:3001/api/auth/google" className="block">
-                            <Button 
-                                type="button" 
-                                variant="outline" 
-                                className="w-full h-12 border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3"
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="w-full h-12 border border-zinc-300 dark:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-700 font-semibold rounded-lg transition-colors duration-200 flex items-center justify-center gap-3"
                             >
                                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                                     <path
@@ -440,10 +441,10 @@ export default function Register() {
                         <div className="space-y-4">
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
+                                    <div className="w-full border-t border-zinc-300 dark:border-zinc-600"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-4 bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400">
+                                    <span className="px-4 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
                                         Đã có tài khoản?
                                     </span>
                                 </div>
@@ -453,7 +454,7 @@ export default function Register() {
                                 <Button
                                     type="button"
                                     variant="outline"
-                                    className="w-full h-12 border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold rounded-xl transition-all duration-200"
+                                    className="w-full h-12 border border-zinc-300 dark:border-zinc-600 hover:bg-zinc-50 dark:hover:bg-zinc-700 font-semibold rounded-lg transition-colors duration-200"
                                 >
                                     Đăng nhập
                                 </Button>
@@ -462,7 +463,7 @@ export default function Register() {
                     </div>
 
                     {/* Additional Info */}
-                    <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+                    <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
                         Bằng cách đăng ký, bạn đồng ý với{' '}
                         <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
@@ -477,3 +478,4 @@ export default function Register() {
         </section>
     );
 }
+

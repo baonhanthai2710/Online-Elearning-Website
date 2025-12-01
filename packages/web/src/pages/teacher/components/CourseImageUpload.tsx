@@ -86,7 +86,7 @@ export function CourseImageUpload({ value, onChange }: CourseImageUploadProps) {
                     <img
                         src={value}
                         alt="Course thumbnail"
-                        className="h-40 w-full rounded-md border border-slate-200 object-cover"
+                        className="h-40 w-full rounded-md border border-zinc-200 object-cover"
                     />
                     <div className="flex flex-wrap gap-3">
                         <Button
@@ -114,10 +114,11 @@ export function CourseImageUpload({ value, onChange }: CourseImageUploadProps) {
             )}
 
             {uploadMutation.isPending && (
-                <p className="text-xs text-slate-500">Đang tải tệp lên Cloudinary...</p>
+                <p className="text-xs text-zinc-500">Đang tải tệp lên Cloudinary...</p>
             )}
 
             {uploadError && <p className="text-xs text-red-500">{uploadError}</p>}
         </div>
     );
 }
+

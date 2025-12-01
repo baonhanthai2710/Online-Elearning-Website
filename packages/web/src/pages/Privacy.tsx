@@ -143,9 +143,9 @@ Chúng tôi sẽ phản hồi trong vòng 30 ngày làm việc.`,
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-gradient-to-br from-red-600 via-red-700 to-red-900">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <Shield className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Chính sách bảo mật</h1>
@@ -160,12 +160,12 @@ Chúng tôi sẽ phản hồi trong vòng 30 ngày làm việc.`,
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
                         {highlights.map((item) => (
-                            <Card key={item.title} className="p-6 text-center bg-white dark:bg-gray-900 shadow-xl">
+                            <Card key={item.title} className="p-6 text-center bg-white dark:bg-zinc-900 shadow-xl">
                                 <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
                                     <item.icon className="h-6 w-6 text-red-600 dark:text-red-400" />
                                 </div>
-                                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{item.title}</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
+                                <h3 className="font-semibold text-zinc-900 dark:text-white mb-1">{item.title}</h3>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.description}</p>
                             </Card>
                         ))}
                     </div>
@@ -189,10 +189,10 @@ Chúng tôi sẽ phản hồi trong vòng 30 ngày làm việc.`,
                     <div className="space-y-8">
                         {sections.map((section) => (
                             <Card key={section.title} className="p-6">
-                                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                                <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">
                                     {section.title}
                                 </h2>
-                                <div className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed prose prose-sm dark:prose-invert max-w-none">
+                                <div className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line leading-relaxed prose prose-sm dark:prose-invert max-w-none">
                                     {section.content}
                                 </div>
                             </Card>
@@ -203,4 +203,5 @@ Chúng tôi sẽ phản hồi trong vòng 30 ngày làm việc.`,
         </div>
     );
 }
+
 

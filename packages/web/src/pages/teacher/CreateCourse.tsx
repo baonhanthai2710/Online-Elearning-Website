@@ -105,29 +105,29 @@ export default function CreateCourse() {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 {/* Header */}
                 <div className="mb-8">
                     <Button
                         variant="ghost"
                         onClick={() => navigate('/dashboard')}
-                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại Dashboard
                     </Button>
 
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
                         Tạo khóa học mới
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         Điền thông tin cơ bản cho khóa học của bạn
                     </p>
                 </div>
 
                 {/* Form Card */}
-                <Card className="p-6 md:p-8 border-gray-200 dark:border-gray-800">
+                <Card className="p-6 md:p-8 border-zinc-200 dark:border-zinc-800">
                     <Form {...form}>
                         <form onSubmit={onSubmit} className="space-y-6">
                             {/* Title */}
@@ -143,7 +143,7 @@ export default function CreateCourse() {
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">
+                                        <FormLabel className="text-zinc-700 dark:text-zinc-300">
                                             Tên khóa học <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
@@ -171,13 +171,13 @@ export default function CreateCourse() {
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">
+                                        <FormLabel className="text-zinc-700 dark:text-zinc-300">
                                             Mô tả khóa học <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <textarea
                                                 placeholder="Mô tả chi tiết về khóa học, nội dung, đối tượng phù hợp..."
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500 resize-none min-h-[120px]"
+                                                className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500 resize-none min-h-[120px]"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -196,12 +196,12 @@ export default function CreateCourse() {
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">
+                                        <FormLabel className="text-zinc-700 dark:text-zinc-300">
                                             Danh mục <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
                                             <select
-                                                className="w-full h-12 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
+                                                className="w-full h-12 px-4 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                                                 {...field}
                                                 onChange={(e) => field.onChange(parseInt(e.target.value))}
                                             >
@@ -231,7 +231,7 @@ export default function CreateCourse() {
                                 }}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-700 dark:text-gray-300">
+                                        <FormLabel className="text-zinc-700 dark:text-zinc-300">
                                             Giá (VND) <span className="text-red-500">*</span>
                                         </FormLabel>
                                         <FormControl>
@@ -245,7 +245,7 @@ export default function CreateCourse() {
                                                 onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                                             />
                                         </FormControl>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
                                             Nhập 0 nếu khóa học miễn phí. Ví dụ: 100000, 250000, 500000
                                         </p>
                                         <FormMessage />
@@ -255,7 +255,7 @@ export default function CreateCourse() {
 
                             {/* Thumbnail Upload */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                     Ảnh thumbnail
                                 </label>
                                 {form.watch('thumbnailUrl') ? (
@@ -274,17 +274,17 @@ export default function CreateCourse() {
                                         </button>
                                     </div>
                                 ) : (
-                                    <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                    <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                             {uploading ? (
                                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
                                             ) : (
                                                 <>
-                                                    <Image className="w-10 h-10 text-gray-400 mb-3" />
-                                                    <p className="text-sm text-gray-500">
+                                                    <Image className="w-10 h-10 text-zinc-400 mb-3" />
+                                                    <p className="text-sm text-zinc-500">
                                                         <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
                                                     </p>
-                                                    <p className="text-xs text-gray-400 mt-1">PNG, JPG (tối đa 5MB)</p>
+                                                    <p className="text-xs text-zinc-400 mt-1">PNG, JPG (tối đa 5MB)</p>
                                                 </>
                                             )}
                                         </div>
@@ -302,7 +302,7 @@ export default function CreateCourse() {
                             {/* Info Box */}
                             <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 rounded-lg p-4">
                                 <p className="text-sm text-blue-800 dark:text-blue-200">
-                                    <strong>Lưu ý:</strong> Sau khi tạo khóa học, bạn sẽ có thể thêm các chương (modules) 
+                                    <strong>Lưu ý:</strong> Sau khi tạo khóa học, bạn sẽ có thể thêm các chương (modules)
                                     và nội dung học tập (videos, documents, quizzes) trong trang quản lý khóa học.
                                 </p>
                             </div>
@@ -314,14 +314,14 @@ export default function CreateCourse() {
                                     variant="outline"
                                     onClick={() => navigate('/dashboard')}
                                     disabled={createMutation.isPending}
-                                    className="flex-1 h-12 border-gray-300 dark:border-gray-700"
+                                    className="flex-1 h-12 border-zinc-300 dark:border-zinc-700"
                                 >
                                     Hủy
                                 </Button>
                                 <Button
                                     type="submit"
                                     disabled={createMutation.isPending}
-                                    className="flex-1 h-12 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white shadow-lg shadow-red-500/30"
+                                    className="flex-1 h-12 bg-red-600 hover:bg-red-700 text-white"
                                 >
                                     {createMutation.isPending ? (
                                         <>
@@ -343,4 +343,5 @@ export default function CreateCourse() {
         </div>
     );
 }
+
 

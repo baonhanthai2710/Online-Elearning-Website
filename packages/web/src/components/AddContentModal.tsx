@@ -137,13 +137,13 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Content Type */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             Loại nội dung <span className="text-red-500">*</span>
                         </label>
                         <select
                             value={contentType}
                             onChange={(e) => setContentType(e.target.value as ContentType)}
-                            className="w-full h-12 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
+                            className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                         >
                             <option value="VIDEO">Video</option>
                             <option value="DOCUMENT">Tài liệu</option>
@@ -153,7 +153,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
 
                     {/* Title */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                             Tiêu đề <span className="text-red-500">*</span>
                         </label>
                         <Input
@@ -168,10 +168,10 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                     {contentType === 'VIDEO' && (
                         <>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                     Video <span className="text-red-500">*</span>
                                 </label>
-                                
+
                                 {/* File Upload Button */}
                                 <div className="mb-3">
                                     <input
@@ -187,9 +187,8 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                                     />
                                     <label
                                         htmlFor="video-upload"
-                                        className={`inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors ${
-                                            isUploading || createContentMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
-                                        }`}
+                                        className={`inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors ${isUploading || createContentMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
+                                            }`}
                                     >
                                         {isUploading ? (
                                             <>
@@ -255,10 +254,10 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                     {contentType === 'DOCUMENT' && (
                         <>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">
                                     Tài liệu <span className="text-red-500">*</span>
                                 </label>
-                                
+
                                 {/* File Upload Button */}
                                 <div className="mb-3">
                                     <input
@@ -280,9 +279,8 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                                     />
                                     <label
                                         htmlFor="document-upload"
-                                        className={`inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors ${
-                                            isUploading || createContentMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
-                                        }`}
+                                        className={`inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-colors ${isUploading || createContentMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
+                                            }`}
                                     >
                                         {isUploading ? (
                                             <>
@@ -333,7 +331,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                                 <select
                                     value={fileType}
                                     onChange={(e) => setFileType(e.target.value)}
-                                    className="w-full h-12 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
+                                    className="w-full h-12 px-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-600 dark:focus:ring-red-500"
                                 >
                                     <option value="application/pdf">PDF</option>
                                     <option value="application/vnd.openxmlformats-officedocument.wordprocessingml.document">Word (DOCX)</option>
@@ -384,7 +382,7 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
                         <Button
                             type="submit"
                             disabled={createContentMutation.isPending || isUploading}
-                            className="flex-1 h-12 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900"
+                            className="flex-1 h-12 bg-red-600 hover:bg-red-700"
                         >
                             {createContentMutation.isPending ? (
                                 <>
@@ -404,4 +402,5 @@ export function AddContentModal({ moduleId, courseId, onClose }: Props) {
         </div>
     );
 }
+
 

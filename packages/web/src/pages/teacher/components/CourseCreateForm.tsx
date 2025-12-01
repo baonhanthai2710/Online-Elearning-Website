@@ -93,8 +93,8 @@ export function CourseCreateForm() {
     return (
         <section className="space-y-6">
             <header className="space-y-1">
-                <h2 className="text-2xl font-semibold text-slate-900">Tạo khoá học mới</h2>
-                <p className="text-sm text-slate-500">
+                <h2 className="text-2xl font-semibold text-zinc-900">Tạo khoá học mới</h2>
+                <p className="text-sm text-zinc-500">
                     Điền thông tin bên dưới để xuất bản khoá học dành cho học viên.
                 </p>
             </header>
@@ -141,7 +141,7 @@ export function CourseCreateForm() {
                                 <FormLabel>Mô tả</FormLabel>
                                 <FormControl>
                                     <textarea
-                                        className="min-h-[120px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                                        className="min-h-[120px] w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
                                         placeholder="Giới thiệu tổng quan về khoá học"
                                         disabled={createCourseMutation.isPending}
                                         {...field}
@@ -186,7 +186,7 @@ export function CourseCreateForm() {
                                 <FormLabel>Danh mục</FormLabel>
                                 <FormControl>
                                     <select
-                                        className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                                        className="w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
                                         disabled={createCourseMutation.isPending || categoriesQuery.isLoading}
                                         value={field.value}
                                         onChange={field.onChange}
@@ -243,3 +243,4 @@ export function CourseCreateForm() {
         </section>
     );
 }
+

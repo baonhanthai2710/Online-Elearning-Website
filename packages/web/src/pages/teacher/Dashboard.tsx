@@ -82,79 +82,79 @@ export default function Dashboard() {
     }).format(totalRevenue);
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
                         Dashboard Giảng viên
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         Chào mừng trở lại, {user?.firstName || user?.username}!
                     </p>
                 </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <Card className="p-6 border-slate-200 dark:border-slate-800">
+                    <Card className="p-6 border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
                                     Tổng khóa học
                                 </p>
-                                <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                                <p className="text-3xl font-bold text-zinc-900 dark:text-white">
                                     {totalCourses}
                                 </p>
                             </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600">
                                 <BookOpen className="h-6 w-6 text-white" />
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-slate-200 dark:border-slate-800">
+                    <Card className="p-6 border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
                                     Tổng học viên
                                 </p>
-                                <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                                <p className="text-3xl font-bold text-zinc-900 dark:text-white">
                                     {totalStudents}
                                 </p>
                             </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-purple-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600">
                                 <Users className="h-6 w-6 text-white" />
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-slate-200 dark:border-slate-800">
+                    <Card className="p-6 border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
                                     Doanh thu
                                 </p>
-                                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                                <p className="text-2xl font-bold text-zinc-900 dark:text-white">
                                     {formattedRevenue}
                                 </p>
                             </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-green-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-600">
                                 <DollarSign className="h-6 w-6 text-white" />
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-slate-200 dark:border-slate-800">
+                    <Card className="p-6 border-zinc-200 dark:border-zinc-800">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
                                     Đánh giá TB
                                 </p>
-                                <p className="text-3xl font-bold text-slate-900 dark:text-white">
+                                <p className="text-3xl font-bold text-zinc-900 dark:text-white">
                                     4.8
                                 </p>
                             </div>
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-600">
                                 <TrendingUp className="h-6 w-6 text-white" />
                             </div>
                         </div>
@@ -164,7 +164,7 @@ export default function Dashboard() {
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
                             Khóa học của tôi
                         </h2>
                         <Link to="/profile">
@@ -176,7 +176,7 @@ export default function Dashboard() {
                     </div>
                     <div className="flex gap-3 mt-4">
                         <Link to="/courses/create">
-                            <Button className="gap-2 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
+                            <Button className="gap-2 bg-red-600 hover:bg-red-700">
                                 <Plus className="h-4 w-4" />
                                 Tạo khóa học mới
                             </Button>
@@ -189,25 +189,25 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {[...Array(4)].map((_, i) => (
                             <div key={i} className="animate-pulse">
-                                <div className="bg-slate-200 dark:bg-slate-700 aspect-video rounded-t-lg"></div>
-                                <div className="bg-white dark:bg-slate-800 p-5 rounded-b-lg space-y-3">
-                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
-                                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
+                                <div className="bg-zinc-200 dark:bg-zinc-700 aspect-video rounded-t-lg"></div>
+                                <div className="bg-white dark:bg-zinc-800 p-5 rounded-b-lg space-y-3">
+                                    <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded"></div>
+                                    <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-2/3"></div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : courses.length === 0 ? (
-                    <Card className="p-12 text-center border-slate-200 dark:border-slate-800">
-                        <BookOpen className="h-16 w-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                    <Card className="p-12 text-center border-zinc-200 dark:border-zinc-800">
+                        <BookOpen className="h-16 w-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
                             Chưa có khóa học nào
                         </h3>
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">
+                        <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                             Bắt đầu tạo khóa học đầu tiên của bạn để chia sẻ kiến thức với học viên
                         </p>
                         <Link to="/courses/create">
-                            <Button className="gap-2 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
+                            <Button className="gap-2 bg-red-600 hover:bg-red-700">
                                 <Plus className="h-4 w-4" />
                                 Tạo khóa học đầu tiên
                             </Button>
@@ -218,10 +218,10 @@ export default function Dashboard() {
                         {/* List View */}
                         <div className="space-y-4">
                             {courses.map((course) => (
-                                <Card key={course.courseId || course.id} className="p-6 border-slate-200 dark:border-slate-800">
+                                <Card key={course.courseId || course.id} className="p-6 border-zinc-200 dark:border-zinc-800">
                                     <div className="flex items-start gap-6">
                                         {/* Thumbnail */}
-                                        <div className="flex-shrink-0 w-48 aspect-video rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-800 dark:to-slate-700">
+                                        <div className="flex-shrink-0 w-48 aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                                             {course.thumbnailUrl ? (
                                                 <img
                                                     src={course.thumbnailUrl}
@@ -230,7 +230,7 @@ export default function Dashboard() {
                                                 />
                                             ) : (
                                                 <div className="flex h-full items-center justify-center">
-                                                    <BookOpen className="h-12 w-12 text-slate-300 dark:text-slate-600" />
+                                                    <BookOpen className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
                                                 </div>
                                             )}
                                         </div>
@@ -239,13 +239,13 @@ export default function Dashboard() {
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-start justify-between gap-4">
                                                 <div className="flex-1 min-w-0">
-                                                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2 break-all">
+                                                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2 break-all">
                                                         {course.title}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 line-clamp-2 break-all">
+                                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4 line-clamp-2 break-all">
                                                         {course.description}
                                                     </p>
-                                                    <div className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
+                                                    <div className="flex items-center gap-6 text-sm text-zinc-600 dark:text-zinc-400">
                                                         <div className="flex items-center gap-1">
                                                             <Users className="h-4 w-4" />
                                                             <span>{course._count?.enrollments || course.totalEnrollments || 0} học viên</span>
@@ -262,7 +262,7 @@ export default function Dashboard() {
                                                 {/* Actions */}
                                                 <div className="flex gap-2">
                                                     <Link to={`/courses/${course.courseId || course.id}/manage`}>
-                                                        <Button variant="default" size="sm" className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
+                                                        <Button variant="default" size="sm" className="bg-red-600 hover:bg-red-700">
                                                             Quản lý
                                                         </Button>
                                                     </Link>
@@ -282,10 +282,10 @@ export default function Dashboard() {
                                                             <Edit className="h-4 w-4" />
                                                         </Button>
                                                     </Link>
-                                                    <Button 
-                                                        variant="outline" 
-                                                        size="sm" 
-                                                        className="gap-2 text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-950/30 dark:text-red-400"
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="gap-2 text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-900/30 dark:text-red-400"
                                                         onClick={() => handleDeleteCourse(course.courseId || course.id || 0, course.title)}
                                                         disabled={deleteMutation.isPending}
                                                     >
@@ -304,3 +304,4 @@ export default function Dashboard() {
         </div>
     );
 }
+

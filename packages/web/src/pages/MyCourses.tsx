@@ -41,24 +41,24 @@ export default function MyCourses() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-                    <p className="text-slate-600 dark:text-slate-400">Đang tải khóa học...</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải khóa học...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
                         Khóa học của tôi
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400">
+                    <p className="text-zinc-600 dark:text-zinc-400">
                         Quản lý và tiếp tục học các khóa học bạn đã đăng ký
                     </p>
                 </div>
@@ -96,15 +96,15 @@ export default function MyCourses() {
 
                 {enrollments.length === 0 ? (
                     <Card className="p-12 text-center">
-                        <BookOpen className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                        <BookOpen className="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
                             Chưa có khóa học nào
                         </h3>
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">
+                        <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                             Bạn chưa đăng ký khóa học nào. Hãy khám phá và bắt đầu học ngay!
                         </p>
                         <Link to="/courses">
-                            <Button className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
+                            <Button className="bg-red-600 hover:bg-red-700">
                                 Khám phá khóa học
                             </Button>
                         </Link>
@@ -114,7 +114,7 @@ export default function MyCourses() {
                         {/* In Progress */}
                         {inProgressCourses.length > 0 && (
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
                                     <Clock className="w-5 h-5 text-amber-500" />
                                     Đang học ({inProgressCourses.length})
                                 </h2>
@@ -129,7 +129,7 @@ export default function MyCourses() {
                         {/* Completed */}
                         {completedCourses.length > 0 && (
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
                                     <CheckCircle className="w-5 h-5 text-green-500" />
                                     Đã hoàn thành ({completedCourses.length})
                                 </h2>
@@ -156,7 +156,7 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
 
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="relative aspect-video bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700">
+            <div className="relative aspect-video bg-zinc-100 dark:bg-zinc-800">
                 {course.thumbnailUrl ? (
                     <img
                         src={course.thumbnailUrl}
@@ -165,7 +165,7 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
                     />
                 ) : (
                     <div className="flex h-full items-center justify-center">
-                        <BookOpen className="w-12 h-12 text-slate-300 dark:text-slate-600" />
+                        <BookOpen className="w-12 h-12 text-zinc-300 dark:text-zinc-600" />
                     </div>
                 )}
                 {completed && (
@@ -181,33 +181,32 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
                 </div>
             </div>
             <div className="p-4">
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-1 line-clamp-2 break-all">
+                <h3 className="font-semibold text-zinc-900 dark:text-white mb-1 line-clamp-2 break-all">
                     {course.title}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
                     {teacherName}
                 </p>
-                
+
                 {/* Progress Bar */}
                 <div className="mb-4">
-                    <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+                    <div className="flex justify-between text-xs text-zinc-600 dark:text-zinc-400 mb-1">
                         <span>Tiến độ</span>
                         <span>{enrollment.progress}%</span>
                     </div>
-                    <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden">
                         <div
-                            className={`h-full rounded-full transition-all ${
-                                completed 
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
-                                    : 'bg-gradient-to-r from-red-500 to-red-600'
-                            }`}
+                            className={`h-full rounded-full transition-all ${completed
+                                    ? 'bg-green-500'
+                                    : 'bg-red-600'
+                                }`}
                             style={{ width: `${enrollment.progress}%` }}
                         />
                     </div>
                 </div>
 
                 <Link to={`/learning/${courseId}`}>
-                    <Button className="w-full gap-2 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900">
+                    <Button className="w-full gap-2 bg-red-600 hover:bg-red-700">
                         <Play className="w-4 h-4" />
                         {completed ? 'Xem lại' : 'Tiếp tục học'}
                     </Button>
@@ -216,4 +215,5 @@ function CourseCard({ enrollment, completed }: { enrollment: EnrolledCourse; com
         </Card>
     );
 }
+
 

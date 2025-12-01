@@ -53,7 +53,7 @@ export default function Login() {
             // Store token in localStorage
             localStorage.setItem('token', data.token);
             setUser(data.user);
-            
+
             await showSuccessAlert(
                 'Đăng nhập thành công!',
                 `Chào mừng trở lại, ${data.user.firstName || data.user.username}!`
@@ -71,8 +71,8 @@ export default function Login() {
                 const errorMessage = error.response?.data?.message || error.response?.data?.error;
 
                 if (errorCode === 'EMAIL_NOT_VERIFIED') {
-            setEmailNotVerified(true);
-            setUnverifiedEmail(form.getValues('emailOrUsername'));
+                    setEmailNotVerified(true);
+                    setUnverifiedEmail(form.getValues('emailOrUsername'));
                     return; // Don't show generic error alert
                 }
 
@@ -91,12 +91,11 @@ export default function Login() {
     });
 
     return (
-        <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-red-50 via-white to-black/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-            {/* Animated background elements */}
+        <section className="relative min-h-screen w-full overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+            {/* Subtle background gradient */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-400/20 blur-3xl animate-pulse dark:bg-red-600/20"></div>
-                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-black/20 blur-3xl animate-pulse delay-1000 dark:bg-black/30"></div>
-                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-400/10 blur-3xl animate-pulse delay-500 dark:bg-red-600/10"></div>
+                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-400/10 blur-3xl dark:bg-red-600/10"></div>
+                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-zinc-300/20 blur-3xl dark:bg-zinc-700/20"></div>
             </div>
 
             {/* Theme Toggle */}
@@ -108,22 +107,24 @@ export default function Login() {
                 <div className="w-full max-w-md">
                     {/* Logo/Brand Section */}
                     <div className="mb-8 text-center">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-600 to-black shadow-lg">
-                            <img src={logo} alt="E-Learning Logo" className="h-12 w-12 object-contain" />
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-red-800 shadow-[0_10px_30px_rgba(239,68,68,0.35)] ring-2 ring-white/10 dark:ring-red-500/30">
+                            <div className="rounded-xl bg-black/60 p-2.5">
+                                <img src={logo} alt="E-Learning Logo" className="h-10 w-10 object-contain drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]" />
+                            </div>
                         </div>
-                        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent dark:from-red-500 dark:to-red-300">
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
                             E-Learning Platform
                         </h2>
-                        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                             Nơi tri thức không giới hạn
                         </p>
                     </div>
 
                     {/* Login Card */}
-                    <div className="backdrop-blur-xl bg-white/70 dark:bg-slate-800/70 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 p-8 space-y-6">
+                    <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 p-8 space-y-6">
                         <header className="space-y-2 text-center">
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Đăng nhập</h1>
-                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Đăng nhập</h1>
+                            <p className="text-sm text-zinc-600 dark:text-zinc-400">
                                 Chào mừng bạn quay trở lại! Hãy đăng nhập để tiếp tục.
                             </p>
                         </header>
@@ -140,7 +141,7 @@ export default function Login() {
                                         <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-3">
                                             Vui lòng kiểm tra hộp thư <strong>{unverifiedEmail}</strong> và click vào link xác thực.
                                         </p>
-                                        <Link 
+                                        <Link
                                             to={`/resend-verification?email=${encodeURIComponent(unverifiedEmail)}`}
                                             className="inline-flex items-center gap-2 text-sm font-medium text-yellow-700 dark:text-yellow-300 hover:text-yellow-900 dark:hover:text-yellow-100 underline"
                                         >
@@ -157,21 +158,21 @@ export default function Login() {
                                 <FormField
                                     control={form.control}
                                     name="emailOrUsername"
-                                    rules={{ 
+                                    rules={{
                                         required: 'Vui lòng nhập email hoặc tên đăng nhập',
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<LoginFormValues, 'emailOrUsername'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Email hoặc Tên đăng nhập</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Email hoặc Tên đăng nhập</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         type="text"
                                                         placeholder="email@example.com hoặc username"
                                                         autoComplete="username"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="pl-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                 </div>
@@ -183,7 +184,7 @@ export default function Login() {
 
                                 {/* Forgot Password Link */}
                                 <div className="text-right">
-                                    <Link 
+                                    <Link
                                         to="/forgot-password"
                                         className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline"
                                     >
@@ -194,7 +195,7 @@ export default function Login() {
                                 <FormField
                                     control={form.control}
                                     name="password"
-                                    rules={{ 
+                                    rules={{
                                         required: 'Vui lòng nhập mật khẩu',
                                         minLength: {
                                             value: 6,
@@ -203,22 +204,22 @@ export default function Login() {
                                     }}
                                     render={({ field }: { field: ControllerRenderProps<LoginFormValues, 'password'> }) => (
                                         <FormItem>
-                                            <FormLabel className="text-slate-700 dark:text-slate-300">Mật khẩu</FormLabel>
+                                            <FormLabel className="text-zinc-700 dark:text-zinc-300">Mật khẩu</FormLabel>
                                             <FormControl>
                                                 <div className="relative">
-                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-slate-500" />
+                                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
                                                     <Input
                                                         type={showPassword ? 'text' : 'password'}
                                                         placeholder="••••••••"
                                                         autoComplete="current-password"
                                                         disabled={loginMutation.isPending}
-                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-red-500 dark:focus:border-red-400 transition-colors"
+                                                        className="pl-11 pr-11 h-12 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 focus:border-red-500 dark:focus:border-red-400 transition-colors"
                                                         {...field}
                                                     />
                                                     <button
                                                         type="button"
                                                         onClick={() => setShowPassword(!showPassword)}
-                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
                                                     >
                                                         {showPassword ? (
                                                             <EyeOff className="h-5 w-5" />
@@ -233,9 +234,9 @@ export default function Login() {
                                     )}
                                 />
 
-                                <Button 
-                                    type="submit" 
-                                    className="w-full h-12 bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-black text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]" 
+                                <Button
+                                    type="submit"
+                                    className="w-full h-12 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200"
                                     disabled={loginMutation.isPending}
                                 >
                                     {loginMutation.isPending ? (
@@ -256,10 +257,10 @@ export default function Login() {
                         {/* Divider */}
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
+                                <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400">
+                                <span className="px-4 bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
                                     hoặc tiếp tục với
                                 </span>
                             </div>
@@ -267,10 +268,10 @@ export default function Login() {
 
                         {/* Google Login Button */}
                         <a href="http://localhost:3001/api/auth/google" className="block">
-                            <Button 
-                                type="button" 
-                                variant="outline" 
-                                className="w-full h-12 border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-3"
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="w-full h-12 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3"
                             >
                                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                                     <path
@@ -298,20 +299,20 @@ export default function Login() {
                         <div className="space-y-4">
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-slate-300 dark:border-slate-600"></div>
+                                    <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-4 bg-white/70 dark:bg-slate-800/70 text-slate-500 dark:text-slate-400">
+                                    <span className="px-4 bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
                                         Chưa có tài khoản?
                                     </span>
                                 </div>
                             </div>
 
                             <Link to="/register">
-                                <Button 
-                                    type="button" 
-                                    variant="outline" 
-                                    className="w-full h-12 border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 font-semibold rounded-xl transition-all duration-200"
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="w-full h-12 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 font-medium rounded-lg transition-all duration-200"
                                 >
                                     Đăng ký ngay
                                 </Button>
@@ -320,7 +321,7 @@ export default function Login() {
                     </div>
 
                     {/* Additional Info */}
-                    <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+                    <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
                         Bằng cách đăng nhập, bạn đồng ý với{' '}
                         <a href="#" className="font-medium text-red-600 hover:text-red-500 dark:text-red-400">
                             Điều khoản dịch vụ
@@ -335,3 +336,4 @@ export default function Login() {
         </section>
     );
 }
+

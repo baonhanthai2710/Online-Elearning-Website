@@ -81,9 +81,9 @@ export default function Courses() {
     const hasActiveFilters = searchQuery || selectedCategory !== null || priceFilter !== 'all';
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             {/* Header */}
-            <div className="bg-gradient-to-r from-red-600 via-red-700 to-black dark:from-red-900 dark:via-black dark:to-gray-950 py-16">
+            <div className="bg-red-600 dark:bg-red-900 py-16">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -95,13 +95,13 @@ export default function Courses() {
 
                         {/* Search Bar */}
                         <div className="relative max-w-2xl mx-auto">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
                             <Input
                                 type="text"
                                 placeholder="Tìm kiếm khóa học..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 pr-4 h-14 text-base bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 shadow-lg"
+                                className="pl-12 pr-4 h-14 text-base bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 shadow-sm"
                             />
                         </div>
                     </div>
@@ -113,11 +113,11 @@ export default function Courses() {
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Sidebar Filters */}
                     <aside className="lg:w-64 flex-shrink-0">
-                        <Card className="p-6 sticky top-4 border-gray-200 dark:border-gray-800">
+                        <Card className="p-6 sticky top-4 border-zinc-200 dark:border-zinc-800 rounded-lg">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center gap-2">
                                     <Filter className="h-5 w-5 text-red-600 dark:text-red-400" />
-                                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                                    <h3 className="font-semibold text-zinc-900 dark:text-white">
                                         Bộ lọc
                                     </h3>
                                 </div>
@@ -136,7 +136,7 @@ export default function Courses() {
 
                             {/* Price Filter */}
                             <div className="mb-6">
-                                <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-3">
+                                <h4 className="font-medium text-sm text-zinc-700 dark:text-zinc-300 mb-3">
                                     Giá
                                 </h4>
                                 <div className="space-y-2">
@@ -148,7 +148,7 @@ export default function Courses() {
                                             onChange={() => setPriceFilter('all')}
                                             className="text-red-600 focus:ring-red-500"
                                         />
-                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                        <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Tất cả
                                         </span>
                                     </label>
@@ -160,7 +160,7 @@ export default function Courses() {
                                             onChange={() => setPriceFilter('free')}
                                             className="text-red-600 focus:ring-red-500"
                                         />
-                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                        <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Miễn phí
                                         </span>
                                     </label>
@@ -172,7 +172,7 @@ export default function Courses() {
                                             onChange={() => setPriceFilter('paid')}
                                             className="text-red-600 focus:ring-red-500"
                                         />
-                                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                                        <span className="text-sm text-zinc-600 dark:text-zinc-400">
                                             Có phí
                                         </span>
                                     </label>
@@ -181,17 +181,16 @@ export default function Courses() {
 
                             {/* Category Filter */}
                             <div>
-                                <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-3">
+                                <h4 className="font-medium text-sm text-zinc-700 dark:text-zinc-300 mb-3">
                                     Danh mục
                                 </h4>
                                 <div className="space-y-2">
                                     <button
                                         onClick={() => setSelectedCategory(null)}
-                                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                                            selectedCategory === null
-                                                ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-medium'
-                                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                        }`}
+                                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === null
+                                                ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-medium'
+                                                : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                            }`}
                                     >
                                         Tất cả danh mục
                                     </button>
@@ -201,11 +200,10 @@ export default function Courses() {
                                             <button
                                                 key={catId}
                                                 onClick={() => setSelectedCategory(catId!)}
-                                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                                                    selectedCategory === catId
-                                                        ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 font-medium'
-                                                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                                }`}
+                                                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${selectedCategory === catId
+                                                        ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-medium'
+                                                        : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                                    }`}
                                             >
                                                 {category.name}
                                             </button>
@@ -220,10 +218,10 @@ export default function Courses() {
                     <main className="flex-1">
                         {/* Results Header */}
                         <div className="mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
                                 {hasActiveFilters ? 'Kết quả tìm kiếm' : 'Tất cả khóa học'}
                             </h2>
-                            <p className="text-gray-600 dark:text-gray-400">
+                            <p className="text-zinc-600 dark:text-zinc-400">
                                 Tìm thấy {filteredCourses.length} khóa học
                             </p>
                         </div>
@@ -233,31 +231,31 @@ export default function Courses() {
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                                 {[...Array(6)].map((_, i) => (
                                     <div key={i} className="animate-pulse">
-                                        <div className="bg-gray-200 dark:bg-gray-800 aspect-video rounded-t-lg"></div>
-                                        <div className="bg-white dark:bg-gray-900 p-5 rounded-b-lg space-y-3">
-                                            <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded"></div>
-                                            <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-2/3"></div>
+                                        <div className="bg-zinc-200 dark:bg-zinc-800 aspect-video rounded-t-lg"></div>
+                                        <div className="bg-white dark:bg-zinc-900 p-5 rounded-b-lg space-y-3">
+                                            <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+                                            <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : filteredCourses.length === 0 ? (
-                            <Card className="p-12 text-center border-gray-200 dark:border-gray-800">
+                            <Card className="p-12 text-center border-zinc-200 dark:border-zinc-800 rounded-lg">
                                 <div className="max-w-md mx-auto">
                                     <div className="mb-4">
-                                        <Search className="h-16 w-16 text-gray-300 dark:text-gray-700 mx-auto" />
+                                        <Search className="h-16 w-16 text-zinc-300 dark:text-zinc-700 mx-auto" />
                                     </div>
-                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
                                         Không tìm thấy khóa học
                                     </h3>
-                                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                                    <p className="text-zinc-600 dark:text-zinc-400 mb-4">
                                         Không có khóa học nào phù hợp với tiêu chí tìm kiếm của bạn
                                     </p>
                                     {hasActiveFilters && (
                                         <Button
                                             onClick={clearFilters}
                                             variant="outline"
-                                            className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                                            className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                         >
                                             Xóa bộ lọc
                                         </Button>
@@ -280,4 +278,5 @@ export default function Courses() {
         </div>
     );
 }
+
 

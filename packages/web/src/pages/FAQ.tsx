@@ -152,25 +152,25 @@ export default function FAQ() {
     const currentCategory = filteredCategories.find(c => c.id === activeCategory) || filteredCategories[0];
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-gradient-to-br from-red-600 via-red-700 to-red-900">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <HelpCircle className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Câu hỏi thường gặp</h1>
                     <p className="text-xl text-red-100 max-w-2xl mx-auto mb-8">
                         Tìm câu trả lời cho các thắc mắc phổ biến về E-Learning
                     </p>
-                    
+
                     {/* Search */}
                     <div className="max-w-xl mx-auto relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
                         <Input
                             type="text"
                             placeholder="Tìm kiếm câu hỏi..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-12 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                            className="pl-12 h-14 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white"
                         />
                     </div>
                 </div>
@@ -183,17 +183,16 @@ export default function FAQ() {
                         {/* Categories Sidebar */}
                         <div className="lg:w-64 shrink-0">
                             <Card className="p-4 sticky top-24">
-                                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Danh mục</h3>
+                                <h3 className="font-semibold text-zinc-900 dark:text-white mb-4">Danh mục</h3>
                                 <nav className="space-y-1">
                                     {categories.map(cat => (
                                         <button
                                             key={cat.id}
                                             onClick={() => setActiveCategory(cat.id)}
-                                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                                                activeCategory === cat.id
+                                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeCategory === cat.id
                                                     ? 'bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400'
-                                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                            }`}
+                                                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                                }`}
                                         >
                                             <cat.icon className="h-5 w-5" />
                                             <span className="text-sm font-medium">{cat.title}</span>
@@ -205,7 +204,7 @@ export default function FAQ() {
 
                         {/* FAQ Items */}
                         <div className="flex-1">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
                                 {currentCategory?.title}
                             </h2>
                             <div className="space-y-4">
@@ -218,17 +217,16 @@ export default function FAQ() {
                                                 onClick={() => toggleItem(itemId)}
                                                 className="w-full flex items-center justify-between p-6 text-left"
                                             >
-                                                <span className="font-medium text-gray-900 dark:text-white pr-4">
+                                                <span className="font-medium text-zinc-900 dark:text-white pr-4">
                                                     {item.question}
                                                 </span>
                                                 <ChevronDown
-                                                    className={`h-5 w-5 text-gray-500 shrink-0 transition-transform ${
-                                                        isOpen ? 'rotate-180' : ''
-                                                    }`}
+                                                    className={`h-5 w-5 text-zinc-500 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''
+                                                        }`}
                                                 />
                                             </button>
                                             {isOpen && (
-                                                <div className="px-6 pb-6 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-4">
+                                                <div className="px-6 pb-6 text-zinc-600 dark:text-zinc-400 border-t border-zinc-100 dark:border-zinc-800 pt-4">
                                                     {item.answer}
                                                 </div>
                                             )}
@@ -239,11 +237,11 @@ export default function FAQ() {
 
                             {currentCategory?.items.length === 0 && (
                                 <Card className="p-12 text-center">
-                                    <Search className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                    <Search className="h-12 w-12 mx-auto mb-4 text-zinc-400" />
+                                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
                                         Không tìm thấy kết quả
                                     </h3>
-                                    <p className="text-gray-600 dark:text-gray-400">
+                                    <p className="text-zinc-600 dark:text-zinc-400">
                                         Thử tìm kiếm với từ khóa khác hoặc liên hệ hỗ trợ
                                     </p>
                                 </Card>
@@ -255,4 +253,5 @@ export default function FAQ() {
         </div>
     );
 }
+
 

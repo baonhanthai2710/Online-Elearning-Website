@@ -1,0 +1,13 @@
+# Railway Nixpacks configuration for pnpm
+[phases.setup]
+nixPkgs = ["nodejs_20", "pnpm"]
+
+[phases.install]
+cmds = ["pnpm install --frozen-lockfile"]
+
+[phases.build]
+cmds = ["pnpm prisma generate", "pnpm prisma db push"]
+
+[start]
+cmd = "pnpm dev"
+

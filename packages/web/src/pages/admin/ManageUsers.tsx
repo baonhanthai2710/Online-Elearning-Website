@@ -9,7 +9,7 @@ import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../../lib/sw
 export default function ManageUsers() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    
+
     const { data: users = [] } = useQuery({
         queryKey: ['admin-users'],
         queryFn: async () => {
@@ -69,13 +69,13 @@ export default function ManageUsers() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-8">
             <div className="container mx-auto max-w-6xl">
                 <Button variant="ghost" onClick={() => navigate('/admin')} className="mb-4">
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Quay lại
                 </Button>
-                <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Quản lý Người dùng</h1>
+                <h1 className="text-3xl font-bold mb-8 text-zinc-900 dark:text-white">Quản lý Người dùng</h1>
                 <Card className="p-6">
                     <div className="overflow-x-auto">
                         <table className="w-full">
@@ -98,13 +98,12 @@ export default function ManageUsers() {
                                                 value={user.role}
                                                 onChange={(e) => updateRoleMutation.mutate({ userId: user.id, role: e.target.value })}
                                                 disabled={user.role === 'ADMIN' || updateRoleMutation.isPending}
-                                                className={`px-3 py-1 text-xs rounded-full border-2 ${
-                                                    user.role === 'ADMIN' 
-                                                        ? 'bg-red-100 text-red-800 border-red-300 cursor-not-allowed' 
-                                                        : user.role === 'TEACHER' 
-                                                        ? 'bg-green-100 text-green-800 border-green-300 cursor-pointer hover:border-green-500' 
-                                                        : 'bg-blue-100 text-blue-800 border-blue-300 cursor-pointer hover:border-blue-500'
-                                                }`}
+                                                className={`px-3 py-1 text-xs rounded-full border-2 ${user.role === 'ADMIN'
+                                                        ? 'bg-red-100 text-red-800 border-red-300 cursor-not-allowed'
+                                                        : user.role === 'TEACHER'
+                                                            ? 'bg-green-100 text-green-800 border-green-300 cursor-pointer hover:border-green-500'
+                                                            : 'bg-blue-100 text-blue-800 border-blue-300 cursor-pointer hover:border-blue-500'
+                                                    }`}
                                             >
                                                 <option value="STUDENT">STUDENT</option>
                                                 <option value="TEACHER">TEACHER</option>
@@ -134,3 +133,4 @@ export default function ManageUsers() {
         </div>
     );
 }
+

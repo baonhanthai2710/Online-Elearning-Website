@@ -44,7 +44,7 @@ export default function ManageQuiz() {
     const location = useLocation();
     const queryClient = useQueryClient();
     const user = useAuthStore((state) => state.user);
-    
+
     // Determine if user is admin based on URL or role
     const isAdmin = user?.role === 'ADMIN' || location.pathname.startsWith('/admin');
 
@@ -193,10 +193,10 @@ export default function ManageQuiz() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="h-12 w-12 animate-spin text-red-600 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">Đang tải...</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải...</p>
                 </div>
             </div>
         );
@@ -204,9 +204,9 @@ export default function ManageQuiz() {
 
     if (!quiz) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-xl text-gray-900 dark:text-white mb-4">
+                    <p className="text-xl text-zinc-900 dark:text-white mb-4">
                         Không tìm thấy bài kiểm tra
                     </p>
                     <Button onClick={() => navigate(-1)}>Quay lại</Button>
@@ -216,25 +216,25 @@ export default function ManageQuiz() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 {/* Header */}
                 <div className="mb-8">
                     <Button
                         variant="ghost"
                         onClick={() => navigate(-1)}
-                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại
                     </Button>
 
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
                         Quản lý bài kiểm tra
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">{quiz.title}</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">{quiz.title}</p>
                     {quiz.timeLimitInMinutes && (
-                        <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                        <p className="text-sm text-zinc-500 dark:text-zinc-500 mt-1">
                             Thời gian: {quiz.timeLimitInMinutes} phút
                         </p>
                     )}
@@ -244,11 +244,11 @@ export default function ManageQuiz() {
                 <div className="space-y-6">
                     {/* Add Question Button */}
                     {!isAddingQuestion ? (
-                        <Card className="p-4 border-dashed border-2 border-gray-300 dark:border-gray-700">
+                        <Card className="p-4 border-dashed border-2 border-zinc-300 dark:border-zinc-700">
                             <Button
                                 onClick={() => setIsAddingQuestion(true)}
                                 variant="ghost"
-                                className="w-full gap-2 text-gray-600 dark:text-gray-400"
+                                className="w-full gap-2 text-zinc-600 dark:text-zinc-400"
                             >
                                 <Plus className="h-5 w-5" />
                                 Thêm câu hỏi mới
@@ -301,7 +301,7 @@ export default function ManageQuiz() {
                     {/* Questions */}
                     {quiz.questions.length === 0 ? (
                         <Card className="p-12 text-center">
-                            <p className="text-gray-500 dark:text-gray-400">
+                            <p className="text-zinc-500 dark:text-zinc-400">
                                 Chưa có câu hỏi nào. Hãy thêm câu hỏi đầu tiên!
                             </p>
                         </Card>
@@ -311,17 +311,17 @@ export default function ManageQuiz() {
                                 {/* Question Header */}
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                                        <h3 className="font-semibold text-zinc-900 dark:text-white mb-1">
                                             Câu {index + 1}: {question.questionText}
                                         </h3>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        <p className="text-sm text-zinc-500 dark:text-zinc-400">
                                             {question.options.length} đáp án
                                         </p>
                                     </div>
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                                        className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                         onClick={() =>
                                             handleDeleteQuestion(question.id, question.questionText)
                                         }
@@ -335,24 +335,23 @@ export default function ManageQuiz() {
                                     {question.options.map((option) => (
                                         <div
                                             key={option.id}
-                                            className={`flex items-center gap-3 p-3 rounded-lg border ${
-                                                option.isCorrect
+                                            className={`flex items-center gap-3 p-3 rounded-lg border ${option.isCorrect
                                                     ? 'bg-green-50 dark:bg-green-950/20 border-green-300 dark:border-green-800'
-                                                    : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
-                                            }`}
+                                                    : 'bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700'
+                                                }`}
                                         >
                                             {option.isCorrect ? (
                                                 <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
                                             ) : (
-                                                <Circle className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                                                <Circle className="h-5 w-5 text-zinc-400 flex-shrink-0" />
                                             )}
-                                            <p className="flex-1 text-gray-900 dark:text-white">
+                                            <p className="flex-1 text-zinc-900 dark:text-white">
                                                 {option.optionText}
                                             </p>
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                                                className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
                                                 onClick={() => handleDeleteOption(option.id)}
                                             >
                                                 <Trash2 className="h-4 w-4" />
@@ -384,11 +383,11 @@ export default function ManageQuiz() {
                                                 id={`correct-${question.id}`}
                                                 checked={newOptionIsCorrect}
                                                 onChange={(e) => setNewOptionIsCorrect(e.target.checked)}
-                                                className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
+                                                className="h-4 w-4 rounded border-zinc-300 text-red-600 focus:ring-red-600"
                                             />
                                             <label
                                                 htmlFor={`correct-${question.id}`}
-                                                className="text-sm text-gray-700 dark:text-gray-300"
+                                                className="text-sm text-zinc-700 dark:text-zinc-300"
                                             >
                                                 Đáp án đúng
                                             </label>
@@ -445,4 +444,5 @@ export default function ManageQuiz() {
         </div>
     );
 }
+
 

@@ -277,7 +277,7 @@ export function AddPromotionModal({ promotion, onClose, onSuccess }: AddPromotio
                             id="isActive"
                             checked={formData.isActive}
                             onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                            className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500"
+                            className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-red-500"
                         />
                         <label htmlFor="isActive" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                             Kích hoạt mã khuyến mãi
@@ -296,14 +296,14 @@ export function AddPromotionModal({ promotion, onClose, onSuccess }: AddPromotio
                         </Button>
                         <Button
                             type="submit"
-                            className="flex-1 bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900"
+                            className="flex-1 bg-red-600 hover:bg-red-700"
                             disabled={createMutation.isPending || updateMutation.isPending}
                         >
                             {createMutation.isPending || updateMutation.isPending
                                 ? 'Đang xử lý...'
                                 : isEditing
-                                ? 'Cập nhật'
-                                : 'Tạo'}
+                                    ? 'Cập nhật'
+                                    : 'Tạo'}
                         </Button>
                     </div>
                 </form>
@@ -311,4 +311,5 @@ export function AddPromotionModal({ promotion, onClose, onSuccess }: AddPromotio
         </div>
     );
 }
+
 

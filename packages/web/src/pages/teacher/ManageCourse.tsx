@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-    ArrowLeft, 
-    Plus, 
-    Edit, 
-    Trash2, 
-    Video, 
-    FileText, 
+import {
+    ArrowLeft,
+    Plus,
+    Edit,
+    Trash2,
+    Video,
+    FileText,
     ClipboardList,
     ChevronDown,
     ChevronRight,
@@ -58,14 +58,14 @@ export default function ManageCourse() {
     const location = useLocation();
     const queryClient = useQueryClient();
     const user = useAuthStore((state) => state.user);
-    
+
     // Determine if user is admin based on URL or role
     const isAdmin = user?.role === 'ADMIN' || location.pathname.startsWith('/admin');
     const dashboardPath = isAdmin ? '/admin' : '/dashboard';
     const editPath = isAdmin ? `/admin/courses/${id}/edit` : `/courses/${id}/edit`;
     const studentsPath = `/courses/${id}/students`;
     const quizManagePath = (contentId: number) => isAdmin ? `/admin/quiz/${contentId}/manage` : `/quiz/${contentId}/manage`;
-    
+
     const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set());
     const [isAddingModule, setIsAddingModule] = useState(false);
     const [newModuleTitle, setNewModuleTitle] = useState('');
@@ -212,10 +212,10 @@ export default function ManageCourse() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="h-12 w-12 animate-spin text-red-600 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">Đang tải...</p>
+                    <p className="text-zinc-600 dark:text-zinc-400">Đang tải...</p>
                 </div>
             </div>
         );
@@ -223,9 +223,9 @@ export default function ManageCourse() {
 
     if (!course) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+            <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-xl text-gray-900 dark:text-white mb-4">Không tìm thấy khóa học</p>
+                    <p className="text-xl text-zinc-900 dark:text-white mb-4">Không tìm thấy khóa học</p>
                     <Button onClick={() => navigate('/dashboard')}>Quay lại Dashboard</Button>
                 </div>
             </div>
@@ -233,14 +233,14 @@ export default function ManageCourse() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
                 {/* Header */}
                 <div className="mb-8">
                     <Button
                         variant="ghost"
                         onClick={() => navigate(dashboardPath)}
-                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        className="mb-4 hover:bg-red-50 dark:hover:bg-red-900/30"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Quay lại {isAdmin ? 'Admin' : 'Dashboard'}
@@ -248,10 +248,10 @@ export default function ManageCourse() {
 
                     <div className="flex items-start justify-between gap-4">
                         <div>
-                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                            <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
                                 Quản lý khóa học
                             </h1>
-                            <p className="text-gray-600 dark:text-gray-400">
+                            <p className="text-zinc-600 dark:text-zinc-400">
                                 {course.title}
                             </p>
                         </div>
@@ -280,11 +280,11 @@ export default function ManageCourse() {
                 <div className="space-y-4">
                     {/* Add Module Button */}
                     {!isAddingModule ? (
-                        <Card className="p-4 border-dashed border-2 border-gray-300 dark:border-gray-700">
+                        <Card className="p-4 border-dashed border-2 border-zinc-300 dark:border-zinc-700">
                             <Button
                                 onClick={() => setIsAddingModule(true)}
                                 variant="ghost"
-                                className="w-full gap-2 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                                className="w-full gap-2 text-zinc-600 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400"
                             >
                                 <Plus className="h-5 w-5" />
                                 Thêm chương mới
@@ -333,16 +333,16 @@ export default function ManageCourse() {
 
                     {/* Modules */}
                     {course.modules.length === 0 ? (
-                        <Card className="p-12 text-center border-gray-200 dark:border-gray-800">
-                            <p className="text-gray-500 dark:text-gray-400">
+                        <Card className="p-12 text-center border-zinc-200 dark:border-zinc-800">
+                            <p className="text-zinc-500 dark:text-zinc-400">
                                 Chưa có chương nào. Hãy thêm chương đầu tiên!
                             </p>
                         </Card>
                     ) : (
                         course.modules.map((module) => (
-                            <Card key={module.id} className="overflow-hidden border-gray-200 dark:border-gray-800">
+                            <Card key={module.id} className="overflow-hidden border-zinc-200 dark:border-zinc-800">
                                 {/* Module Header */}
-                                <div className="p-4 bg-gray-50 dark:bg-gray-900 flex items-center justify-between">
+                                <div className="p-4 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-between">
                                     <div className="flex items-center gap-3 flex-1">
                                         <Button
                                             variant="ghost"
@@ -356,10 +356,10 @@ export default function ManageCourse() {
                                                 <ChevronRight className="h-5 w-5" />
                                             )}
                                         </Button>
-                                        <h3 className="font-semibold text-gray-900 dark:text-white">
+                                        <h3 className="font-semibold text-zinc-900 dark:text-white">
                                             {module.title}
                                         </h3>
-                                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                                        <span className="text-sm text-zinc-500 dark:text-zinc-400">
                                             ({module.contents.length} bài)
                                         </span>
                                     </div>
@@ -367,7 +367,7 @@ export default function ManageCourse() {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="gap-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 dark:text-red-400"
+                                            className="gap-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:text-red-400"
                                             onClick={() => handleDeleteModule(module.id, module.title)}
                                         >
                                             <Trash2 className="h-4 w-4" />
@@ -391,7 +391,7 @@ export default function ManageCourse() {
 
                                         {/* Contents List */}
                                         {module.contents.length === 0 ? (
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+                                            <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-4">
                                                 Chưa có nội dung nào
                                             </p>
                                         ) : (
@@ -399,14 +399,14 @@ export default function ManageCourse() {
                                                 {module.contents.map((content) => (
                                                     <div
                                                         key={content.id}
-                                                        className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+                                                        className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700"
                                                     >
                                                         {getContentIcon(content.contentType)}
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="font-medium text-gray-900 dark:text-white text-sm">
+                                                            <p className="font-medium text-zinc-900 dark:text-white text-sm">
                                                                 {content.title}
                                                             </p>
-                                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                            <p className="text-xs text-zinc-500 dark:text-zinc-400">
                                                                 {getContentTypeLabel(content.contentType)}
                                                                 {content.durationInSeconds && (
                                                                     <> • {Math.floor(content.durationInSeconds / 60)} phút</>
@@ -427,7 +427,7 @@ export default function ManageCourse() {
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 dark:text-red-400"
+                                                            className="text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:text-red-400"
                                                             onClick={() => handleDeleteContent(content.id, content.title)}
                                                         >
                                                             <Trash2 className="h-4 w-4" />
@@ -455,4 +455,5 @@ export default function ManageCourse() {
         </div>
     );
 }
+
 

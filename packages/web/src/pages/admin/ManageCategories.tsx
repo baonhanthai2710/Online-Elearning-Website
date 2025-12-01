@@ -87,7 +87,7 @@ export default function ManageCategories() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 <Button
                     variant="ghost"
@@ -98,7 +98,7 @@ export default function ManageCategories() {
                     Quay lại Dashboard
                 </Button>
 
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+                <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-8">
                     Quản lý Danh mục
                 </h1>
 
@@ -144,11 +144,11 @@ export default function ManageCategories() {
                 <div className="space-y-3">
                     {isLoading ? (
                         <Card className="p-8 text-center">
-                            <Loader2 className="h-8 w-8 animate-spin mx-auto text-gray-400" />
+                            <Loader2 className="h-8 w-8 animate-spin mx-auto text-zinc-400" />
                         </Card>
                     ) : categories.length === 0 ? (
                         <Card className="p-8 text-center">
-                            <p className="text-gray-500">Chưa có danh mục nào</p>
+                            <p className="text-zinc-500">Chưa có danh mục nào</p>
                         </Card>
                     ) : (
                         categories.map((cat) => (
@@ -177,7 +177,7 @@ export default function ManageCategories() {
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-between">
-                                        <span className="font-medium text-gray-900 dark:text-white">{cat.name}</span>
+                                        <span className="font-medium text-zinc-900 dark:text-white">{cat.name}</span>
                                         <div className="flex gap-2">
                                             <Button
                                                 variant="ghost"
@@ -208,4 +208,5 @@ export default function ManageCategories() {
         </div>
     );
 }
+
 

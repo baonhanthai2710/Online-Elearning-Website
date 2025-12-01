@@ -90,9 +90,9 @@ Nếu bạn có câu hỏi về các điều khoản này, vui lòng liên hệ:
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
             {/* Hero */}
-            <section className="py-16 bg-gradient-to-br from-red-600 via-red-700 to-red-900">
+            <section className="py-16 bg-red-600">
                 <div className="container mx-auto px-4 text-center text-white">
                     <FileText className="h-16 w-16 mx-auto mb-6 opacity-80" />
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Điều khoản dịch vụ</h1>
@@ -119,10 +119,10 @@ Nếu bạn có câu hỏi về các điều khoản này, vui lòng liên hệ:
                     <div className="space-y-8">
                         {sections.map((section) => (
                             <Card key={section.title} className="p-6">
-                                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                                <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">
                                     {section.title}
                                 </h2>
-                                <div className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">
+                                <div className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line leading-relaxed">
                                     {section.content}
                                 </div>
                             </Card>
@@ -133,4 +133,5 @@ Nếu bạn có câu hỏi về các điều khoản này, vui lòng liên hệ:
         </div>
     );
 }
+
 

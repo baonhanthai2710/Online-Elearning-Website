@@ -95,7 +95,7 @@ export default function AdminCreateCourse() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8">
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 p-8">
             <div className="container mx-auto max-w-3xl">
                 <Button variant="ghost" onClick={() => navigate('/admin/courses')} className="mb-4">
                     <ArrowLeft className="mr-2 h-4 w-4" />
@@ -110,7 +110,7 @@ export default function AdminCreateCourse() {
                                 type="text"
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-900 dark:border-gray-700"
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700"
                                 placeholder="Nhập tên khóa học"
                                 required
                             />
@@ -121,7 +121,7 @@ export default function AdminCreateCourse() {
                             <textarea
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-900 dark:border-gray-700"
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700"
                                 placeholder="Nhập mô tả khóa học"
                                 rows={5}
                                 required
@@ -134,7 +134,7 @@ export default function AdminCreateCourse() {
                                 type="number"
                                 value={formData.price}
                                 onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-900 dark:border-gray-700"
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700"
                                 placeholder="0"
                                 min="0"
                                 step="1"
@@ -147,7 +147,7 @@ export default function AdminCreateCourse() {
                             <select
                                 value={formData.categoryId}
                                 onChange={(e) => setFormData({ ...formData, categoryId: Number(e.target.value) })}
-                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-900 dark:border-gray-700"
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700"
                                 required
                             >
                                 <option value={0}>Chọn danh mục</option>
@@ -164,7 +164,7 @@ export default function AdminCreateCourse() {
                             <select
                                 value={formData.teacherId}
                                 onChange={(e) => setFormData({ ...formData, teacherId: Number(e.target.value) })}
-                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-900 dark:border-gray-700"
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-zinc-900 dark:border-zinc-700"
                                 required
                             >
                                 <option value={0}>Chọn giảng viên</option>
@@ -195,17 +195,17 @@ export default function AdminCreateCourse() {
                                     </button>
                                 </div>
                             ) : (
-                                <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                <label className="flex flex-col items-center justify-center w-full max-w-md h-48 border-2 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
                                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                         {uploading ? (
                                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
                                         ) : (
                                             <>
-                                                <Image className="w-10 h-10 text-gray-400 mb-3" />
-                                                <p className="text-sm text-gray-500">
+                                                <Image className="w-10 h-10 text-zinc-400 mb-3" />
+                                                <p className="text-sm text-zinc-500">
                                                     <span className="font-semibold text-red-600">Nhấn để upload</span> hoặc kéo thả
                                                 </p>
-                                                <p className="text-xs text-gray-400 mt-1">PNG, JPG (tối đa 5MB)</p>
+                                                <p className="text-xs text-zinc-400 mt-1">PNG, JPG (tối đa 5MB)</p>
                                             </>
                                         )}
                                     </div>
@@ -242,4 +242,5 @@ export default function AdminCreateCourse() {
         </div>
     );
 }
+
 
