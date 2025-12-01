@@ -52,7 +52,7 @@ Project này sử dụng **monorepo** với:
    - **Settings**:
      - **Name**: `elearning-api` (hoặc tên bạn muốn)
      - **Root Directory**: `packages/api`
-     - **Build Command**: `pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma db push`
+     - **Build Command**: `npm install -g pnpm && pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma db push`
      - **Start Command**: `pnpm dev` (hoặc `ts-node src/index.ts`)
    
    > ⚠️ **QUAN TRỌNG**: Railway có thể tự động detect và dùng `npm` thay vì `pnpm`. Để đảm bảo dùng `pnpm`:
