@@ -2,13 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import {
     ArrowLeft,
-    User,
-    Calendar,
     TrendingUp,
     CheckCircle,
-    XCircle,
     Clock,
-    Award,
     FileText,
     Video,
     ClipboardList,

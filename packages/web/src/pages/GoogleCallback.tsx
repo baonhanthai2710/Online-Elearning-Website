@@ -46,9 +46,14 @@ export default function GoogleCallback() {
             // Store token and user info
             localStorage.setItem('token', token);
             setUser({
-                userId: decoded.userId,
+                id: decoded.userId,
                 email: decoded.email,
+                username: decoded.email.split('@')[0],
+                firstName: null,
+                lastName: null,
                 role: decoded.role,
+                createdAt: new Date(decoded.exp * 1000).toISOString(),
+                updatedAt: new Date(decoded.exp * 1000).toISOString(),
             });
 
             // Redirect based on role

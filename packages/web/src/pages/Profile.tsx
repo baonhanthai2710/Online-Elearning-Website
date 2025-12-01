@@ -41,7 +41,6 @@ type UserProfile = {
 
 export default function Profile() {
     const navigate = useNavigate();
-    const user = useAuthStore((state) => state.user);
     const setUser = useAuthStore((state) => state.setUser);
     const queryClient = useQueryClient();
 

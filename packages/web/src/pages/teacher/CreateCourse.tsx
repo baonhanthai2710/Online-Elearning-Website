@@ -87,7 +87,7 @@ export default function CreateCourse() {
             const { data } = await apiClient.post('/courses', values);
             return data;
         },
-        onSuccess: async (data) => {
+        onSuccess: async () => {
             await showSuccessAlert(
                 'Tạo khóa học thành công!',
                 'Khóa học của bạn đã được tạo. Bạn có thể thêm modules và nội dung bây giờ.'

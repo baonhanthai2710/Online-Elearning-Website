@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Trophy, Clock, BookOpen, ArrowLeft, CheckCircle, XCircle, Calendar } from 'lucide-react';
+import { Trophy, BookOpen, ArrowLeft, CheckCircle, XCircle, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { apiClient } from '@/lib/api';

@@ -1,4 +1,4 @@
-import { Shield, AlertCircle, Lock, Eye, Database, Bell, Trash2, Globe } from 'lucide-react';
+import { Shield, AlertCircle, Lock, Eye, Database, Bell } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 export default function Privacy() {
