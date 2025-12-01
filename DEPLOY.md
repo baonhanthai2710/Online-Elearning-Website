@@ -68,10 +68,11 @@ Project này sử dụng **monorepo** với:
    > 💡 **Khuyến nghị**: Để Root Directory **trống** (build từ root) vì `pnpm-lock.yaml` ở root. Điều này đảm bảo pnpm detect được lockfile.
    
    > ⚠️ **Nếu gặp lỗi "cannot copy to non-directory"**: 
-   > - **QUAN TRỌNG**: Vào Railway Settings → **Clear Build Cache** (bắt buộc!)
-   > - Railway đang cache `node_modules` cũ, cần clear để build lại từ đầu
-   > - File `.dockerignore` đã được tạo để exclude `node_modules`
-   > - Sau khi clear cache, Railway sẽ install dependencies mới thay vì copy từ cache
+   > - **GIẢI PHÁP TỐT NHẤT**: **Xóa service và tạo lại** (backup Environment Variables trước!)
+   > - Railway đang cache `node_modules` cũ từ lần build trước, cache này không bị ảnh hưởng bởi `.dockerignore`
+   > - Clear Build Cache có thể không đủ, cần xóa service hoàn toàn
+   > - Sau khi tạo lại, Railway sẽ build từ đầu không có cache cũ
+   > - **Lưu ý**: Backup tất cả Environment Variables trước khi xóa!
    
    > ⚠️ **QUAN TRỌNG**: Railway có thể tự động detect và dùng `npm` thay vì `pnpm`. Để đảm bảo dùng `pnpm`:
    > - Railway sẽ tự động detect `pnpm-lock.yaml` và dùng `pnpm` (nếu có ở root)
